@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lacie Phan — Product Owner & Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --mist: #F1F3F6;
+    --black: #121212;
+    --acid: #D7FF3F;
+    --blue: #4F6BFF;
+    --graphite: #1A1A1A;
+    --border: rgba(18,18,18,0.12);
+    --card-bg: #FFFFFF;
+    --metallic: linear-gradient(135deg, #E0E0E0 0%, #F5F5F5 100%);
+    
+    /* New Panel Gradients */
+    --grad-yellow: linear-gradient(135deg, #F3E88D 0%, #E2D56F 100%);
+    --grad-grey: linear-gradient(135deg, #E2E6EB 0%, #C9D0D8 100%);
+    --grad-blue: linear-gradient(135deg, #C8D4E4 0%, #AEBED4 100%);
+    --grad-olive: linear-gradient(135deg, #A9B594 0%, #8FA37C 100%);
+    --grad-plume: linear-gradient(135deg, #E8DDE6 0%, #D9CBD6 100%);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Work Sans', sans-serif;
+    background: var(--mist);
+    color: var(--black);
+    overflow-x: hidden;
+    /* cursor: none; */ /* Revert cursor to auto for debugging */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--acid);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: difference;
+    display: none; /* Temporarily hide to debug clicks */
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--black);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: transform 0.18s ease, width 0.25s, height 0.25s;
+    display: none; /* Temporarily hide to debug clicks */
+  }
+  body:hover .cursor, body:hover .cursor-ring { display: block; }
+  body { cursor: auto; } /* Revert cursor to auto for debugging */
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 40px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800; font-size: 1rem;
+    letter-spacing: -0.02em;
+    text-decoration: none; color: var(--black);
+  }
+  .nav-logo span { color: var(--blue); }
+  .nav-links { display: flex; gap: 8px; align-items: center; }
+  .nav-links a {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 500;
+    color: var(--black); text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+  .nav-links a.active {
+    border-color: var(--black);
+    background: var(--black); color: var(--acid);
+  }
+  .nav-links a.btn-cta {
+    background: var(--blue); color: white;
+    border-color: var(--blue);
+  }
+  .nav-links a.btn-cta:hover {
+    background: var(--black); border-color: var(--black); color: var(--acid);
+  }
+
+  /* PAGES */
+  .page { display: none; min-height: 100vh; padding-top: 80px; }
+  .page.active { display: block; }
+
+  /* ===================== ABOUT PAGE REFACTOR ===================== */
+  #about { }
+
+  .about-hero {
+    padding: 60px 40px;
+    display: grid;
+    grid-template-columns: 40% 1fr;
+    gap: 80px;
+    align-items: start;
+    position: relative;
+  }
+  
+  /* Brutalist Background Elements */
+  .bg-grid {
+    position: absolute; inset: 0; pointer-events: none; z-index: -1;
+    background-image: 
+      linear-gradient(to right, rgba(18,18,18,0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(18,18,18,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.5;
+  }
+  .corner-mark {
+    position: absolute; width: 10px; height: 10px;
+    border: 1px solid var(--black);
+    opacity: 0.2;
+    pointer-events: none;
+  }
+  .tl { top: 20px; left: 20px; border-right: 0; border-bottom: 0; }
+  .tr { top: 20px; right: 20px; border-left: 0; border-bottom: 0; }
+  .bl { bottom: 20px; left: 20px; border-right: 0; border-top: 0; }
+  .br { bottom: 20px; right: 20px; border-left: 0; border-top: 0; }
+  
+  .micro-text {
+    position: absolute; bottom: 20px; right: 40px;
+    font-family: 'Space Mono', monospace; font-size: 0.6rem;
+    color: var(--black); opacity: 0.4;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    pointer-events: none;
+  }
+
+  /* LEFT COLUMN - IDENTITY PANEL */
+  .identity-panel {
+    position: sticky; top: 100px;
+    display: flex; flex-direction: column; gap: 24px;
+    perspective: 1000px;
+  }
+  
+  /* Photo Block */
+  .id-photo-block {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/5;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    background-image: url('https://raw.githubusercontent.com/trishapd/SVGcollection/refs/heads/main/section3-presentation.png');
+    background-size: cover;
+    background-position: center;
+    background-color: var(--mist);
+  }
+  .id-photo-block::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(18,18,18,0.05) 0%, rgba(18,18,18,0.35) 100%);
+    backdrop-filter: saturate(0.85) brightness(0.95);
+    -webkit-backdrop-filter: saturate(0.85) brightness(0.95);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .id-photo-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 20%;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    color: white;
+    z-index: 2;
+  }
+  .id-photo-text { display: flex; flex-direction: column; }
+  .id-photo-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 1.2rem;
+    line-height: 1; margin-bottom: 4px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+  .id-photo-role {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; letter-spacing: 0.1em;
+    text-transform: uppercase; opacity: 0.9;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+
+  /* System Stack Headline */
+  .stack-headline {
+    padding: 0 8px;
+  }
+  .stack-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--blue);
+    margin-bottom: 8px; font-weight: 700;
+  }
+  .stack-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800; font-size: 1.8rem;
+    line-height: 1.05; letter-spacing: -0.03em;
+    color: var(--black);
+  }
+
+  /* Horizontal Sliding Panels */
+  .folder-system {
+    position: relative;
+    height: 220px; /* Reduced height */
+    margin-top: 24px;
+  }
+  
+  .folder-panel {
+    position: absolute;
+    top: 24px; bottom: 0; /* Make room for tab */
+    width: 90%;
+    border-radius: 16px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: -2px 0 12px rgba(0,0,0,0.04), inset 0 1px rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex; flex-direction: row; gap: 24px;
+    overflow: visible;
+    transform-origin: left center;
+    animation: floatIdle 6s ease-in-out infinite;
+  }
+
+  @keyframes floatIdle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+
+  .folder-panel[data-id="1"] { animation-delay: 0s; }
+  .folder-panel[data-id="2"] { animation-delay: -1.2s; }
+  .folder-panel[data-id="3"] { animation-delay: -2.4s; }
+  .folder-panel[data-id="4"] { animation-delay: -3.6s; }
+  .folder-panel[data-id="5"] { animation-delay: -4.8s; }
+
+  .folder-tab {
+    position: absolute;
+    top: -24px;
+    left: 24px;
+    height: 24px;
+    padding: 0 16px;
+    border-radius: 8px 8px 0 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-bottom: none;
+    box-shadow: inset 0 1px rgba(255,255,255,0.4);
+    color: var(--black);
+    opacity: 0.8;
+  }
+
+  .folder-panel[data-id="1"] .folder-tab { background: var(--grad-yellow); }
+  .folder-panel[data-id="2"] .folder-tab { background: var(--grad-grey); }
+  .folder-panel[data-id="3"] .folder-tab { background: var(--grad-blue); }
+  .folder-panel[data-id="4"] .folder-tab { background: var(--grad-olive); }
+  .folder-panel[data-id="5"] .folder-tab { background: var(--grad-plume); }
+
+  /* Panel Colors & Positions (5 Panels) */
+  .folder-panel[data-id="1"] { background: var(--grad-yellow); z-index: 1; left: 0; }
+  .folder-panel[data-id="2"] { background: var(--grad-grey); z-index: 2; left: 20px; }
+  .folder-panel[data-id="3"] { background: var(--grad-blue); z-index: 3; left: 40px; }
+  .folder-panel[data-id="4"] { background: var(--grad-olive); z-index: 4; left: 60px; }
+  .folder-panel[data-id="5"] { background: var(--grad-plume); z-index: 5; left: 80px; }
+
+  .folder-panel.active {
+    z-index: 10;
+    box-shadow: -8px 0 24px rgba(0,0,0,0.08), inset 0 1px rgba(255,255,255,0.6);
+    transform: translateX(0) scale(1.02);
+    animation: none;
+  }
+  .folder-panel.inactive {
+    opacity: 0.85;
+    filter: brightness(0.95);
+  }
+
+  /* Content inside panels */
+  .folder-left {
+    flex: 0 0 55%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .folder-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all 0.3s ease 0.1s;
+  }
+
+  .folder-panel.active .folder-right {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .folder-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800; font-size: 1.4rem;
+    line-height: 1.1; letter-spacing: -0.02em;
+    color: var(--black);
+    margin-bottom: 8px;
+  }
+  
+  .folder-desc {
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.85rem; line-height: 1.4;
+    color: var(--black); opacity: 0.7;
+  }
+  
+  /* Tool Groups & Tags */
+  .tool-group { display: flex; flex-direction: column; gap: 6px; }
+  .tool-group-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; text-transform: uppercase;
+    opacity: 0.5; letter-spacing: 0.05em;
+  }
+  .tool-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .tool-pill {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(255,255,255,0.4);
+    border: 1px solid rgba(0,0,0,0.06);
+    color: var(--black);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  .tool-pill:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,0.8);
+    border-color: var(--black);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  }
+  .tool-pill.active {
+    background: var(--black);
+    color: var(--acid);
+    border-color: var(--black);
+  }
+  .tool-pill.active::after {
+    content: ''; position: absolute; top: 2px; right: 4px;
+    width: 4px; height: 4px; background: var(--acid); border-radius: 50%;
+  }
+
+  /* CTA Icon */
+  .card-cta {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    border: 1px solid rgba(0,0,0,0.1);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .card-cta:hover {
+    background: var(--black); color: var(--acid);
+    transform: scale(1.1);
+  }
+  .card-cta svg { width: 14px; height: 14px; transition: transform 0.3s ease; }
+  .folder-panel.expanded-card .card-cta svg { transform: rotate(45deg); }
+
+  /* Right Side Expand Button */
+  .timeline-expand-btn {
+    background: none; border: none;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; text-transform: uppercase;
+    color: var(--blue);
+    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 12px;
+    padding: 0;
+  }
+  .timeline-expand-btn svg {
+    width: 12px; height: 12px; transition: transform 0.3s ease;
+  }
+  .timeline-expand-btn.expanded svg {
+    transform: rotate(90deg);
+  }
+  
+  .timeline-details {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .timeline-details.open {
+    max-height: 800px;
+    margin-top: 16px;
+  }
+
+  /* RIGHT CONTENT */
+  .about-content { padding-top: 8px; }
+
+  .about-block {
+    margin-bottom: 80px;
+    position: relative;
+  }
+  .about-block-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .about-block-label::after {
+    content: ''; height: 1px; flex-grow: 1;
+    background: var(--border);
+  }
+  
+  .about-block h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800; font-size: 2.2rem;
+    margin-bottom: 24px;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .about-block p {
+    font-size: 1.05rem; line-height: 1.8;
+    color: var(--graphite);
+    margin-bottom: 16px;
+    max-width: 680px;
+  }
+
+  /* Skills Grid Refactor */
+  .skills-grid { 
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+    gap: 16px; 
+  }
+  .skill-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 18px 20px;
+    font-size: 0.85rem; font-weight: 600;
+    display: flex; align-items: center; gap: 12px;
+    transition: all 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .skill-item:hover {
+    border-color: var(--black);
+    background: var(--black); color: var(--acid);
+    transform: translateY(-2px);
+  }
+  .skill-icon {
+    width: 12px; height: 12px;
+    border: 1.5px solid var(--black);
+    transform: rotate(45deg);
+    transition: all 0.2s;
+  }
+  .skill-item:hover .skill-icon {
+    border-color: var(--acid); background: var(--acid);
+  }
+
+  /* CAPACITIES SECTION */
+  .capacities-tabs {
+    display: flex; gap: 8px;
+    background: rgba(255,255,255,0.5);
+    border: 1px solid var(--border);
+    padding: 6px;
+    border-radius: 12px;
+    margin-bottom: 32px;
+    overflow-x: auto; /* Handle mobile */
+    scrollbar-width: none;
+  }
+  .capacities-tabs::-webkit-scrollbar { display: none; }
+  
+  .cap-tab {
+    flex: 1;
+    border: none; background: transparent;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; font-weight: 700;
+    color: var(--black); opacity: 0.6;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .cap-tab:hover { opacity: 1; background: rgba(0,0,0,0.03); }
+  .cap-tab.active {
+    background: #A9B594; /* Muted Olive */
+    color: white; opacity: 1;
+    box-shadow: 0 4px 12px rgba(169,181,148,0.3);
+  }
+
+  .skills-container {
+    transition: opacity 0.2s ease;
+    min-height: 240px;
+  }
+
+  .skill-row {
+    margin-bottom: 24px;
+    opacity: 0; transform: translateY(10px);
+    animation: fadeSlideIn 0.4s forwards;
+    position: relative;
+  }
+  .skill-row:last-child { margin-bottom: 0; }
+  .skill-row:not(:last-child)::after {
+    content: ''; position: absolute; bottom: -12px; left: 0; right: 0;
+    height: 1px; background: var(--black); opacity: 0.05;
+  }
+
+  .skill-meta {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 10px;
+  }
+  .skill-name {
+    font-family: 'Work Sans', sans-serif; font-weight: 500;
+    font-size: 0.95rem; color: var(--black);
+  }
+  .skill-score {
+    font-family: 'Space Mono', monospace; font-weight: 700;
+    font-size: 0.8rem; color: var(--black); opacity: 0.8;
+  }
+  .skill-track {
+    height: 8px; width: 100%;
+    background: rgba(0,0,0,0.05);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .skill-fill {
+    height: 100%; width: 0%; /* Start at 0 for animation */
+    border-radius: 4px;
+    transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  }
+
+  /* Fill Colors */
+  .fill-strategy { background: var(--grad-olive); }
+  .fill-growth { background: var(--grad-yellow); }
+  .fill-ops { background: var(--grad-blue); }
+  .fill-design { background: var(--grad-plume); }
+
+  @keyframes fadeSlideIn {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Timeline Refactor */
+  .timeline { position: relative; padding-left: 40px; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--acid), var(--blue), var(--black));
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 48px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -44px; top: 6px;
+    width: 8px; height: 8px;
+    background: var(--black);
+    border: 1px solid var(--acid);
+  }
+  .timeline-period {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem; color: var(--blue);
+    margin-bottom: 8px; font-weight: 700;
+  }
+  .timeline-role {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 1.25rem;
+    margin-bottom: 4px;
+  }
+  .timeline-co {
+    font-size: 0.9rem; color: var(--graphite);
+    font-weight: 600; margin-bottom: 12px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .timeline-desc {
+    font-size: 0.95rem; line-height: 1.7;
+    color: #444;
+  }
+  .timeline-highlights {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-top: 16px;
+  }
+  .hl-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    background: rgba(18,18,18,0.05);
+    border: 1px solid transparent;
+    border-radius: 2px;
+    padding: 4px 10px;
+    color: var(--black);
+    transition: all 0.2s;
+  }
+  .timeline-item:hover .hl-tag {
+    border-color: var(--black);
+    background: white;
+  }
+
+  /* SYSTEM STACK - MODULAR GRID */
+  .modular-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+  }
+  
+  .module-card {
+    border-radius: 24px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    border: 1px solid rgba(255,255,255,0.5);
+    display: flex; flex-direction: column;
+    cursor: default;
+  }
+  .module-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  }
+  
+  /* Background Texture */
+  .module-card::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(#000 1px, transparent 1px);
+    background-size: 20px 20px;
+    opacity: 0.03; pointer-events: none;
+  }
+  
+  /* Themes */
+  .theme-growth { 
+    background: linear-gradient(135deg, #FFF8E1 0%, #FFE0B2 100%); 
+    grid-column: span 2; 
+  }
+  .theme-ai { 
+    background: linear-gradient(135deg, #F1F8E9 0%, #DCEDC8 100%); 
+    grid-column: span 1;
+    grid-row: span 2; 
+  }
+  .theme-design { 
+    background: linear-gradient(135deg, #E3F2FD 0%, #CFD8DC 100%); 
+    grid-column: span 1;
+  }
+  .theme-ops { 
+    background: linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%); 
+    grid-column: span 1;
+  }
+  .theme-biz { 
+    background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); 
+    grid-column: span 3;
+  }
+
+  .module-header { margin-bottom: 24px; position: relative; z-index: 2; }
+  .module-icon {
+    width: 48px; height: 48px;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(4px);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+  }
+  .module-card:hover .module-icon { transform: scale(1.1) rotate(3deg); }
+  
+  .module-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700; font-size: 1.4rem;
+    line-height: 1.1; margin-bottom: 8px;
+    color: var(--black);
+  }
+  .module-desc {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.9rem; opacity: 0.7;
+    line-height: 1.5; margin-bottom: 24px;
+  }
+  
+  .tool-group { margin-bottom: 16px; }
+  .tool-group-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; text-transform: uppercase;
+    opacity: 0.5; margin-bottom: 6px; letter-spacing: 0.05em;
+  }
+  .tool-list {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .tool-tag {
+    font-size: 0.8rem; font-weight: 500;
+    background: rgba(255,255,255,0.5);
+    padding: 4px 10px; border-radius: 6px;
+    border: 1px solid rgba(0,0,0,0.05);
+  }
+
+  @media (max-width: 900px) {
+    .modular-grid { grid-template-columns: 1fr; }
+    .theme-growth, .theme-ai, .theme-design, .theme-ops, .theme-biz { grid-column: span 1; grid-row: span 1; }
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    color: var(--mist);
+    padding: 60px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 4px solid var(--acid);
+  }
+  .footer-left {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800; font-size: 1.2rem;
+  }
+  .footer-left span { color: var(--acid); }
+  .footer-right { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+
+  /* ANIMATIONS */
+  .animate-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .animate-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .animate-module {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .animate-module.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .about-hero { grid-template-columns: 1fr; padding: 30px 20px; gap: 40px; }
+    .identity-panel { position: static; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .tools-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="../index.html" class="nav-logo">Lacie Phan</a>
+  <div class="nav-links">
+    <a href="../index.html" id="nav-home">Overview</a>
+    <a href="about_page.html" id="nav-about" class="active">About</a>
+    <a href="agentic_loop.html" id="nav-lab">Lab</a>
+    <a href="https://www.linkedin.com/in/slaciephan" target="_blank" class="btn-cta">LinkedIn ↗</a>
+  </div>
+</nav>
+
+<!-- ==================== ABOUT PAGE ==================== -->
+<div id="about" class="page active">
+  <div class="bg-grid"></div>
+  <div class="corner-mark tl"></div>
+  <div class="corner-mark tr"></div>
+  <div class="corner-mark bl"></div>
+  <div class="corner-mark br"></div>
+  <div class="micro-text">SYS_ARCH_PROFILE_V2.0 // LOADED</div>
+
+  <div class="about-hero">
+    
+    <!-- LEFT COLUMN: IDENTITY PANEL -->
+    <div class="identity-panel">
+      
+      <!-- Photo Block -->
+      <div class="id-photo-block">
+        <div class="id-photo-overlay">
+          <div class="id-photo-text">
+            <div class="id-photo-name">Lacie Phan</div>
+            <div class="id-photo-role">Product Specialist</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Headline -->
+      <div class="stack-headline">
+        <div class="stack-label">System Stacks</div>
+        <div class="stack-title">The Operating System Behind My Work.</div>
+      </div>
+
+      <!-- Horizontal Sliding Panels (Tool Ecosystem) -->
+      <div class="folder-system" id="folderSystem">
+        
+        <!-- Panel 01: Product & Growth -->
+        <div class="folder-panel" data-id="1" onclick="activatePanel(1)">
+          <div class="folder-tab">Growth Intel</div>
+          <div class="folder-left">
+            <div class="folder-title">Growth<br>Intel</div>
+            <div class="folder-desc">Data-driven acquisition &amp; loops.</div>
+          </div>
+          <div class="folder-right">
+            <div class="tool-group">
+              <div class="tool-group-label">Acquisition</div>
+              <div class="tool-tags">
+                <span class="tool-pill" onclick="toggleToolTag(this)">Ahrefs</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">SEMrush</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Ads</span>
+              </div>
+            </div>
+            <div class="tool-group">
+              <div class="tool-group-label">Analytics</div>
+              <div class="tool-tags">
+                <span class="tool-pill" onclick="toggleToolTag(this)">GA4</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Mixpanel</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 02: AI & Automation -->
+        <div class="folder-panel" data-id="2" onclick="activatePanel(2)">
+          <div class="folder-tab">AI &amp; Auto</div>
+          <div class="folder-left">
+            <div class="folder-title">AI &amp;<br>Auto</div>
+            <div class="folder-desc">Thinking → Creation → Workflow.</div>
+          </div>
+          <div class="folder-right">
+            <div class="tool-group">
+              <div class="tool-group-label">LLM &amp; Creative</div>
+              <div class="tool-tags">
+                <span class="tool-pill" onclick="toggleToolTag(this)">ChatGPT</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Claude</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Midjourney</span>
+              </div>
+            </div>
+            <div class="tool-group">
+              <div class="tool-group-label">Workflow</div>
+              <div class="tool-tags">
+                <span class="tool-pill" onclick="toggleToolTag(this)">Make</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">n8n</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Lovable</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 03: Design -->
+        <div class="folder-panel" data-id="3" onclick="activatePanel(3)">
+          <div class="folder-tab">Design System</div>
+          <div class="folder-left">
+            <div class="folder-title">Design<br>System</div>
+            <div class="folder-desc">Design → Prototype → Deploy.</div>
+          </div>
+          <div class="folder-right">
+            <div class="tool-group">
+              <div class="tool-group-label">Prototyping</div>
+              <div class="tool-tags">
+                <span class="tool-pill" onclick="toggleToolTag(this)">Figma</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Framer</span>
+              </div>
+            </div>
+            <div class="tool-group">
+              <div class="tool-group-label">Production</div>
+              <div class="tool-tags">
+                <span class="tool-pill" onclick="toggleToolTag(this)">Canva</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Vercel</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 04: Product Dev OS (Default Active) -->
+        <div class="folder-panel active" data-id="4" onclick="activatePanel(4)">
+          <div class="folder-tab">Product Dev OS</div>
+          <div class="folder-left">
+            <div class="folder-title">Product<br>Dev OS</div>
+            <div class="folder-desc">Structured execution engine.</div>
+          </div>
+          <div class="folder-right">
+            <div class="tool-group">
+              <div class="tool-group-label">Planning</div>
+              <div class="tool-tags">
+                <span class="tool-pill" onclick="toggleToolTag(this)">Notion</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Confluence</span>
+              </div>
+            </div>
+            <div class="tool-group">
+              <div class="tool-group-label">Agile</div>
+              <div class="tool-tags">
+                <span class="tool-pill" onclick="toggleToolTag(this)">Jira</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">ClickUp</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Miro</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 05: Business Ops -->
+        <div class="folder-panel" data-id="5" onclick="activatePanel(5)">
+          <div class="folder-tab">Biz Ops &amp; CRM</div>
+          <div class="folder-left">
+            <div class="folder-title">Biz Ops<br>&amp; CRM</div>
+            <div class="folder-desc">Operational backbone.</div>
+          </div>
+          <div class="folder-right">
+            <div class="tool-group">
+              <div class="tool-group-label">Operations</div>
+              <div class="tool-tags">
+                <span class="tool-pill" onclick="toggleToolTag(this)">Odoo</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Freshworks</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT CONTENT -->
+    <div class="about-content">
+      
+      <!-- Intro -->
+      <div class="about-block">
+        <div class="about-block-label">Profile Summary</div>
+        <h3>A product builder with a growth engineer's brain.</h3>
+        <p>I’m a Product Specialist with 9+ years of experience building and scaling solutions across SaaS, Web &amp; Mobile, AI, Omnichannel, Web3, and complex E-commerce ecosystems.</p>
+        <p>My career began across the digital marketing spectrum—spanning strategy, SEO, social media, communications, and paid media—which shaped a strong foundation in user behavior, growth, and distribution. Building on that, I now work at the intersection of product, architecture, go-to-market, and operations—allowing me to approach product not as a standalone system, but as an integrated business engine.</p>
+        <p>I’m well-versed in AI transformation, UX, and design principles, and comfortable navigating both strategy and execution.</p>
+        <p>I’ve led 0&rarr;1 product development across multiple startups, shipped 20+ products into international markets, and contributed to multi-million dollar revenue growth. I've established and grown a Product org from scratch to &lt;10 people, overseeing Engineer, UI/UX Designer, QC, Data and Research.</p>
+        <p>I’m driven by improving how products work—streamlining processes, elevating user experience, and leveraging AI to build smarter, more adaptive systems.</p>
+      </div>
+
+      <!-- Capacities (Skills) -->
+      <div class="about-block">
+        <div class="about-block-label">Capacities</div>
+        <h3>Core Competencies.</h3>
+        
+        <div class="capacities-tabs">
+          <button class="cap-tab active" data-cat="strategy">Product Strategy</button>
+          <button class="cap-tab" data-cat="growth">Growth &amp; Analytics</button>
+          <button class="cap-tab" data-cat="ops">System &amp; Ops</button>
+          <button class="cap-tab" data-cat="design">Design &amp; AI</button>
+        </div>
+
+        <div class="skills-container" id="skillsContainer">
+          <!-- Skills injected via JS -->
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="about-block">
+        <div class="about-block-label">Career Trajectory</div>
+        <h3>From marketing to full product ownership.</h3>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-period">Jul 2024 – Aug 2025</div>
+            <div class="timeline-role">Product Specialist</div>
+            <div class="timeline-co">Beincom · HCM City</div>
+            <div class="timeline-desc">Owned end-to-end product lifecycle for a hybrid Web3 social platform. Designed tokenized incentive mechanics that scaled active users from ~20K to 150K+ in 13 months.</div>
+            <button class="timeline-expand-btn" onclick="toggleTimeline(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              Expand Impact
+            </button>
+            <div class="timeline-details">
+              <ul class="folder-list" style="margin-top:12px;">
+                <li>Drove +15% activation uplift via tokenized incentives.</li>
+                <li>+40% MAU growth in 13 months.</li>
+                <li>Improved retention from &lt;10% to 35%.</li>
+                <li>Reduced CPI by ~60% via ASO loops.</li>
+              </ul>
+            </div>
+            <div class="timeline-highlights">
+              <span class="hl-tag">Web3</span><span class="hl-tag">Tokenomics</span><span class="hl-tag">Growth Loops</span><span class="hl-tag">Agile Squad</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-period">Sep 2019 – Apr 2024</div>
+            <div class="timeline-role">Product Development &amp; Strategy Lead</div>
+            <div class="timeline-co">Merchize · Hanoi</div>
+            <div class="timeline-desc">Led product vision for a B2B commerce platform serving 40K+ global sellers. Owned discovery, prioritization, and roadmap trade-offs.</div>
+            <button class="timeline-expand-btn" onclick="toggleTimeline(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              Expand Impact
+            </button>
+            <div class="timeline-details">
+              <ul class="folder-list" style="margin-top:12px;">
+                <li>Directed cross-functional team to 1.5× OKR overperformance.</li>
+                <li>Drove international expansion strategies.</li>
+                <li>Standardized integrations with 10+ enterprise platforms.</li>
+              </ul>
+            </div>
+            <div class="timeline-highlights">
+              <span class="hl-tag">B2B SaaS</span><span class="hl-tag">Intl Expansion</span><span class="hl-tag">Platform Scale</span><span class="hl-tag">GTM</span>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-period">Jan 2019 – Sep 2019</div>
+            <div class="timeline-role">Assistant Marketing Manager</div>
+            <div class="timeline-co">VCCorp · Hanoi</div>
+            <div class="timeline-desc">Expanded B2B Cloud &amp; Digital Solutions portfolio.</div>
+            <button class="timeline-expand-btn" onclick="toggleTimeline(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              Expand Impact
+            </button>
+            <div class="timeline-details">
+              <ul class="folder-list" style="margin-top:12px;">
+                <li>Executed integrated marketing (SEO, referral, email, paid).</li>
+                <li>Supported high-value enterprise/SME acquisition.</li>
+              </ul>
+            </div>
+            <div class="timeline-highlights"><span class="hl-tag">B2B</span><span class="hl-tag">Integrated Marketing</span></div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-period">Nov 2016 – Dec 2018</div>
+            <div class="timeline-role">Digital Marketing Lead</div>
+            <div class="timeline-co">Unishipping · Hanoi</div>
+            <div class="timeline-desc">Led multi-channel acquisition strategy (paid search, social, content).</div>
+            <button class="timeline-expand-btn" onclick="toggleTimeline(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              Expand Impact
+            </button>
+            <div class="timeline-details">
+              <ul class="folder-list" style="margin-top:12px;">
+                <li>Delivered 35% YoY growth in qualified leads.</li>
+                <li>2.5× increase in organic traffic.</li>
+                <li>Built and managed hybrid team of 5.</li>
+              </ul>
+            </div>
+            <div class="timeline-highlights"><span class="hl-tag">Multi-Channel</span><span class="hl-tag">Team Building</span><span class="hl-tag">Ecomm Funnels</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Thinking -->
+      <style>
+        .system-board {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          border: 1px solid var(--black);
+          margin-top: 40px;
+          background: var(--mist);
+          box-shadow: 8px 8px 0 rgba(18,18,18,0.05);
+        }
+        .system-board-cell {
+          padding: 32px;
+          border-right: 1px solid var(--black);
+          border-bottom: 1px solid var(--black);
+          display: flex;
+          flex-direction: column;
+          background: white;
+          transition: background 0.2s;
+        }
+        .system-board-cell:hover {
+          background: #fafafa;
+        }
+        .system-board-cell:nth-child(2n) {
+          border-right: none;
+        }
+        .system-board-cell:nth-last-child(-n+2) {
+          border-bottom: none;
+        }
+        @media (max-width: 768px) {
+          .system-board {
+            grid-template-columns: 1fr;
+          }
+          .system-board-cell {
+            border-right: none !important;
+            border-bottom: 1px solid var(--black) !important;
+          }
+          .system-board-cell:last-child {
+            border-bottom: none !important;
+          }
+        }
+        
+        .system-cell-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 24px;
+          border-bottom: 1px solid rgba(18,18,18,0.1);
+          padding-bottom: 16px;
+        }
+        .system-cell-title {
+          font-family: 'Space Mono', monospace;
+          font-weight: 700;
+          font-size: 0.9rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          color: var(--black);
+        }
+        .system-cell-id {
+          font-family: 'Space Mono', monospace;
+          font-size: 0.65rem;
+          color: var(--blue);
+          font-weight: 700;
+        }
+        .system-cell-body {
+          flex-grow: 1;
+          font-size: 0.95rem;
+          line-height: 1.6;
+          color: var(--graphite);
+          margin-bottom: 24px;
+        }
+        .system-flow-diagram {
+          font-family: 'Space Mono', monospace;
+          font-size: 0.75rem;
+          line-height: 1.8;
+          color: var(--black);
+          background: var(--mist);
+          padding: 16px;
+          border: 1px solid rgba(18,18,18,0.1);
+          margin-top: 16px;
+          font-weight: 700;
+        }
+        .system-flow-diagram .arrow {
+          color: var(--blue);
+          margin: 4px 0;
+          display: block;
+        }
+        .system-flow-inline {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-family: 'Space Mono', monospace;
+          font-size: 0.75rem;
+          background: var(--mist);
+          padding: 16px;
+          border: 1px solid rgba(18,18,18,0.1);
+          margin-top: 16px;
+          flex-wrap: wrap;
+          font-weight: 700;
+        }
+        .system-flow-inline .arrow {
+          color: var(--blue);
+        }
+        .system-tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-top: auto;
+        }
+      </style>
+      <section class="product-thinking">
+        <div class="about-block">
+          <div class="about-block-label">Product Philosophy</div>
+          <h3>Product Systems Thinking</h3>
+          <p>How product architecture, UX flows, and experimentation shape user behavior and measurable outcomes.</p>
+          
+          <div class="system-board">
+            
+            <!-- 1. Product Architecture -->
+            <div class="system-board-cell">
+              <div class="system-cell-header">
+                <div class="system-cell-title">Product Architecture</div>
+                <div class="system-cell-id">SYS.01</div>
+              </div>
+              <div class="system-cell-body">
+                Interface decisions shape cognition, interaction confidence, and conversion. Building scalable, modular systems that align user needs with business goals.
+                
+                <div class="sys-diagram-wrapper" style="margin-top: 32px; padding: 24px; background: rgba(18,18,18,0.02); border: 1px solid rgba(18,18,18,0.05); border-radius: 4px;">
+                  <svg viewBox="0 0 320 240" style="width: 100%; height: auto; display: block; overflow: visible;">
+                    <defs>
+                      <pattern id="dot-grid" width="15" height="15" patternUnits="userSpaceOnUse">
+                        <circle cx="1" cy="1" r="0.75" fill="#121212" opacity="0.08" />
+                      </pattern>
+                      <marker id="arrow-end" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+                        <path d="M 0 2 L 8 5 L 0 8 z" fill="#121212" opacity="0.5" />
+                      </marker>
+                      <marker id="arrow-start" viewBox="0 0 10 10" refX="2" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                        <path d="M 10 2 L 2 5 L 10 8 z" fill="#121212" opacity="0.5" />
+                      </marker>
+                    </defs>
+                    
+                    <!-- Background Grid -->
+                    <rect x="-10" y="-10" width="340" height="260" fill="url(#dot-grid)" />
+                    
+                    <!-- Connections -->
+                    <g fill="none" stroke="#121212" stroke-width="1" opacity="0.35" stroke-linejoin="round">
+                      <!-- User to Interface -->
+                      <path d="M 30 57 L 30 30 L 107 30" marker-end="url(#arrow-end)" />
+                      <!-- Interface to System (Bidirectional) -->
+                      <path d="M 110 33 L 110 130 L 157 130" marker-start="url(#arrow-start)" marker-end="url(#arrow-end)" />
+                      <!-- System to Logic -->
+                      <path d="M 160 127 L 160 70 L 257 70" marker-end="url(#arrow-end)" />
+                      <!-- Logic to Outcome -->
+                      <path d="M 263 70 L 280 70 L 280 157" marker-end="url(#arrow-end)" />
+                      <!-- System to Data -->
+                      <path d="M 157 140 L 50 140 L 50 177" marker-end="url(#arrow-end)" />
+                      <!-- Data to Feedback (Bidirectional) -->
+                      <path d="M 53 180 L 120 180 L 120 210 L 177 210" marker-start="url(#arrow-start)" marker-end="url(#arrow-end)" />
+                      <!-- Feedback to System (Bidirectional) -->
+                      <path d="M 180 207 L 180 160 L 163 160 L 163 133" marker-start="url(#arrow-start)" marker-end="url(#arrow-end)" />
+                      <!-- Outcome to Feedback -->
+                      <path d="M 280 163 L 280 210 L 183 210" marker-end="url(#arrow-end)" />
+                      
+                      <!-- Extra subtle technical lines -->
+                      <path d="M 30 63 L 30 90 L 15 90" stroke-dasharray="2 4" opacity="0.5" />
+                      <path d="M 260 67 L 260 20 L 300 20" stroke-dasharray="2 4" opacity="0.5" />
+                      <path d="M 160 133 L 160 150 L 140 150" stroke-dasharray="2 4" opacity="0.5" />
+                      <path d="M 50 183 L 50 220 L 30 220" stroke-dasharray="2 4" opacity="0.5" />
+                    </g>
+                    
+                    <!-- Nodes -->
+                    <g fill="#121212" font-family="Space Mono, monospace" font-size="7" letter-spacing="0.05em" opacity="0.85">
+                      <!-- User Input -->
+                      <g transform="translate(30, 60)">
+                        <rect x="-2.5" y="-2.5" width="5" height="5" fill="#fff" stroke="#121212" stroke-width="1" />
+                        <text x="-15" y="15">USER_INPUT</text>
+                      </g>
+                      
+                      <!-- Interface Layer -->
+                      <g transform="translate(110, 30)">
+                        <rect x="-2.5" y="-2.5" width="5" height="5" fill="#fff" stroke="#121212" stroke-width="1" />
+                        <text x="8" y="-5">INTERFACE_LAYER</text>
+                      </g>
+                      
+                      <!-- Decision Logic -->
+                      <g transform="translate(260, 70)">
+                        <rect x="-2.5" y="-2.5" width="5" height="5" fill="#fff" stroke="#121212" stroke-width="1" />
+                        <text x="-10" y="-8" text-anchor="end">DECISION_LOGIC</text>
+                      </g>
+                      
+                      <!-- Product System (Center) -->
+                      <g transform="translate(160, 130)">
+                        <rect x="-4" y="-4" width="8" height="8" fill="#121212" />
+                        <text x="12" y="3" font-weight="bold">PRODUCT_SYSTEM</text>
+                        <!-- Subtle glow ring -->
+                        <circle cx="0" cy="0" r="14" fill="none" stroke="#121212" stroke-width="0.5" opacity="0.2" stroke-dasharray="2 2" />
+                        <circle cx="0" cy="0" r="20" fill="none" stroke="#121212" stroke-width="0.25" opacity="0.1" />
+                      </g>
+                      
+                      <!-- Data Signals -->
+                      <g transform="translate(50, 180)">
+                        <rect x="-2.5" y="-2.5" width="5" height="5" fill="#fff" stroke="#121212" stroke-width="1" />
+                        <text x="-5" y="15" text-anchor="middle">DATA_SIGNALS</text>
+                      </g>
+                      
+                      <!-- Feedback Loop -->
+                      <g transform="translate(180, 210)">
+                        <rect x="-2.5" y="-2.5" width="5" height="5" fill="#fff" stroke="#121212" stroke-width="1" />
+                        <text x="8" y="15">FEEDBACK_LOOP</text>
+                      </g>
+                      
+                      <!-- Business Outcomes -->
+                      <g transform="translate(280, 160)">
+                        <rect x="-2.5" y="-2.5" width="5" height="5" fill="#fff" stroke="#121212" stroke-width="1" />
+                        <text x="-8" y="4" text-anchor="end">BUSINESS_OUTCOMES</text>
+                      </g>
+                    </g>
+                  </svg>
+                </div>
+              </div>
+              <div class="system-tags">
+                <span class="hl-tag">Product Systems</span>
+              </div>
+            </div>
+
+            <!-- 2. UX Flow Systems -->
+            <div class="system-board-cell">
+              <div class="system-cell-header">
+                <div class="system-cell-title">UX Flow Systems</div>
+                <div class="system-cell-id">SYS.02</div>
+              </div>
+              <div class="system-cell-body">
+                Designing intuitive pathways that guide users from initial discovery to long-term retention.
+                <div class="system-flow-diagram">
+                  <span>Discovery</span>
+                  <span class="arrow">↓</span>
+                  <span>Evaluation</span>
+                  <span class="arrow">↓</span>
+                  <span>First Value</span>
+                  <span class="arrow">↓</span>
+                  <span>Habit Loop</span>
+                  <span class="arrow">↓</span>
+                  <span>Retention</span>
+                </div>
+              </div>
+              <div class="system-tags">
+                <span class="hl-tag">UX Architecture</span>
+              </div>
+            </div>
+
+            <!-- 3. Experimentation Engine -->
+            <div class="system-board-cell">
+              <div class="system-cell-header">
+                <div class="system-cell-title">Experimentation Engine</div>
+                <div class="system-cell-id">SYS.03</div>
+              </div>
+              <div class="system-cell-body">
+                A systematic approach to testing and validation. Continuous iteration based on behavioral data.
+                <div class="system-flow-inline">
+                  <span>Hypothesis</span>
+                  <span class="arrow">→</span>
+                  <span>UX Adjustment</span>
+                  <span class="arrow">→</span>
+                  <span>A/B Test</span>
+                  <span class="arrow">→</span>
+                  <span>Behavior Data</span>
+                  <span class="arrow">→</span>
+                  <span>Iteration</span>
+                </div>
+              </div>
+              <div class="system-tags">
+                <span class="hl-tag">Experimentation</span>
+              </div>
+            </div>
+
+            <!-- 4. Behavioral Metrics -->
+            <div class="system-board-cell">
+              <div class="system-cell-header">
+                <div class="system-cell-title">Behavioral Metrics</div>
+                <div class="system-cell-id">SYS.04</div>
+              </div>
+              <div class="system-cell-body">
+                Interface simplification improves user behavior and reduces interaction steps. Measuring what matters to drive continuous optimization.
+              </div>
+              <div class="system-tags">
+                <span class="hl-tag">Behavioral Metrics</span>
+                <span class="hl-tag">Product Analytics</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-left">Lacie Phan — Product Owner</div>
+    <div class="footer-right">HCM City, Vietnam · slaciephan@gmail.com</div>
+  </footer>
+</div>
+
+<script>
+// Folder System Logic
+function activatePanel(id) {
+  const panels = document.querySelectorAll('.folder-panel');
+  panels.forEach(p => {
+    if (p.dataset.id == id) {
+      p.classList.add('active');
+      p.classList.remove('inactive');
+    } else {
+      p.classList.remove('active');
+      p.classList.add('inactive');
+      p.classList.remove('expanded-card'); // Collapse others
+    }
+  });
+}
+
+function toggleCardExpand(e, btn) {
+  e.stopPropagation();
+  const card = btn.closest('.folder-panel');
+  card.classList.toggle('expanded-card');
+}
+
+function toggleToolTag(tag) {
+  event.stopPropagation();
+  tag.classList.toggle('active');
+}
+
+// Capacities / Skills Logic
+const skillsData = {
+  strategy: [
+    { name: "Roadmap Architecture", score: 94 },
+    { name: "Stakeholder Alignment", score: 90 },
+    { name: "GTM Structuring", score: 88 },
+    { name: "Token / Growth Mechanics", score: 85 }
+  ],
+  growth: [
+    { name: "Acquisition Systems", score: 91 },
+    { name: "Funnel Optimization", score: 93 },
+    { name: "Data Interpretation", score: 89 },
+    { name: "Retention Modeling", score: 87 }
+  ],
+  ops: [
+    { name: "Cross-functional Orchestration", score: 95 },
+    { name: "Agile Execution", score: 92 },
+    { name: "Documentation Systems", score: 88 },
+    { name: "Operational Scalability", score: 90 }
+  ],
+  design: [
+    { name: "Prototyping & UX Thinking", score: 87 },
+    { name: "AI Workflow Integration", score: 89 },
+    { name: "Automation Design", score: 90 },
+    { name: "Creative System Thinking", score: 85 }
+  ]
+};
+
+function renderSkills(category) {
+  const container = document.getElementById('skillsContainer');
+  if (!container) return;
+  
+  const data = skillsData[category];
+  
+  // Fade out
+  container.style.opacity = '0';
+  
+  setTimeout(() => {
+    container.innerHTML = '';
+    data.forEach((skill, index) => {
+      const row = document.createElement('div');
+      row.className = 'skill-row';
+      row.style.animationDelay = `${index * 50}ms`;
+      
+      let fillClass = 'fill-strategy';
+      if (category === 'growth') fillClass = 'fill-growth';
+      if (category === 'ops') fillClass = 'fill-ops';
+      if (category === 'design') fillClass = 'fill-design';
+
+      row.innerHTML = `
+        <div class="skill-meta">
+          <span class="skill-name">${skill.name}</span>
+          <span class="skill-score">${skill.score}/100</span>
+        </div>
+        <div class="skill-track">
+          <div class="skill-fill ${fillClass}" style="width: 0%"></div>
+        </div>
+      `;
+      container.appendChild(row);
+      
+      // Trigger width animation after render
+      setTimeout(() => {
+        const fill = row.querySelector('.skill-fill');
+        if(fill) fill.style.width = `${skill.score}%`;
+      }, 50);
+    });
+    
+    container.style.opacity = '1';
+  }, 200);
+}
+
+// Tab Click Handler
+document.querySelectorAll('.cap-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.cap-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    renderSkills(tab.dataset.cat);
+  });
+});
+
+// Init Skills
+renderSkills('strategy');
+
+// Timeline Toggle Logic
+function toggleTimeline(btn) {
+  const details = btn.nextElementSibling;
+  btn.classList.toggle('expanded');
+  details.classList.toggle('open');
+  
+  if (btn.classList.contains('expanded')) {
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform: rotate(90deg)"><path d="M9 18l6-6-6-6"/></svg> Collapse';
+  } else {
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg> Expand Impact';
+  }
+}
+
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  cursorRing.style.left = rx + 'px';
+  cursorRing.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button, .folder-panel, .timeline-expand-btn, .skill-item, .module-card').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '20px';
+    cursor.style.height = '20px';
+    cursorRing.style.width = '52px';
+    cursorRing.style.height = '52px';
+    cursorRing.style.borderColor = '#D7FF3F';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '12px';
+    cursor.style.height = '12px';
+    cursorRing.style.width = '36px';
+    cursorRing.style.height = '36px';
+    cursorRing.style.borderColor = '#121212';
+  });
+});
+
+// Page navigation
+// function showPage(pageId) {
+//   // Simple page switch for demo
+//   console.log('Switch to ' + pageId);
+// }
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.about-block, .timeline-item').forEach(el => {
+  el.classList.add('animate-in');
+  observer.observe(el);
+});
+
+// Staggered Animation for Modules
+const moduleObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const target = entry.target;
+      const index = Array.from(target.parentNode.children).indexOf(target);
+      setTimeout(() => {
+        target.classList.add('visible');
+      }, index * 80); // 80ms delay per index
+      moduleObserver.unobserve(target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+document.querySelectorAll('.module-card').forEach(card => {
+  card.classList.add('animate-module');
+  moduleObserver.observe(card);
+});
+</script>
+</body>
+</html>

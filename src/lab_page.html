@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lacie Phan — Lab Logs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --mist: #F1F3F6;
+    --black: #121212;
+    --acid: #D7FF3F;
+    --blue: #4F6BFF;
+    --graphite: #1A1A1A;
+    --border: rgba(18,18,18,0.12);
+    --card-bg: #FFFFFF;
+    --metallic: linear-gradient(135deg, #E0E0E0 0%, #F5F5F5 100%);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Work Sans', sans-serif;
+    background: var(--mist);
+    color: var(--black);
+    overflow-x: hidden;
+    /* cursor: none; */ /* Revert cursor to auto for debugging */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--acid);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: difference;
+    display: none;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--black);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: transform 0.18s ease, width 0.25s, height 0.25s;
+    display: none;
+  }
+  body:hover .cursor, body:hover .cursor-ring { display: block; }
+  body { cursor: auto; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 40px;
+    background: rgba(241,243,246,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800; font-size: 1rem;
+    letter-spacing: -0.02em;
+    text-decoration: none; color: var(--black);
+  }
+  .nav-logo span { color: var(--blue); }
+  .nav-links { display: flex; gap: 8px; align-items: center; }
+  .nav-links a {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 500;
+    color: var(--black); text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    border-color: var(--black);
+    background: var(--black); color: var(--acid);
+  }
+  .nav-links a.btn-cta {
+    background: var(--blue); color: white;
+    border-color: var(--blue);
+  }
+  .nav-links a.btn-cta:hover {
+    background: var(--black); border-color: var(--black); color: var(--acid);
+  }
+
+  /* PAGES */
+  .page { display: none; min-height: 100vh; padding-top: 80px; }
+  .page.active { display: block; }
+
+  /* LAB STYLES */
+  .lab-hero {
+    padding: 60px 40px 40px;
+    max-width: 780px;
+  }
+  .lab-label {
+    display: inline-flex; gap: 8px; align-items: center;
+    background: var(--blue);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .lab-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+  .lab-subtitle {
+    font-size: 1.05rem; line-height: 1.7;
+    color: var(--graphite);
+    max-width: 580px;
+  }
+
+  .lab-filter {
+    display: flex; gap: 8px;
+    padding: 0 40px 40px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 0.8rem; font-weight: 500;
+    border: 1px solid var(--border);
+    background: white; color: var(--black);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--black); color: var(--acid);
+    border-color: var(--black);
+  }
+
+  .lab-logs {
+    padding: 0 40px 80px;
+    display: flex; flex-direction: column; gap: 24px;
+  }
+
+  .log-card {
+    background: white;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer;
+  }
+  .log-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+    border-color: var(--black);
+  }
+  .log-header {
+    padding: 32px 36px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 20px;
+  }
+  .log-meta { }
+  .log-status {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+  .log-status.shipped { background: #E8F9E0; color: #2D7A1A; }
+  .log-status.ongoing { background: #FFF0E0; color: #B05A00; }
+  .log-status.shelved { background: #F0F0F0; color: #555; }
+  .log-status::before { content: '●'; font-size: 0.5rem; }
+
+  .log-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800; font-size: 1.5rem;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .log-context {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; color: var(--graphite);
+  }
+  .log-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--border);
+    line-height: 1;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .log-body {
+    padding: 28px 36px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+  }
+  .log-body.two-col { grid-template-columns: 1fr 1fr; }
+
+  .log-section-label {
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 10px;
+  }
+  .log-section-content {
+    font-size: 0.88rem; line-height: 1.75;
+    color: var(--black);
+  }
+  .log-section-content strong { color: var(--black); font-weight: 700; background: var(--acid); padding: 0 4px; }
+
+  .log-section-list {
+    list-style: none;
+  }
+  .log-section-list li {
+    font-size: 0.88rem; line-height: 1.6;
+    padding: 4px 0;
+    padding-left: 16px;
+    position: relative;
+    color: var(--black);
+  }
+  .log-section-list li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--blue);
+    font-size: 0.75rem;
+  }
+
+  .log-outcome {
+    padding: 20px 36px 28px;
+    display: flex; gap: 20px; align-items: center;
+    flex-wrap: wrap;
+    background: #FAFAFA;
+    border-top: 1px solid var(--border);
+  }
+  .outcome-metric {
+    display: flex; align-items: baseline; gap: 6px;
+  }
+  .outcome-num {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800; font-size: 1.4rem;
+    color: var(--blue);
+  }
+  .outcome-label { font-size: 0.78rem; color: var(--graphite); }
+
+  .outcome-divider {
+    width: 1px; height: 32px;
+    background: var(--border);
+  }
+
+  .honest-box {
+    background: var(--black);
+    color: var(--mist);
+    border-radius: 14px;
+    padding: 16px 20px;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    margin: 0 36px 28px;
+  }
+  .honest-box strong { color: var(--acid); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    color: var(--mist);
+    padding: 60px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 4px solid var(--acid);
+  }
+  .footer-left {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800; font-size: 1.2rem;
+  }
+  .footer-left span { color: var(--acid); }
+  .footer-right { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+
+  /* ANIMATIONS */
+  .animate-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .animate-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .lab-hero { padding: 30px 20px 20px; }
+    .lab-filter { padding: 0 20px 30px; }
+    .lab-logs { padding: 0 20px 60px; }
+    .log-body { grid-template-columns: 1fr; }
+    .log-body.two-col { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="/index.html" class="nav-logo">Lacie Phan</a>
+  <div class="nav-links">
+    <a href="/index.html" id="nav-home">Home</a>
+    <a href="/src/about_page.html" id="nav-about">About Me</a>
+    <a href="/src/lab_page.html" id="nav-lab" class="active">Lab Logs</a>
+    <a href="https://www.linkedin.com/in/slaciephan" target="_blank" class="btn-cta">LinkedIn ↗</a>
+  </div>
+</nav>
+
+<!-- ==================== LAB PAGE ==================== -->
+<div id="lab" class="page active">
+
+  <div class="lab-hero">
+    <div class="lab-label">🧪 Product Thinking</div>
+    <h1 class="lab-title">Lab Logs<br>Not Case Studies.</h1>
+    <p class="lab-subtitle">Real experiments, real constraints, real trade-offs. Honest assessments of what worked, what didn't, and what I'd do differently.</p>
+  </div>
+
+  <div class="lab-filter">
+    <button class="filter-btn active" onclick="filterLogs('all', this)">All</button>
+    <button class="filter-btn" onclick="filterLogs('growth', this)">Growth</button>
+    <button class="filter-btn" onclick="filterLogs('monetization', this)">Monetization</button>
+    <button class="filter-btn" onclick="filterLogs('discovery', this)">Discovery</button>
+    <button class="filter-btn" onclick="filterLogs('b2b', this)">B2B</button>
+  </div>
+
+  <div class="lab-logs">
+
+    <!-- LOG 01 -->
+    <div class="log-card" data-tags="growth monetization">
+      <div class="log-header">
+        <div class="log-meta">
+          <div class="log-status shipped">Shipped</div>
+          <div class="log-title">Tokenized Retention: When "Earn-to-Stay" Actually Works</div>
+          <div class="log-context">Beincom · Web3 Social Platform · Q4 2024</div>
+        </div>
+        <div class="log-number">01</div>
+      </div>
+      <div class="log-body">
+        <div>
+          <div class="log-section-label">The Problem</div>
+          <div class="log-section-content">Retention was a cliff. Users activated, posted once, and ghosted. Classic cold-start problem layered on top of a Web3 onboarding friction wall. Our &lt;10% D30 retention was a blinking red alert.</div>
+        </div>
+        <div>
+          <div class="log-section-label">The Experiment</div>
+          <div class="log-section-content">Designed milestone-based token reward mechanics — users earned points for consistent behavior loops (post, engage, refer). The core hypothesis: <strong>tokens create commitment bias</strong>. Aligned 40% of the roadmap toward simplifying Web3 interactions to reduce drop-off at the wallet-connect step.</div>
+        </div>
+        <div>
+          <div class="log-section-label">Trade-offs</div>
+          <ul class="log-section-list">
+            <li>Token supply inflation risk if milestones too easy</li>
+            <li>Gamification vs genuine engagement tension</li>
+            <li>Engineering prioritization against core feature roadmap</li>
+            <li>KOL co-marketing cost vs organic virality</li>
+          </ul>
+        </div>
+      </div>
+      <div class="honest-box">
+        <strong>Honest Assessment:</strong> The token mechanics worked, but we slightly over-indexed on reward complexity early on. Some users were earning tokens without actually understanding the platform's core value. We course-corrected in Sprint 6 by front-loading value before the reward layer — this is what moved the retention needle from 22% to 35%.
+      </div>
+      <div class="log-outcome">
+        <div class="outcome-metric">
+          <div class="outcome-num">150K+</div>
+          <div class="outcome-label">Active Users (from 20K)</div>
+        </div>
+        <div class="outcome-divider"></div>
+        <div class="outcome-metric">
+          <div class="outcome-num">35%</div>
+          <div class="outcome-label">D30 Retention (from &lt;10%)</div>
+        </div>
+        <div class="outcome-divider"></div>
+        <div class="outcome-metric">
+          <div class="outcome-num">13mo</div>
+          <div class="outcome-label">Time to Scale</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOG 02 -->
+    <div class="log-card" data-tags="growth">
+      <div class="log-header">
+        <div class="log-meta">
+          <div class="log-status shipped">Shipped</div>
+          <div class="log-title">Cutting CPI by 60% Without Increasing Budget</div>
+          <div class="log-context">Beincom · Mobile Growth · Q1 2025</div>
+        </div>
+        <div class="log-number">02</div>
+      </div>
+      <div class="log-body">
+        <div>
+          <div class="log-section-label">The Problem</div>
+          <div class="log-section-content">CPI was hemorrhaging budget. The paid acquisition cost per install was unsustainable for a pre-revenue Web3 platform. We needed volume without spend bloat.</div>
+        </div>
+        <div>
+          <div class="log-section-label">Three Levers Pulled</div>
+          <ul class="log-section-list">
+            <li><strong>ASO:</strong> Rewrote store listings, A/B tested 6 icon variants, optimized keyword density — improved conversion from impression to install</li>
+            <li><strong>Retargeting:</strong> Built behavioral segments from Mixpanel/AppsFlyer cohorts; targeted lapsed users with token-unlock hooks</li>
+            <li><strong>In-product virality:</strong> Designed referral loops where inviting users unlocked bonus milestones — organic acquisition at near-zero CAC</li>
+          </ul>
+        </div>
+        <div>
+          <div class="log-section-label">Constraints</div>
+          <ul class="log-section-list">
+            <li>No dedicated ASO tool — manual iteration cycles</li>
+            <li>Small analytics team — had to build tracking infra while running experiments</li>
+            <li>Platform-imposed referral link limits on certain app stores</li>
+          </ul>
+        </div>
+      </div>
+      <div class="honest-box">
+        <strong>Honest Assessment:</strong> ASO alone accounted for maybe 25% of the CPI reduction. The real unlock was the referral virality loop — but it took 3 iterations to get the incentive balance right. First version was too generous and attracted low-quality installs. Second version gated rewards behind 7-day activity, which killed the sharing behavior. Third version (D3 activity threshold) was the sweet spot.
+      </div>
+      <div class="log-outcome">
+        <div class="outcome-metric">
+          <div class="outcome-num">~60%</div>
+          <div class="outcome-label">CPI Reduction</div>
+        </div>
+        <div class="outcome-divider"></div>
+        <div class="outcome-metric">
+          <div class="outcome-num">+40%</div>
+          <div class="outcome-label">New-User MAU Growth</div>
+        </div>
+        <div class="outcome-divider"></div>
+        <div class="outcome-metric">
+          <div class="outcome-num">+15%</div>
+          <div class="outcome-label">Activation Rate Uplift</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOG 03 -->
+    <div class="log-card" data-tags="b2b discovery">
+      <div class="log-header">
+        <div class="log-meta">
+          <div class="log-status shipped">Shipped</div>
+          <div class="log-title">Rebuilding a B2B Platform Roadmap From Seller Feedback Chaos</div>
+          <div class="log-context">Merchize · B2B Commerce · 2021–2022</div>
+        </div>
+        <div class="log-number">03</div>
+      </div>
+      <div class="log-body two-col">
+        <div>
+          <div class="log-section-label">The Discovery Problem</div>
+          <div class="log-section-content">40K+ sellers across 10+ markets. Feedback was everywhere — Intercom threads, review sites, sales calls, support tickets — and nowhere in a single truth. Roadmap was driven by loudest voice, not highest impact. Engineering was building features that didn't move retention or conversion.</div>
+        </div>
+        <div>
+          <div class="log-section-label">The Approach</div>
+          <ul class="log-section-list">
+            <li>Built a systematic synthesis engine: tagged feedback by segment (seller size, market, product tier)</li>
+            <li>Overlaid usage data (GA + Mixpanel) against reported pain points — divergence = signal</li>
+            <li>Introduced RICE scoring to force prioritization conversations with stakeholders</li>
+            <li>Created "Jobs-to-be-Done" clusters to group surface-level requests into underlying needs</li>
+            <li>Ran quarterly roadmap reviews with cross-functional alignment sessions</li>
+          </ul>
+        </div>
+      </div>
+      <div class="honest-box">
+        <strong>Honest Assessment:</strong> The hardest part wasn't the framework — it was getting Engineering, Sales, and Marketing to trust the process over gut. We had to show 2 quarters of data before the room stopped second-guessing the scoring. The 1.5× OKR overperformance took 3 years of compounding trust in the system. I'd fast-track stakeholder buy-in earlier next time — it's the real bottleneck in B2B product orgs.
+      </div>
+      <div class="log-outcome">
+        <div class="outcome-metric">
+          <div class="outcome-num">1.5×</div>
+          <div class="outcome-label">OKR Overperformance</div>
+        </div>
+        <div class="outcome-divider"></div>
+        <div class="outcome-metric">
+          <div class="outcome-num">40K+</div>
+          <div class="outcome-label">Sellers Served Globally</div>
+        </div>
+        <div class="outcome-divider"></div>
+        <div class="outcome-metric">
+          <div class="outcome-num">10+</div>
+          <div class="outcome-label">Enterprise Integrations</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOG 04 -->
+    <div class="log-card" data-tags="monetization b2b">
+      <div class="log-header">
+        <div class="log-meta">
+          <div class="log-status shipped">Shipped</div>
+          <div class="log-title">International Expansion: When GTM Assumptions Break in the Field</div>
+          <div class="log-context">Merchize · International Markets · 2022–2023</div>
+        </div>
+        <div class="log-number">04</div>
+      </div>
+      <div class="log-body two-col">
+        <div>
+          <div class="log-section-label">What We Assumed</div>
+          <div class="log-section-content">That our core US-market positioning and product docs would translate directly to EU and SEA markets with minimal adaptation. We expected the integration layer to be the hard part.</div>
+        </div>
+        <div>
+          <div class="log-section-label">What Actually Happened</div>
+          <ul class="log-section-list">
+            <li>Fulfillment SLA expectations varied wildly by region — what was "fast" in the US was "unacceptable" in DE</li>
+            <li>Product documentation and onboarding flows assumed English fluency at a level that created drop-off</li>
+            <li>Partner integrations needed localized API configs that weren't in our standard documentation</li>
+            <li>Pricing perception differed — same price point read as "premium" in one market and "mid-tier" in another</li>
+          </ul>
+        </div>
+      </div>
+      <div class="honest-box">
+        <strong>Honest Assessment:</strong> We over-engineered the integration layer and under-engineered the localization layer. The fix — standardizing enterprise-grade docs per region and building a partner-facing onboarding kit — came 2 quarters later than it should have. If I ran this again, I'd do a 2-week "shadow" in each target market before writing a single GTM doc. The 200% QRR uplift we eventually hit could have come faster.
+      </div>
+      <div class="log-outcome">
+        <div class="outcome-metric">
+          <div class="outcome-num">200%</div>
+          <div class="outcome-label">QRR Uplift</div>
+        </div>
+        <div class="outcome-divider"></div>
+        <div class="outcome-metric">
+          <div class="outcome-num">30%</div>
+          <div class="outcome-label">Customer Base Growth</div>
+        </div>
+        <div class="outcome-divider"></div>
+        <div class="outcome-metric">
+          <div class="outcome-num">2.3×</div>
+          <div class="outcome-label">Peak-Season Revenue</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOG 05 -->
+    <div class="log-card" data-tags="discovery growth">
+      <div class="log-header">
+        <div class="log-meta">
+          <div class="log-status ongoing">Ongoing Reflection</div>
+          <div class="log-title">Web3 UX: The Simplification Paradox</div>
+          <div class="log-context">Beincom · Product Strategy · 2024–2025</div>
+        </div>
+        <div class="log-number">05</div>
+      </div>
+      <div class="log-body two-col">
+        <div>
+          <div class="log-section-label">The Core Tension</div>
+          <div class="log-section-content">Web3 products promise ownership and transparency. But every step toward "true decentralization" adds UX complexity that kills mainstream adoption. We had to decide: build for crypto-natives (smaller TAM, higher commitment) or abstract the blockchain layer (larger TAM, existential identity question for the product).</div>
+        </div>
+        <div>
+          <div class="log-section-label">How We Navigated It</div>
+          <ul class="log-section-list">
+            <li>Shifted 40% of roadmap toward progressive disclosure — Web3 features hidden until user proves engagement</li>
+            <li>Built "invisible wallet" UX for new users — no seed phrase at signup</li>
+            <li>Designed a "Web3 unlock" journey tied to milestone completions</li>
+            <li>Created two parallel UX tracks — casual users and power users (crypto-natives)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="honest-box">
+        <strong>Honest Assessment:</strong> This is still an open question in the industry. Our "progressive disclosure" approach improved activation metrics significantly but we're still not sure if we're building long-term crypto behavior or just gamified social behavior with a token veneer. The honest answer: we don't know yet. What I know for sure is that simplification drove the growth numbers. Whether that's "real" Web3 adoption is a product philosophy question we haven't resolved.
+      </div>
+      <div class="log-outcome">
+        <div class="outcome-metric">
+          <div class="outcome-num">40%</div>
+          <div class="outcome-label">Roadmap Re-prioritized</div>
+        </div>
+        <div class="outcome-divider"></div>
+        <div class="outcome-metric">
+          <div class="outcome-num">+15%</div>
+          <div class="outcome-label">Activation Uplift</div>
+        </div>
+        <div class="outcome-divider"></div>
+        <div class="outcome-metric">
+          <div class="outcome-num">🔄</div>
+          <div class="outcome-label">Still Iterating</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-left">Lacie Phan — Product Owner</div>
+    <div class="footer-right">HCM City, Vietnam · slaciephan@gmail.com</div>
+  </footer>
+</div>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  cursorRing.style.left = rx + 'px';
+  cursorRing.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button, .log-card, .filter-btn').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '20px';
+    cursor.style.height = '20px';
+    cursorRing.style.width = '52px';
+    cursorRing.style.height = '52px';
+    cursorRing.style.borderColor = '#D7FF3F';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '12px';
+    cursor.style.height = '12px';
+    cursorRing.style.width = '36px';
+    cursorRing.style.height = '36px';
+    cursorRing.style.borderColor = '#121212';
+  });
+});
+
+// Lab filter
+function filterLogs(tag, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.log-card').forEach(card => {
+    if (tag === 'all' || card.dataset.tags.includes(tag)) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.log-card').forEach(el => {
+  el.classList.add('animate-in');
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
