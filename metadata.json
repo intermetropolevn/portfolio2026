@@ -1,5 +1,8 @@
 {
   "name": "Product Owner's Portfolio",
-  "description": "",
-  "requestFramePermissions": []
+  "description": "Portfolio and strategy showcase for Slacie Phan, Product Owner & Specialist.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

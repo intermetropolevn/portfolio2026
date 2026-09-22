@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lacie Phan — Lab Logs</title>
+<title>Slacie Phan — Lab Logs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -63,8 +63,9 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
     display: flex; align-items: center; justify-content: space-between;
     padding: 20px 40px;
-    background: rgba(241,243,246,0.85);
-    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
   }
   .nav-logo {
@@ -76,24 +77,27 @@
   .nav-logo span { color: var(--blue); }
   .nav-links { display: flex; gap: 8px; align-items: center; }
   .nav-links a {
-    font-family: 'Work Sans', sans-serif;
-    font-size: 0.85rem; font-weight: 500;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem; font-weight: 500;
     color: var(--black); text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 4px;
+    padding: 6px 12px;
+    border-radius: 9999px;
     border: 1px solid transparent;
     transition: all 0.2s;
   }
-  .nav-links a:hover, .nav-links a.active {
-    border-color: var(--black);
-    background: var(--black); color: var(--acid);
+  .nav-links a:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+  .nav-links a.active {
+    border-color: #5C5A45;
+    background: #5C5A45; color: #C8C58F;
   }
   .nav-links a.btn-cta {
-    background: var(--blue); color: white;
-    border-color: var(--blue);
+    background: #64748B; color: #AEBED4;
+    border-color: #64748B;
   }
   .nav-links a.btn-cta:hover {
-    background: var(--black); border-color: var(--black); color: var(--acid);
+    background: #5C5A45; border-color: #5C5A45; color: #C8C58F;
   }
 
   /* PAGES */
@@ -282,18 +286,196 @@
 
   /* FOOTER */
   footer {
-    background: var(--black);
+    background: #0d0f0c;
     color: var(--mist);
-    padding: 60px 40px;
+    padding: 50px 40px;
     display: flex; align-items: center; justify-content: space-between;
-    border-top: 4px solid var(--acid);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
   .footer-left {
-    font-family: 'Playfair Display', serif;
-    font-weight: 800; font-size: 1.2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
   }
-  .footer-left span { color: var(--acid); }
-  .footer-right { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+  .footer-right { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+
+  .footer-site-trigger {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: #D4D19C;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(212, 209, 156, 0.4);
+    transition: all 0.2s ease;
+  }
+  .footer-site-trigger:hover {
+    color: #fff;
+    text-decoration-color: #fff;
+  }
+
+  /* Contact / Mailbox Modal */
+  .contact-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .contact-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .contact-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .contact-modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    background: #141712;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 20px;
+    padding: 36px 32px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85);
+    color: #F3F1E8;
+    z-index: 1;
+    transform: scale(0.95) translateY(10px);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .contact-modal.open .contact-modal-card {
+    transform: scale(1) translateY(0);
+  }
+  .contact-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s ease;
+  }
+  .contact-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+  .contact-modal-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #D4D19C;
+    margin-bottom: 12px;
+  }
+  .contact-modal-tag-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #D4D19C;
+    box-shadow: 0 0 8px #D4D19C;
+  }
+  .contact-modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+  .contact-modal-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: rgba(243, 241, 232, 0.75);
+    margin-bottom: 28px;
+  }
+  .contact-modal-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .contact-btn-email {
+    flex: 1;
+    min-width: 220px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    background: #D4D19C;
+    color: #141712;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .contact-btn-email:hover {
+    background: #fff;
+    box-shadow: 0 0 20px rgba(212, 209, 156, 0.4);
+  }
+  .contact-btn-copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .contact-btn-copy:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(212, 209, 156, 0.5);
+  }
+  .contact-modal-footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+  }
 
   /* ANIMATIONS */
   .animate-in {
@@ -325,12 +507,13 @@
 
 <!-- NAV -->
 <nav>
-  <a href="/index.html" class="nav-logo">Lacie Phan</a>
+  <a href="/index.html" class="nav-logo">Slacie Phan</a>
   <div class="nav-links">
-    <a href="/index.html" id="nav-home">Home</a>
-    <a href="/src/about_page.html" id="nav-about">About Me</a>
-    <a href="/src/lab_page.html" id="nav-lab" class="active">Lab Logs</a>
-    <a href="https://www.linkedin.com/in/slaciephan" target="_blank" class="btn-cta">LinkedIn ↗</a>
+    <a href="/index.html" id="nav-home">Overview</a>
+    <a href="/src/about_page.html" id="nav-about">About</a>
+    <a href="/src/agentic_loop.html" id="nav-lab" class="active">Lab</a>
+    <a href="/src/playground.html" id="nav-playground">Playground</a>
+    <a href="https://www.linkedin.com/in/slaciep/" target="_blank" rel="noopener noreferrer" class="btn-cta">LinkedIn ↗</a>
   </div>
 </nav>
 
@@ -598,9 +781,50 @@
   </div>
 
   <footer>
-    <div class="footer-left">Lacie Phan — Product Owner</div>
-    <div class="footer-right">HCM City, Vietnam · slaciephan@gmail.com</div>
+    <div class="footer-left">
+      <span>© 2026 Slacie Phan. All rights reserved.</span>
+      <span style="opacity: 0.3; margin: 0 8px;">·</span>
+      <button class="footer-site-trigger" onclick="openContactModal()">Make a Similar Site</button>
+    </div>
+    <div class="footer-right">HCM City, Vietnam · <a href="mailto:slaciephan@gmail.com" style="color: inherit; text-decoration: none;">slaciephan@gmail.com</a></div>
   </footer>
+</div>
+
+<!-- Contact / Mailbox Modal -->
+<div id="contactModal" class="contact-modal" aria-hidden="true" role="dialog" aria-labelledby="contactModalTitle">
+  <div class="contact-modal-backdrop" onclick="closeContactModal()"></div>
+  <div class="contact-modal-card">
+    <button class="contact-modal-close" onclick="closeContactModal()" aria-label="Close dialog">✕</button>
+    
+    <div class="contact-modal-tag">
+      <span class="contact-modal-tag-dot"></span>
+      DIRECT INQUIRY &amp; ARCHITECTURE
+    </div>
+    
+    <h3 id="contactModalTitle" class="contact-modal-title">LET'S BUILD SOMETHING EXTRAORDINARY</h3>
+    
+    <p class="contact-modal-desc">
+      Interested in creating a high-density, system-oriented portfolio or tailored platform like this? Let's discuss architecture, creative technology, or potential collaborations.
+    </p>
+    
+    <div class="contact-modal-actions">
+      <a href="mailto:slaciephan@gmail.com?subject=Inquiry:%20Building%20a%20Similar%20Site" class="contact-btn-email">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        <span>slaciephan@gmail.com</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+      </a>
+      
+      <button class="contact-btn-copy" onclick="copyContactEmail(this)">
+        <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span class="copy-text">Copy Email</span>
+      </button>
+    </div>
+    
+    <div class="contact-modal-footer">
+      <span>Response time: ~24 hours</span>
+      <span>Press Esc to close</span>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -609,37 +833,39 @@ const cursor = document.getElementById('cursor');
 const cursorRing = document.getElementById('cursorRing');
 let mx = 0, my = 0, rx = 0, ry = 0;
 
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px';
-  cursor.style.top = my + 'px';
-});
+if (cursor && cursorRing) {
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
 
-function animateRing() {
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) * 0.12;
-  cursorRing.style.left = rx + 'px';
-  cursorRing.style.top = ry + 'px';
-  requestAnimationFrame(animateRing);
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    cursorRing.style.left = rx + 'px';
+    cursorRing.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .log-card, .filter-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px';
+      cursor.style.height = '20px';
+      cursorRing.style.width = '52px';
+      cursorRing.style.height = '52px';
+      cursorRing.style.borderColor = '#D7FF3F';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px';
+      cursor.style.height = '12px';
+      cursorRing.style.width = '36px';
+      cursorRing.style.height = '36px';
+      cursorRing.style.borderColor = '#121212';
+    });
+  });
 }
-animateRing();
-
-document.querySelectorAll('a, button, .log-card, .filter-btn').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.width = '20px';
-    cursor.style.height = '20px';
-    cursorRing.style.width = '52px';
-    cursorRing.style.height = '52px';
-    cursorRing.style.borderColor = '#D7FF3F';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.width = '12px';
-    cursor.style.height = '12px';
-    cursorRing.style.width = '36px';
-    cursorRing.style.height = '36px';
-    cursorRing.style.borderColor = '#121212';
-  });
-});
 
 // Lab filter
 function filterLogs(tag, btn) {
@@ -664,6 +890,44 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.log-card').forEach(el => {
   el.classList.add('animate-in');
   observer.observe(el);
+});
+
+// Global Contact Modal Handlers
+function openContactModal() {
+  const modal = document.getElementById('contactModal');
+  if (modal) {
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+}
+
+function closeContactModal() {
+  const modal = document.getElementById('contactModal');
+  if (modal) {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+}
+
+function copyContactEmail(btn) {
+  navigator.clipboard.writeText('slaciephan@gmail.com').then(() => {
+    const textEl = btn.querySelector('.copy-text');
+    if (textEl) {
+      const orig = textEl.textContent;
+      textEl.textContent = '✓ Copied!';
+      btn.style.color = '#D4D19C';
+      btn.style.borderColor = '#D4D19C';
+      setTimeout(() => {
+        textEl.textContent = orig;
+        btn.style.color = '';
+        btn.style.borderColor = '';
+      }, 2200);
+    }
+  });
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeContactModal();
 });
 </script>
 </body>

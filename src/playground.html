@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground: An Index of Mind | Slacie Phan</title>
+  <meta name="description" content="Autonomous agent control architectures and product governance indexed into tangible tech & fashion artifacts." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Instrument+Serif:ital@0;1&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+  :root {
+    --bg-dark: #1a1b14;
+    --canvas-bg: #5c5a45;
+    --accent-olive: #7e8c6a;
+    --accent-gold: #c8c58f;
+    --text-parchment: #f5f4ef;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--bg-dark);
+    color: #f3f4f6;
+    font-family: "Work Sans", sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 40px;
+    background: rgba(26, 27, 20, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .nav-logo {
+    font-family: "Playfair Display", serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-links a {
+    font-family: "Space Mono", monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #d1d5db;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+
+  .nav-links a:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .nav-links a.active {
+    color: #C8C58F;
+    background: #5C5A45;
+    border-color: #5C5A45;
+    font-weight: 600;
+  }
+
+  .nav-links .btn-cta {
+    color: #AEBED4;
+    background: #64748B;
+    border-color: #64748B;
+    margin-left: 8px;
+  }
+
+  .nav-links .btn-cta:hover {
+    background: #5C5A45;
+    border-color: #5C5A45;
+    color: #C8C58F;
+  }
+
+  /* Main Stage Container */
+  main {
+    flex: 1;
+    padding-top: 80px;
+    width: 100%;
+  }
+
+  /* Section Canvas Container */
+  #philosophy {
+    position: relative;
+    min-height: calc(100vh - 160px);
+    padding: 40px 20px 80px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+    background-color: #1a1b14;
+  }
+
+  .po-experimental-canvas-container {
+    position: relative;
+    z-index: 15;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #23251c;
+    padding: 28px 24px 32px;
+    border-radius: 24px;
+    border: 1px solid rgba(212, 209, 156, 0.18);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  }
+
+  /* Editorial Header & Concept Bar */
+  .po-concept-bar {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+    margin-bottom: 16px;
+  }
+
+  .po-concept-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+  }
+
+  .po-concept-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "Space Mono", monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #fef08a;
+    background: rgba(254, 240, 138, 0.12);
+    border: 1px solid rgba(254, 240, 138, 0.28);
+    padding: 4px 12px;
+    border-radius: 9999px;
+    width: fit-content;
+  }
+
+  .po-concept-heading {
+    font-family: "Playfair Display", serif;
+    font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #D4D19C;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .po-concept-subheading {
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.78);
+    margin: 0;
+  }
+
+  .po-concept-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .po-control-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-family: "Space Mono", monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #f3f4f6;
+    backdrop-filter: blur(8px);
+  }
+
+  .po-reset-btn {
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .po-reset-btn:hover {
+    background: rgba(254, 240, 138, 0.24);
+    border-color: rgba(254, 240, 138, 0.5);
+    color: #fef08a;
+    transform: translateY(-1px);
+  }
+
+  /* Interactive Stage - Strictly #5c5a45 Background, Strict Z-Index Stacking (z-0 to z-40+) */
+  .po-canvas-stage {
+    position: relative;
+    width: 100%;
+    height: 870px;
+    min-height: 870px;
+    border-radius: 20px;
+    background-color: #5c5a45 !important; /* Stacking Layer 1: z-0 */
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    user-select: none;
+    touch-action: none;
+  }
+
+  /* Stacking Layer 2 (z-10): Spotlight Layer: 75% width, centered at top, aspect ratio preserved */
+  .po-spotlight-layer {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 75%;
+    height: auto;
+    pointer-events: none;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .po-spotlight-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    pointer-events: none;
+    display: block;
+    filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.25));
+  }
+
+  /* Stacking Layer 3 (z-20): Dynamic Mind Threads SVG Behind Character */
+  .po-mind-threads-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 20; /* Strictly behind character wrapper (z-30) */
+  }
+
+  .po-thread-branch {
+    transition: opacity 0.25s cubic-bezier(0.2, 0.9, 0.3, 1);
+  }
+
+  /* Subtle, low-opacity dashed line */
+  .thread-spiral-path {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.35);
+    stroke-width: 1.2px;
+    stroke-dasharray: 4 4;
+    transition: stroke 0.2s ease, opacity 0.25s ease, stroke-width 0.2s ease;
+  }
+
+  .thread-spiral-path.is-active {
+    stroke: rgba(212, 209, 156, 0.95);
+    stroke-width: 1.8px;
+    stroke-dasharray: none;
+    filter: drop-shadow(0 0 6px rgba(212, 209, 156, 0.6));
+  }
+
+  .thread-slug-text {
+    font-family: "Space Mono", monospace;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    fill: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* Stacking Layer 4 (z-30): Main Character Wrapper & Centered Title Card */
+  .po-character-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 75%;
+    max-height: 75%;
+    z-index: 30; /* Strictly above threads (z-20) and below artifacts (z-40+) */
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .po-character-img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    pointer-events: none;
+    filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.38));
+  }
+
+  /* Title Card: 80% opacity background fill, centered cleanly beneath character */
+  .po-character-title-card {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: rgba(18, 22, 16, 0.8); /* 80% opacity fill */
+    border: 1px solid rgba(212, 209, 156, 0.4);
+    padding: 6px 18px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(12px);
+    z-index: 32;
+    pointer-events: auto;
+    cursor: default;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .po-character-name {
+    font-family: "Playfair Display", serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #fef08a;
+    letter-spacing: 0.04em;
+  }
+
+  .po-character-role {
+    font-family: "Space Mono", monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    color: #d1d5db;
+    text-transform: uppercase;
+  }
+
+  /* Stacking Layer 5 (z-40+): Floating Artifact Nodes & Transformable Controls */
+  .po-artifact-node {
+    position: absolute;
+    z-index: 40; /* Strictly z-40+ */
+    cursor: grab;
+    user-select: none;
+    touch-action: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transform-origin: center center;
+    transition: filter 0.18s ease;
+  }
+
+  .po-artifact-node:active {
+    cursor: grabbing;
+  }
+
+  .po-artifact-node.is-dragging {
+    cursor: grabbing !important;
+    animation: none !important;
+  }
+
+  .po-artifact-node.is-scaling,
+  .po-artifact-node.is-resizing,
+  .po-artifact-node.is-selected,
+  .po-artifact-node.is-transformed {
+    animation: none !important;
+  }
+
+  .po-artifact-node img,
+  .po-artifact-node svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    display: block;
+    filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.28));
+  }
+
+  /* Interactive Bounding Box & Transformation Controls (Canva / Figma Style) */
+  .po-bounding-box {
+    position: absolute;
+    inset: -6px;
+    border: 1.5px solid #00c4cc;
+    border-radius: 4px;
+    pointer-events: none;
+    display: none;
+    box-shadow: 0 0 10px rgba(0, 196, 204, 0.4);
+    z-index: 44;
+  }
+
+  .po-artifact-node.is-selected .po-bounding-box {
+    display: block;
+  }
+
+  /* Corner Scaling Handles */
+  .po-handle-corner,
+  .resize-handle-nw,
+  .resize-handle-ne,
+  .resize-handle-se,
+  .resize-handle-sw {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border: 2px solid #00c4cc;
+    border-radius: 50%;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+    pointer-events: auto;
+    z-index: 50;
+    transition: transform 0.12s ease, background 0.12s ease;
+    box-sizing: border-box;
+  }
+
+  .po-handle-corner:hover,
+  .resize-handle-nw:hover,
+  .resize-handle-ne:hover,
+  .resize-handle-se:hover,
+  .resize-handle-sw:hover {
+    transform: scale(1.25);
+    background: #e6fffa;
+  }
+
+  .po-handle-nw, .resize-handle-nw { top: -6px; left: -6px; cursor: nwse-resize !important; }
+  .po-handle-ne, .resize-handle-ne { top: -6px; right: -6px; cursor: nesw-resize !important; }
+  .po-handle-se, .resize-handle-se { bottom: -6px; right: -6px; cursor: nwse-resize !important; }
+  .po-handle-sw, .resize-handle-sw { bottom: -6px; left: -6px; cursor: nesw-resize !important; }
+
+  /* Top Rotation Leash & Explicit Rotation Knob Affordance */
+  .po-rotation-leash {
+    position: absolute;
+    top: -26px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1.5px;
+    height: 22px;
+    background: #00c4cc;
+    pointer-events: none;
+    z-index: 44;
+  }
+
+  .po-rotation-knob {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid #00c4cc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    cursor: grab;
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 49;
+    color: #00c4cc;
+    transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+  }
+
+  .po-rotation-knob:hover {
+    transform: translateX(-50%) scale(1.15);
+    background: #e6fffa;
+  }
+
+  .po-rotation-knob:active,
+  .po-rotation-knob.is-rotating {
+    cursor: grabbing !important;
+    background: #00c4cc;
+    color: #ffffff;
+  }
+
+  /* Angle Telemetry Tooltip */
+  .po-rotation-badge {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #00c4cc;
+    color: #0b1e24;
+    font-family: "Space Mono", monospace;
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .po-rotation-knob.is-rotating .po-rotation-badge {
+    opacity: 1;
+  }
+
+  /* Canva-Style Dynamic Layer Micro-Toolbar */
+  .po-layer-toolbar {
+    position: absolute;
+    bottom: calc(100% + 30px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    background: rgba(22, 28, 22, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    padding: 3px 6px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+    white-space: nowrap;
+    z-index: 60;
+    pointer-events: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+  }
+
+  .po-artifact-node.is-selected .po-layer-toolbar {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .po-toolbar-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 6px;
+    border-radius: 6px;
+    background: transparent;
+    color: #e5e7eb;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border: none;
+  }
+
+  .po-toolbar-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    color: #00c4cc;
+    transform: scale(1.05);
+  }
+
+  .po-layer-badge {
+    font-family: "Space Mono", monospace;
+    font-size: 9.5px;
+    font-weight: 700;
+    color: #a7f3d0;
+    padding: 2px 6px;
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  /* Layer Reordering Flash Feedback */
+  @keyframes layerPulse {
+    0% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.08); filter: brightness(1.4) drop-shadow(0 0 16px #00c4cc); }
+    100% { transform: scale(1); filter: brightness(1); }
+  }
+
+  .po-artifact-node.layer-pulse {
+    animation: layerPulse 0.4s cubic-bezier(0.2, 0.9, 0.3, 1) !important;
+  }
+
+  /* Subtle Ambient Sway via Keyframes */
+  .po-sway-1 { animation: poFloat1 6.8s ease-in-out infinite alternate; }
+  .po-sway-2 { animation: poFloat2 7.4s ease-in-out infinite alternate; }
+  .po-sway-4 { animation: poFloat4 7.6s ease-in-out infinite alternate; }
+
+  @keyframes poFloat1 {
+    0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    50% { transform: translate3d(3px, -8px, 0) rotate(1deg); }
+    100% { transform: translate3d(-3px, -14px, 0) rotate(-0.8deg); }
+  }
+
+  @keyframes poFloat2 {
+    0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    50% { transform: translate3d(-5px, -10px, 0) rotate(-1.2deg); }
+    100% { transform: translate3d(4px, -16px, 0) rotate(1.1deg); }
+  }
+
+  @keyframes poFloat3 {
+    0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    50% { transform: translate3d(4px, -12px, 0) rotate(1.3deg); }
+    100% { transform: translate3d(-4px, -7px, 0) rotate(-1deg); }
+  }
+
+  @keyframes poFloat4 {
+    0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    50% { transform: translate3d(-4px, -7px, 0) rotate(-1.1deg); }
+    100% { transform: translate3d(5px, -13px, 0) rotate(1.2deg); }
+  }
+
+
+  /* Footer */
+  footer {
+    width: 100%;
+    background: #14150f;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Space Mono", monospace;
+    font-size: 0.75rem;
+    color: #8c9282;
+    position: relative;
+    z-index: 50;
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-site-trigger {
+    background: transparent;
+    border: none;
+    color: #c8c58f;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s;
+  }
+
+  .footer-site-trigger:hover {
+    color: #d7ff3f;
+  }
+
+  /* Contact / Mailbox Modal */
+  .contact-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .contact-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .contact-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .contact-modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    background: #141712;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 20px;
+    padding: 36px 32px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85);
+    color: #F3F1E8;
+    z-index: 1;
+    transform: scale(0.95) translateY(10px);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .contact-modal.open .contact-modal-card {
+    transform: scale(1) translateY(0);
+  }
+  .contact-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s ease;
+  }
+  .contact-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+  .contact-modal-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "Space Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #D4D19C;
+    margin-bottom: 12px;
+  }
+  .contact-modal-tag-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #D4D19C;
+    box-shadow: 0 0 8px #D4D19C;
+  }
+  .contact-modal-title {
+    font-family: "Playfair Display", serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+  .contact-modal-desc {
+    font-family: "Space Mono", monospace;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: rgba(243, 241, 232, 0.75);
+    margin-bottom: 28px;
+  }
+  .contact-modal-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .contact-btn-email {
+    flex: 1;
+    min-width: 220px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    background: #D4D19C;
+    color: #141712;
+    font-family: "Space Mono", monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .contact-btn-email:hover {
+    background: #fff;
+    box-shadow: 0 0 20px rgba(212, 209, 156, 0.4);
+  }
+  .contact-btn-copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-family: "Space Mono", monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .contact-btn-copy:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(212, 209, 156, 0.5);
+  }
+  .contact-modal-footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-between;
+    font-family: "Space Mono", monospace;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  /* ANIMATIONS */
+  .animate-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .animate-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  .animate-module {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .animate-module.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <a href="../index.html" class="nav-logo">Slacie Phan</a>
+  <div class="nav-links">
+    <a href="../index.html" id="nav-home">Overview</a>
+    <a href="about_page.html" id="nav-about">About</a>
+    <a href="agentic_loop.html" id="nav-lab">Lab</a>
+    <a href="playground.html" id="nav-playground" class="active">Playground</a>
+    <a href="https://www.linkedin.com/in/slaciep/" target="_blank" rel="noopener noreferrer" class="btn-cta">LinkedIn ↗</a>
+  </div>
+</nav>
+
+<main>
+<!-- SECTION 4: EXPERIMENTAL PO CANVAS -->
+<section id="philosophy" class="section">
+  <div class="po-experimental-canvas-container">
+    
+    <!-- Top Editorial Header & Control Bar -->
+    <div class="po-concept-bar">
+      <div class="po-concept-title-group">
+        <div class="po-concept-tag">
+          <span class="w-2 h-2 rounded-full bg-yellow-300 animate-pulse"></span>
+          EXPERIMENTAL × TECH × CREATIVE × TRANSFORMATION × SYSTEMIC PO
+        </div>
+        <h2 class="po-concept-heading">PLAYGROUND: AN INDEX OF MIND</h2>
+        <p class="po-concept-subheading">Autonomous agent control architectures and product governance indexed into tangible tech &amp; fashion artifacts.</p>
+      </div>
+
+      <div class="po-concept-controls">
+        <button class="po-control-pill po-reset-btn" id="po-reset-btn" title="Reset all artifacts to initial positions">
+          <span class="material-icons-outlined text-sm">restart_alt</span>
+          RESET CANVAS
+        </button>
+        <div class="po-control-pill">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <span id="po-connected-count">16 ARTIFACTS CONNECTED</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Canvas Stage - Strictly #5c5a45 Background, Strict Z-Index Stacking (z-0 to z-40+) -->
+    <div class="po-canvas-stage" id="po-canvas-stage">
+      
+      <!-- Stacking Layer 2 (z-10): Spotlight Layer (75% container width, centered at top) -->
+      <div class="po-spotlight-layer">
+        <img src="/po-canvas/spotlight-optimized.svg" alt="Corridor Spotlight" class="po-spotlight-img" draggable="false" />
+      </div>
+
+      <!-- Stacking Layer 3 (z-20): Dynamic Organic Mind Threads SVG (Rendered behind character) -->
+      <svg class="po-mind-threads-svg" id="po-mind-threads-svg" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="thread-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="rgba(0,0,0,0.4)" />
+          </filter>
+        </defs>
+        <g id="po-threads-group"></g>
+      </svg>
+
+      <!-- Stacking Layer 4 (z-30): Character Artwork (lacie-portrait-optimized.svg) with Centered Title Card -->
+      <div class="po-character-wrapper" id="po-character-anchor">
+        <img src="/po-canvas/lacie-portrait-optimized.svg" alt="Lacie Phan - Systemic Product Owner" class="po-character-img" draggable="false" />
+        <div class="po-character-title-card">
+          <div class="po-character-name">SLACIE PHAN</div>
+          <div class="po-character-role">SYSTEMIC PRODUCT OWNER // AGENT ARCHITECT</div>
+        </div>
+      </div>
+
+      <!-- Stacking Layer 5 (z-40+): Floating Transformable Artifact Nodes (All 16 Unique Items Visible on Mount) -->
+
+      <!-- 1. Top Left: Speech Bubble ("Yeah*") -->
+      <div class="po-artifact-node po-sway-1" id="art-bubble-speech" data-id="bubble-speech" data-slug="bubble-speech" style="left: 14%; top: 7%; width: 145px; z-index: 41;">
+        <img src="/po-canvas/bubble-speech.svg" alt="bubble-speech" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">bubble-speech</span>
+        </div>
+      </div>
+
+      <!-- 2. Top Left: Operational Workflow Diagram -->
+      <div class="po-artifact-node po-sway-2" id="art-operational-workflow" data-id="operational-workflow" data-slug="operational-workflow" style="left: 4%; top: 20%; width: 110px; z-index: 42;">
+        <img src="/po-canvas/operational-workflow.svg" alt="operational-workflow" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">operational-workflow</span>
+        </div>
+      </div>
+
+      <!-- 3. Upper Left Mid: Sassy Lips -->
+      <div class="po-artifact-node po-sway-1" id="art-sassy-lips" data-id="sassy-lips" data-slug="sassy-lips" style="left: 18%; top: 22%; width: 85px; z-index: 43;">
+        <img src="/po-canvas/sassy-lips.svg" alt="sassy-lips" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">sassy-lips</span>
+        </div>
+      </div>
+
+      <!-- 4. Mid Left: Hair Clips -->
+      <div class="po-artifact-node po-sway-2" id="art-hair-clips" data-id="hair-clips" data-slug="hair-clips" style="left: 6%; top: 38%; width: 75px; z-index: 44;">
+        <img src="/po-canvas/hair-clips.svg" alt="hair-clips" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">hair-clips</span>
+        </div>
+      </div>
+
+      <!-- 5. Mid Left Inner: Mini Canva Character -->
+      <div class="po-artifact-node po-sway-4" id="art-canva-character" data-id="canva-character-optimized" data-slug="character-chibi" style="left: 17%; top: 38%; width: 110px; z-index: 45;">
+        <img src="/po-canvas/canva-character-optimized.svg" alt="character-chibi" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">character-chibi</span>
+        </div>
+      </div>
+
+      <!-- 6. Mid-Lower Left: Music Note -->
+      <div class="po-artifact-node po-sway-1" id="art-music-note" data-id="music-note" data-slug="music-note" style="left: 5%; top: 58%; width: 68px; z-index: 46;">
+        <img src="/po-canvas/music-note.svg" alt="music-note" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">music-note</span>
+        </div>
+      </div>
+
+      <!-- 7. Lower Left Inner: Underlayer Skirt (Newly Included Asset) -->
+      <div class="po-artifact-node po-sway-2" id="art-underlayer-skirt" data-id="underlayer-skirt" data-slug="underlayer-skirt" style="left: 20%; top: 58%; width: 105px; z-index: 47;">
+        <img src="/po-canvas/underlayer-skirt.svg" alt="underlayer-skirt" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">underlayer-skirt</span>
+        </div>
+      </div>
+
+      <!-- 8. Bottom Left: Pocket Pet (Tamagotchi) -->
+      <div class="po-artifact-node po-sway-1" id="art-pocket-pet" data-id="pocket-pet" data-slug="pocket-pet" style="left: 11%; top: 76%; width: 90px; z-index: 48;">
+        <img src="/po-canvas/pocket-pet.svg" alt="pocket-pet" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">pocket-pet</span>
+        </div>
+      </div>
+
+      <!-- 9. Mid-Center Left: Toplayer Skirt -->
+      <div class="po-artifact-node po-sway-4" id="art-toplayer-skirt" data-id="toplayer-skirt" data-slug="toplayer-skirt" style="left: 40%; top: 68%; width: 110px; z-index: 49;">
+        <img src="/po-canvas/toplayer-skirt.svg" alt="toplayer-skirt" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">toplayer-skirt</span>
+        </div>
+      </div>
+
+      <!-- 10. Hand-Carried: Laptop Bag (Held in Hand at Hip Height) -->
+      <div class="po-artifact-node" id="art-laptop-bag" data-id="laptop-bag" data-slug="laptop-bag" style="left: 57%; top: 68%; width: 160px; z-index: 50;">
+        <img src="/po-canvas/laptop-bag.svg" alt="laptop-bag" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">laptop-bag</span>
+        </div>
+      </div>
+
+      <!-- 11. Top Right: Y2K Cat Doodle Frame -->
+      <div class="po-artifact-node po-sway-2" id="art-y2k-frame" data-id="y2k-frame" data-slug="y2k-frame" style="left: 72%; top: 6%; width: 95px; z-index: 51;">
+        <img src="/po-canvas/y2k-frame.svg" alt="y2k-frame" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">y2k-frame</span>
+        </div>
+      </div>
+
+      <!-- 12. Top Right Outer: Spiral Notebook -->
+      <div class="po-artifact-node po-sway-1" id="art-notebook" data-id="notebook" data-slug="notebook" style="left: 84%; top: 13%; width: 105px; z-index: 52;">
+        <img src="/po-canvas/notebook.svg" alt="notebook" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">notebook</span>
+        </div>
+      </div>
+
+      <!-- 13. Upper-Mid Right: Emoji Face -->
+      <div class="po-artifact-node po-sway-2" id="art-emojiface" data-id="emojiface" data-slug="emojiface" style="left: 69%; top: 20%; width: 85px; z-index: 53;">
+        <img src="/po-canvas/emojiface.svg" alt="emojiface" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">emojiface</span>
+        </div>
+      </div>
+
+      <!-- 14. Mid Right: Headphone -->
+      <div class="po-artifact-node po-sway-4" id="art-headphone" data-id="headphone" data-slug="headphone" style="left: 81%; top: 33%; width: 125px; z-index: 54;">
+        <img src="/po-canvas/headphone.svg" alt="headphone" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">headphone</span>
+        </div>
+      </div>
+
+      <!-- 15. Mid-Bottom Right: Magenta Cowboy Hat -->
+      <div class="po-artifact-node po-sway-1" id="art-cowboy-hat" data-id="cowboy-hat" data-slug="cowboy-hat" style="left: 82%; top: 52%; width: 135px; z-index: 55;">
+        <img src="/po-canvas/cowboy-hat.svg" alt="cowboy-hat" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">cowboy-hat</span>
+        </div>
+      </div>
+
+      <!-- 16. Bottom Right: Chic Glasses -->
+      <div class="po-artifact-node po-sway-2" id="art-chic-glasses" data-id="chic-glasses" data-slug="chic-glasses" style="left: 73%; top: 72%; width: 75px; z-index: 56;">
+        <img src="/po-canvas/chic-glasses.svg" alt="chic-glasses" draggable="false" />
+        <div class="po-bounding-box">
+          <div class="po-handle-corner resize-handle-nw po-handle-nw" data-handle="nw"></div>
+          <div class="po-handle-corner resize-handle-ne po-handle-ne" data-handle="ne"></div>
+          <div class="po-handle-corner resize-handle-se po-handle-se" data-handle="se"></div>
+          <div class="po-handle-corner resize-handle-sw po-handle-sw" data-handle="sw"></div>
+          <div class="po-rotation-leash"></div>
+          <div class="po-rotation-knob" title="Rotate artifact (Drag to rotate)">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span class="po-rotation-badge">0°</span>
+          </div>
+        </div>
+        <div class="po-layer-toolbar">
+          <button class="po-toolbar-btn" data-action="bring-front" title="Bring to Front">⏫</button>
+          <button class="po-toolbar-btn" data-action="bring-forward" title="Bring Forward">🔼</button>
+          <button class="po-toolbar-btn" data-action="send-backward" title="Send Backward">🔽</button>
+          <button class="po-toolbar-btn" data-action="send-back" title="Send to Back">⏬</button>
+          <button class="po-toolbar-btn" data-action="reset" title="Reset Transform">↺</button>
+          <span class="po-layer-badge">chic-glasses</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-left">
+    <span>© 2026 Slacie Phan. All rights reserved.</span>
+    <span style="opacity: 0.3; margin: 0 8px;">·</span>
+    <button class="footer-site-trigger" onclick="openContactModal()">Make a Similar Site</button>
+  </div>
+  <div class="footer-right">HCM City, Vietnam · <a href="mailto:slaciephan@gmail.com" style="color: inherit; text-decoration: none;">slaciephan@gmail.com</a></div>
+</footer>
+
+<!-- Contact / Mailbox Modal -->
+<div id="contactModal" class="contact-modal" aria-hidden="true" role="dialog" aria-labelledby="contactModalTitle">
+  <div class="contact-modal-backdrop" onclick="closeContactModal()"></div>
+  <div class="contact-modal-card">
+    <button class="contact-modal-close" onclick="closeContactModal()" aria-label="Close dialog">✕</button>
+    
+    <div class="contact-modal-tag">
+      <span class="contact-modal-tag-dot"></span>
+      DIRECT INQUIRY &amp; ARCHITECTURE
+    </div>
+    
+    <h3 id="contactModalTitle" class="contact-modal-title">LET'S BUILD SOMETHING EXTRAORDINARY</h3>
+    
+    <p class="contact-modal-desc">
+      Interested in creating a high-density, system-oriented portfolio or tailored platform like this? Let's discuss architecture, creative technology, or potential collaborations.
+    </p>
+    
+    <div class="contact-modal-actions">
+      <a href="mailto:slaciephan@gmail.com?subject=Inquiry:%20Building%20a%20Similar%20Site" class="contact-btn-email">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        <span>slaciephan@gmail.com</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+      </a>
+      
+      <button class="contact-btn-copy" onclick="copyContactEmail(this)">
+        <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span class="copy-text">Copy Email</span>
+      </button>
+    </div>
+    
+    <div class="contact-modal-footer">
+      <span>Response time: ~24 hours</span>
+      <span>Press Esc to close</span>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// Contact Modal Logic
+function openContactModal() {
+  const modal = document.getElementById("contactModal");
+  if (modal) {
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+  }
+}
+
+function closeContactModal() {
+  const modal = document.getElementById("contactModal");
+  if (modal) {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+  }
+}
+
+function copyContactEmail(btn) {
+  const email = "slaciephan@gmail.com";
+  navigator.clipboard.writeText(email).then(() => {
+    const copyText = btn.querySelector(".copy-text");
+    if (copyText) {
+      const orig = copyText.textContent;
+      copyText.textContent = "Copied!";
+      setTimeout(() => {
+        copyText.textContent = orig;
+      }, 2000);
+    }
+  }).catch(() => {
+    window.location.href = "mailto:" + email;
+  });
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    closeContactModal();
+  }
+});
+
+  // ================= EXPERIMENTAL PO CANVAS & MIND THREADS CONTROLLER =================
+  (function initPOCanvas() {
+    function setup() {
+      const stage = document.getElementById('po-canvas-stage');
+      const threadsGroup = document.getElementById('po-threads-group');
+      const characterAnchor = document.getElementById('po-character-anchor');
+      const resetBtn = document.getElementById('po-reset-btn');
+      const connectedCountEl = document.getElementById('po-connected-count');
+
+      if (!stage || !threadsGroup || !characterAnchor) return;
+
+      const BASE_Z_INDEX = 40;
+      let selectedNode = null;
+      let isTransforming = false;
+
+      // Track all artifacts in an array-based layer stack for smooth reordering without DOM detachment
+      function getArtifacts() {
+        return Array.from(document.querySelectorAll('.po-artifact-node'));
+      }
+
+      let artifactLayers = getArtifacts();
+
+      // Initial defaults map for canvas reset
+      const defaultState = new Map();
+
+      // Synchronize z-index sequentially across array state
+      function syncLayerZIndices() {
+        artifactLayers.forEach((node, index) => {
+          node.style.zIndex = (BASE_Z_INDEX + index).toString();
+        });
+      }
+
+      // Initialize default states and attach interaction listeners
+      artifactLayers.forEach((node, i) => {
+        defaultState.set(node.id, {
+          left: node.style.left || '10%',
+          top: node.style.top || '10%',
+          width: node.style.width || '110px',
+          rotation: 0,
+          scale: 1,
+          orderIndex: i
+        });
+        node.dataset.rotation = '0';
+        node.dataset.scale = '1';
+        node.style.zIndex = (BASE_Z_INDEX + i).toString();
+        attachNodeInteractions(node);
+      });
+
+      function updateConnectedCount() {
+        if (connectedCountEl) {
+          connectedCountEl.textContent = `${artifactLayers.length} ARTIFACTS CONNECTED`;
+        }
+      }
+      updateConnectedCount();
+
+      // Deselect when clicking empty stage area
+      stage.addEventListener('pointerdown', (e) => {
+        if (!e.target.closest('.po-artifact-node') && !e.target.closest('.po-character-title-card')) {
+          if (selectedNode) {
+            selectedNode.classList.remove('is-selected');
+            selectedNode = null;
+            scheduleThreadsUpdate();
+          }
+        }
+      });
+
+      // Layer Reordering State Management (Array-based, prevents DOM resets & pointer capture loss)
+      function bringToFront(node) {
+        const idx = artifactLayers.indexOf(node);
+        if (idx > -1 && idx < artifactLayers.length - 1) {
+          artifactLayers.splice(idx, 1);
+          artifactLayers.push(node);
+          syncLayerZIndices();
+          pulseNode(node);
+          scheduleThreadsUpdate();
+        }
+      }
+
+      function bringForward(node) {
+        const idx = artifactLayers.indexOf(node);
+        if (idx > -1 && idx < artifactLayers.length - 1) {
+          const temp = artifactLayers[idx];
+          artifactLayers[idx] = artifactLayers[idx + 1];
+          artifactLayers[idx + 1] = temp;
+          syncLayerZIndices();
+          pulseNode(node);
+          scheduleThreadsUpdate();
+        }
+      }
+
+      function sendBackward(node) {
+        const idx = artifactLayers.indexOf(node);
+        if (idx > 0) {
+          const temp = artifactLayers[idx];
+          artifactLayers[idx] = artifactLayers[idx - 1];
+          artifactLayers[idx - 1] = temp;
+          syncLayerZIndices();
+          pulseNode(node);
+          scheduleThreadsUpdate();
+        }
+      }
+
+      function sendToBack(node) {
+        const idx = artifactLayers.indexOf(node);
+        if (idx > 0) {
+          artifactLayers.splice(idx, 1);
+          artifactLayers.unshift(node);
+          syncLayerZIndices();
+          pulseNode(node);
+          scheduleThreadsUpdate();
+        }
+      }
+
+      // Check collision/overlap between artifact rect and character rect
+      function isOverlapping(rectA, rectB) {
+        return !(
+          rectA.right < rectB.left + 15 ||
+          rectA.left > rectB.right - 15 ||
+          rectA.bottom < rectB.top + 20 ||
+          rectA.top > rectB.bottom - 10
+        );
+      }
+
+      // Attach Drag, Corner Scale, Rotation Knob & Micro-Toolbar
+      function attachNodeInteractions(node) {
+        if (node._hasInteractions) return;
+        node._hasInteractions = true;
+
+        let isDragging = false;
+        let isRotating = false;
+        let isScaling = false;
+
+        let startPointerX = 0, startPointerY = 0;
+        let startLeft = 0, startTop = 0;
+        let startScale = 1;
+        let startRotation = 0;
+        let nodeCenterX = 0, nodeCenterY = 0;
+        let initialDist = 1;
+        let activeScalingHandle = null;
+        let activeHandleCorner = null;
+
+        let dragRafId = null;
+        let pendingLeft = null, pendingTop = null;
+
+        // Dynamic center-relative resizing starter
+        function startResizing(e, artifactId, handleCorner, handleEl) {
+          if (selectedNode && selectedNode !== node) {
+            selectedNode.classList.remove('is-selected');
+          }
+          selectedNode = node;
+          node.classList.add('is-selected');
+
+          isScaling = true;
+          isTransforming = true;
+          activeScalingHandle = handleEl || e.target;
+          activeHandleCorner = handleCorner;
+
+          node.classList.add('is-scaling', 'is-resizing');
+          if (handleCorner === 'nw' || handleCorner === 'se') {
+            document.body.style.cursor = 'nwse-resize';
+          } else {
+            document.body.style.cursor = 'nesw-resize';
+          }
+
+          try {
+            activeScalingHandle.setPointerCapture(e.pointerId);
+          } catch (err) {}
+
+          const rect = node.getBoundingClientRect();
+          nodeCenterX = rect.left + rect.width / 2;
+          nodeCenterY = rect.top + rect.height / 2;
+
+          startScale = parseFloat(node.dataset.scale || '1');
+          initialDist = Math.hypot(e.clientX - nodeCenterX, e.clientY - nodeCenterY);
+          if (initialDist < 1) initialDist = 1;
+        }
+
+        // 1. Handle Event Isolation: strictly attach pointerdown to corner resize handles
+        const cornerHandles = node.querySelectorAll('.po-handle-corner, .resize-handle-nw, .resize-handle-ne, .resize-handle-se, .resize-handle-sw');
+        cornerHandles.forEach((handle) => {
+          handle.addEventListener('pointerdown', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            const handleCorner = handle.dataset.handle ||
+              (handle.classList.contains('resize-handle-nw') || handle.classList.contains('po-handle-nw') ? 'nw' :
+               handle.classList.contains('resize-handle-ne') || handle.classList.contains('po-handle-ne') ? 'ne' :
+               handle.classList.contains('resize-handle-se') || handle.classList.contains('po-handle-se') ? 'se' : 'sw');
+            startResizing(e, node.id, handleCorner, handle);
+          });
+        });
+
+        // Isolated rotation knob handler
+        const rotationKnob = node.querySelector('.po-rotation-knob');
+        if (rotationKnob) {
+          rotationKnob.addEventListener('pointerdown', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            if (selectedNode && selectedNode !== node) {
+              selectedNode.classList.remove('is-selected');
+            }
+            selectedNode = node;
+            node.classList.add('is-selected');
+
+            isRotating = true;
+            isTransforming = true;
+            rotationKnob.classList.add('is-rotating');
+            try { rotationKnob.setPointerCapture(e.pointerId); } catch (err) {}
+
+            const rect = node.getBoundingClientRect();
+            nodeCenterX = rect.left + rect.width / 2;
+            nodeCenterY = rect.top + rect.height / 2;
+            startRotation = parseFloat(node.dataset.rotation || '0');
+          });
+        }
+
+        // Select and drag artifact (strictly disabled during scaling or when clicking handles/toolbar)
+        node.addEventListener('pointerdown', (e) => {
+          if (isScaling || isRotating) return;
+          if (e.target.closest('.po-layer-toolbar')) return;
+          if (e.target.closest('.po-rotation-knob')) return;
+          if (e.target.closest('.po-handle-corner, .resize-handle-nw, .resize-handle-ne, .resize-handle-se, .resize-handle-sw')) return;
+
+          if (selectedNode && selectedNode !== node) {
+            selectedNode.classList.remove('is-selected');
+          }
+          selectedNode = node;
+          node.classList.add('is-selected');
+
+          // Dragging initiation
+          e.preventDefault();
+          isDragging = true;
+          isTransforming = true;
+          node.classList.add('is-dragging');
+          try { node.setPointerCapture(e.pointerId); } catch (err) {}
+
+          startPointerX = e.clientX;
+          startPointerY = e.clientY;
+          startLeft = node.offsetLeft;
+          startTop = node.offsetTop;
+          scheduleThreadsUpdate();
+        });
+
+        // Window pointermove for high-frequency tracking decoupled via requestAnimationFrame
+        window.addEventListener('pointermove', (e) => {
+          if (!isTransforming) return;
+
+          // 1. Rotation handling with angle snapping
+          if (isRotating) {
+            const dx = e.clientX - nodeCenterX;
+            const dy = e.clientY - nodeCenterY;
+            let angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
+            if (angle < 0) angle += 360;
+            // Snap to 15-degree steps if Shift key is pressed
+            if (e.shiftKey) {
+              angle = Math.round(angle / 15) * 15;
+            }
+            const roundedAngle = Math.round(angle % 360);
+            node.dataset.rotation = roundedAngle;
+
+            applyNodeTransform(node);
+
+            const badge = node.querySelector('.po-rotation-badge');
+            if (badge) badge.textContent = `${roundedAngle}°`;
+
+            scheduleThreadsUpdate();
+            return;
+          }
+
+          // 2. Corner Scaling handling: dynamic center-relative Math.hypot with bounds [0.3, 3.5]
+          if (isScaling) {
+            const currentDist = Math.hypot(e.clientX - nodeCenterX, e.clientY - nodeCenterY);
+            const newScale = Math.max(0.3, Math.min(3.5, startScale * (currentDist / initialDist)));
+            node.dataset.scale = newScale.toFixed(2);
+
+            applyNodeTransform(node);
+            scheduleThreadsUpdate();
+            return;
+          }
+
+          // 3. Translation / Dragging handling decoupled via requestAnimationFrame (disabled if scaling/rotating)
+          if (isDragging && !isScaling && !isRotating) {
+            const stageRect = stage.getBoundingClientRect();
+            const deltaX = e.clientX - startPointerX;
+            const deltaY = e.clientY - startPointerY;
+
+            let newLeft = startLeft + deltaX;
+            let newTop = startTop + deltaY;
+
+            const maxLeft = stageRect.width - node.offsetWidth;
+            const maxTop = stageRect.height - node.offsetHeight;
+
+            newLeft = Math.max(4, Math.min(newLeft, maxLeft));
+            newTop = Math.max(4, Math.min(newTop, maxTop));
+
+            pendingLeft = newLeft;
+            pendingTop = newTop;
+
+            if (!dragRafId) {
+              dragRafId = requestAnimationFrame(() => {
+                dragRafId = null;
+                if (pendingLeft !== null && pendingTop !== null) {
+                  node.style.left = `${pendingLeft}px`;
+                  node.style.top = `${pendingTop}px`;
+                }
+                updateMindThreads();
+              });
+            }
+          }
+        });
+
+        function stopTransform(e) {
+          if (isScaling) {
+            if (activeScalingHandle) {
+              try { activeScalingHandle.releasePointerCapture(e.pointerId); } catch (err) {}
+              activeScalingHandle = null;
+            }
+            activeHandleCorner = null;
+            document.body.style.cursor = '';
+
+            // Explicitly commit newScale to the artifact's permanent state
+            const finalScale = parseFloat(node.dataset.scale || '1');
+            node.dataset.scale = finalScale.toFixed(2);
+            applyNodeTransform(node);
+
+            node.classList.remove('is-scaling', 'is-resizing');
+            isScaling = false;
+          }
+          if (isDragging) {
+            try { node.releasePointerCapture(e.pointerId); } catch (err) {}
+            node.classList.remove('is-dragging');
+            isDragging = false;
+          }
+          if (isRotating) {
+            const knob = node.querySelector('.po-rotation-knob');
+            if (knob) {
+              try { knob.releasePointerCapture(e.pointerId); } catch (err) {}
+              knob.classList.remove('is-rotating');
+            }
+            isRotating = false;
+          }
+          isTransforming = false;
+          scheduleThreadsUpdate();
+        }
+
+        window.addEventListener('pointerup', stopTransform);
+        window.addEventListener('pointercancel', stopTransform);
+
+        // Layer Toolbar Actions
+        const toolbar = node.querySelector('.po-layer-toolbar');
+        if (toolbar) {
+          toolbar.addEventListener('click', (e) => {
+            const btn = e.target.closest('.po-toolbar-btn');
+            if (!btn) return;
+            e.stopPropagation();
+
+            const action = btn.dataset.action;
+            if (action === 'bring-front') {
+              bringToFront(node);
+            } else if (action === 'bring-forward') {
+              bringForward(node);
+            } else if (action === 'send-backward') {
+              sendBackward(node);
+            } else if (action === 'send-back') {
+              sendToBack(node);
+            } else if (action === 'reset') {
+              node.dataset.rotation = '0';
+              node.dataset.scale = '1';
+              applyNodeTransform(node);
+              node.classList.remove('is-transformed', 'is-scaling', 'is-resizing');
+              const badge = node.querySelector('.po-rotation-badge');
+              if (badge) badge.textContent = '0°';
+              pulseNode(node);
+              scheduleThreadsUpdate();
+            }
+          });
+        }
+      }
+
+      function pulseNode(node) {
+        node.classList.remove('layer-pulse');
+        void node.offsetWidth;
+        node.classList.add('layer-pulse');
+        setTimeout(() => node.classList.remove('layer-pulse'), 450);
+      }
+
+      function applyNodeTransform(node) {
+        const rot = parseFloat(node.dataset.rotation || '0');
+        const sc = parseFloat(node.dataset.scale || '1');
+        node.style.transform = `rotate(${rot}deg) scale(${sc})`;
+        if (Math.abs(sc - 1) > 0.01 || Math.abs(rot) > 0.1) {
+          node.classList.add('is-transformed');
+        } else {
+          node.classList.remove('is-transformed');
+        }
+      }
+
+      // Generate Organic Whimsical Spiral / Cubic Bezier Paths
+      function generateWhimsicalSpiralPath(x0, y0, x1, y1, index) {
+        const dx = x1 - x0;
+        const dy = y1 - y0;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+        const sign = index % 2 === 0 ? 1 : -1;
+        const offsetMultiplier = 0.26 + ((index * 0.06) % 0.2);
+
+        // Control point 1 arches out sideways with whimsical lift
+        const cp1x = x0 + dx * 0.35 + (-dy / dist) * (dist * offsetMultiplier * sign);
+        const cp1y = y0 + dy * 0.2 + (dx / dist) * (dist * offsetMultiplier * sign);
+
+        // Control point 2 loops gently toward target
+        const cp2x = x0 + dx * 0.72 + (dy / dist) * (dist * 0.16 * sign);
+        const cp2y = y0 + dy * 0.78 + (-dx / dist) * (dist * 0.16 * sign);
+
+        return `M ${x0.toFixed(1)},${y0.toFixed(1)} C ${cp1x.toFixed(1)},${cp1y.toFixed(1)} ${cp2x.toFixed(1)},${cp2y.toFixed(1)} ${x1.toFixed(1)},${y1.toFixed(1)}`;
+      }
+
+      // Throttled RAF scheduler for threads update
+      let threadsRafId = null;
+      function scheduleThreadsUpdate() {
+        if (threadsRafId) return;
+        threadsRafId = requestAnimationFrame(() => {
+          threadsRafId = null;
+          updateMindThreads();
+        });
+      }
+
+      // Render Dynamic Mind Threads & Execute Character Collision Detection
+      function updateMindThreads() {
+        const stageRect = stage.getBoundingClientRect();
+        const charRect = characterAnchor.getBoundingClientRect();
+        const artifacts = getArtifacts();
+
+        // Mind origin (forehead anchor of PO character)
+        const originX = (charRect.left + charRect.width / 2) - stageRect.left;
+        const originY = (charRect.top + charRect.height * 0.22) - stageRect.top;
+
+        let pathsSvg = '';
+
+        artifacts.forEach((node, i) => {
+          const nodeRect = node.getBoundingClientRect();
+          const targetX = (nodeRect.left + nodeRect.width / 2) - stageRect.left;
+          const targetY = (nodeRect.top + nodeRect.height / 2) - stageRect.top;
+
+          // Collision Logic: if dragged over character bounding rect, fade thread opacity to 0
+          const isOverCharacter = isOverlapping(nodeRect, charRect);
+
+          const pathD = generateWhimsicalSpiralPath(targetX, targetY, originX, originY, i);
+          const pathId = `thread-path-${node.id || i}`;
+          const isSelected = node === selectedNode;
+          const slug = node.dataset.slug || node.dataset.id || 'artifact';
+          const threadOpacity = isOverCharacter ? 0 : (isSelected ? 1 : 0.75);
+
+          pathsSvg += `
+            <g class="po-thread-branch" data-artifact="${node.id}" style="opacity: ${threadOpacity};">
+              <!-- Dashed Mind Thread Spiral Path Behind Character -->
+              <path id="${pathId}" d="${pathD}" class="thread-spiral-path ${isSelected ? 'is-active' : ''}" />
+              <!-- Animated Morphing Curved Label Following Thread toward Character -->
+              <text class="thread-slug-text">
+                <textPath href="#${pathId}" startOffset="38%" text-anchor="middle">
+                  ✦ ${slug}
+                </textPath>
+              </text>
+              <!-- Connection Node Sparks -->
+              <circle cx="${targetX.toFixed(1)}" cy="${targetY.toFixed(1)}" r="3" fill="#D4D19C" opacity="0.85" />
+              <circle cx="${originX.toFixed(1)}" cy="${originY.toFixed(1)}" r="2.5" fill="#fef08a" opacity="0.75" />
+            </g>
+          `;
+        });
+
+        threadsGroup.innerHTML = pathsSvg;
+      }
+
+      // Reset Button - Smooth Restoration of Initial Placement & Layer Order
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          // Restore original layer order
+          artifactLayers = getArtifacts().sort((a, b) => {
+            const aDef = defaultState.get(a.id);
+            const bDef = defaultState.get(b.id);
+            return (aDef ? aDef.orderIndex : 0) - (bDef ? bDef.orderIndex : 0);
+          });
+          syncLayerZIndices();
+
+          artifactLayers.forEach((node) => {
+            const def = defaultState.get(node.id);
+            if (def) {
+              node.style.transition = 'all 0.6s cubic-bezier(0.2, 0.9, 0.3, 1)';
+              node.style.left = def.left;
+              node.style.top = def.top;
+              node.dataset.rotation = '0';
+              node.dataset.scale = '1';
+              applyNodeTransform(node);
+
+              const badge = node.querySelector('.po-rotation-badge');
+              if (badge) badge.textContent = '0°';
+
+              setTimeout(() => {
+                node.style.transition = '';
+                scheduleThreadsUpdate();
+              }, 650);
+            }
+          });
+
+          // Continuously re-render curves during reset animation
+          let startT = performance.now();
+          function animateReset() {
+            updateMindThreads();
+            if (performance.now() - startT < 650) {
+              requestAnimationFrame(animateReset);
+            }
+          }
+          requestAnimationFrame(animateReset);
+        });
+      }
+
+      // Responsive observer
+      const stageObserver = new ResizeObserver(() => {
+        scheduleThreadsUpdate();
+      });
+      stageObserver.observe(stage);
+      window.addEventListener('resize', scheduleThreadsUpdate);
+
+      // Initial synchronization passes
+      setTimeout(updateMindThreads, 150);
+      setTimeout(updateMindThreads, 450);
+      setTimeout(updateMindThreads, 900);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setup);
+    } else {
+      setup();
+    }
+  })();
+</script>
+</script>
+</body>
+</html>

@@ -1,8 +1,19 @@
+import { lazy, Suspense } from "react";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
-import ProductCapabilities from "./components/ProductCapabilities";
-import SelectedWork from "./components/SelectedWork";
-import ProductEvolution from "./components/ProductEvolution";
+import Footer from "./components/Footer";
+
+const ProductCapabilities = lazy(() => import("./components/ProductCapabilities"));
+const SelectedWork = lazy(() => import("./components/SelectedWork"));
+const ProductEvolution = lazy(() => import("./components/ProductEvolution"));
+
+function SectionFallback({ height = "min-h-[600px]" }: { height?: string }) {
+  return (
+    <div className={`w-full ${height} flex items-center justify-center`} aria-hidden="true">
+      <div className="w-5 h-5 rounded-full border border-white/20 border-t-white/80 animate-spin" />
+    </div>
+  );
+}
 
 export default function App() {
   return (
@@ -10,14 +21,17 @@ export default function App() {
       <div className="grain-overlay" />
       <Navigation />
       <Hero />
-      <ProductCapabilities />
-      <SelectedWork />
-      <ProductEvolution />
+      <Suspense fallback={<SectionFallback height="min-h-[800px]" />}>
+        <ProductCapabilities />
+      </Suspense>
+      <Suspense fallback={<SectionFallback height="min-h-[900px]" />}>
+        <SelectedWork />
+      </Suspense>
+      <Suspense fallback={<SectionFallback height="min-h-[700px]" />}>
+        <ProductEvolution />
+      </Suspense>
       
-      {/* Footer Placeholder */}
-      <footer className="py-20 px-6 border-t border-white/5 text-center font-mono text-xs text-silver-blue/40 uppercase tracking-widest">
-        <p>© {new Date().getFullYear()} Lacie Phan. All rights reserved.</p>
-      </footer>
+      <Footer />
     </main>
   );
 }

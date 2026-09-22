@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring } from "motion/react";
+import { useState, useCallback, memo } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 const evolutionStages = [
   {
@@ -108,30 +108,18 @@ const evolutionStages = [
   },
 ];
 
-export default function ProductEvolution() {
+function ProductEvolutionComponent() {
   const [activeStage, setActiveStage] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  
-  // Cursor tracking
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 500, damping: 28 });
-  const springY = useSpring(mouseY, { stiffness: 500, damping: 28 });
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    mouseX.set(e.clientX - rect.left);
-    mouseY.set(e.clientY - rect.top);
-  };
+  const handleSelectStage = useCallback((idx: number) => {
+    setActiveStage(idx);
+  }, []);
 
   const activeData = evolutionStages[activeStage];
 
   return (
     <section 
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-      className="w-full pt-[120px] md:pt-[132px] lg:pt-[150px] pb-[80px] px-8 relative overflow-hidden bg-[#0a0a0f] text-[#e8e8e0] font-mono min-h-screen flex flex-col items-center"
+      className="w-full pt-[120px] md:pt-[132px] lg:pt-[150px] pb-[80px] px-8 relative overflow-hidden bg-[#0a0a0f] text-[#e8e8e0] font-mono min-h-screen flex flex-col items-center contain-paint"
       style={{
         backgroundImage: `
           radial-gradient(ellipse 80% 50% at 20% 20%, rgba(138,154,106,0.04) 0%, transparent 60%),
@@ -147,13 +135,13 @@ export default function ProductEvolution() {
         </h2>
         <div className="space-y-4">
           <p className="font-mono text-[clamp(13px,1.6vw,15px)] leading-[1.85] text-[#e8e8e0]/55 font-light tracking-[0.02em]">
-            Most of the products I worked on were not greenfield ideas, but live products inside early-stage startups — with users, revenue signals, and growing complexity.
+            Most of the products I worked on were built within early-stage startups, where I often joined at formative stages — helping establish product foundations, shape initial systems, and scale products alongside growing users, revenue, and operational complexity.
           </p>
           <p className="font-mono text-[clamp(13px,1.6vw,15px)] leading-[1.85] text-[#e8e8e0]/55 font-light tracking-[0.02em]">
             Over time, my role evolved from optimizing execution to designing full product systems, and eventually orchestrating cross-functional scale.
           </p>
           <p className="font-mono text-[clamp(13px,1.6vw,15px)] leading-[1.85] text-[#e8e8e0]/55 font-light tracking-[0.02em]">
-            Each stage reflects a deeper level of impact — from improving features, to structuring systems, to aligning entire organizations.
+            Each stage reflects a deeper level of impact — from improving features, to structuring systems, to helping build the foundations that enable products and teams to scale.
           </p>
         </div>
       </div>
@@ -171,21 +159,21 @@ export default function ProductEvolution() {
             return (
               <button
                 key={stage.id}
-                onClick={() => setActiveStage(idx)}
-                className="relative cursor-pointer py-5 pr-2.5 pl-5 mb-1.5 flex flex-col items-start gap-1.5 bg-transparent border-none text-inherit text-left w-full transition-all duration-250 group"
+                onClick={() => handleSelectStage(idx)}
+                className="relative cursor-pointer py-5 pr-2.5 pl-5 mb-1.5 flex flex-col items-start gap-1.5 bg-transparent border-none text-inherit text-left w-full transition-colors duration-200 group"
               >
                 <div 
-                  className={`absolute left-0 top-[15%] h-[70%] w-[2px] rounded-[1px] transition-all duration-250 ${isActive ? 'opacity-100' : 'opacity-12 group-hover:opacity-35'}`}
+                  className={`absolute left-0 top-[15%] h-[70%] w-[2px] rounded-[1px] transition-opacity duration-200 ${isActive ? 'opacity-100' : 'opacity-15 group-hover:opacity-40'}`}
                   style={{ background: `linear-gradient(180deg, ${stage.accent}, ${stage.accentAlt})` }}
                 />
                 <div 
-                  className="font-serif text-[28px] font-extrabold leading-none tracking-[-0.02em] transition-colors duration-250"
+                  className="font-serif text-[28px] font-extrabold leading-none tracking-[-0.02em] transition-colors duration-200"
                   style={{ color: isActive ? stage.accent : 'rgba(255,255,255,0.15)' }}
                 >
                   {stage.id}
                 </div>
                 <div 
-                  className={`font-mono text-[9px] font-medium tracking-[0.16em] uppercase leading-[1.4] transition-colors duration-250 ${isActive ? 'text-[#e8e8e0]/90' : 'text-[#e8e8e0]/30 group-hover:text-[#e8e8e0]/90'}`}
+                  className={`font-mono text-[9px] font-medium tracking-[0.16em] uppercase leading-[1.4] transition-colors duration-200 ${isActive ? 'text-[#e8e8e0]/90' : 'text-[#e8e8e0]/30 group-hover:text-[#e8e8e0]/90'}`}
                 >
                   {stage.label}
                 </div>
@@ -198,7 +186,7 @@ export default function ProductEvolution() {
         <div className="flex-1 pl-8 relative">
           {/* Glow */}
           <div 
-            className="absolute top-[10%] left-[20%] w-[60%] h-[60%] blur-[40px] pointer-events-none z-0 transition-background duration-400 animate-pulse"
+            className="absolute top-[10%] left-[20%] w-[60%] h-[60%] blur-[40px] pointer-events-none z-0 transition-opacity duration-300"
             style={{ background: `radial-gradient(ellipse, ${activeData.accent}18 0%, transparent 70%)` }}
           />
           
@@ -211,7 +199,7 @@ export default function ProductEvolution() {
             
             {/* Top Border */}
             <div 
-              className="absolute top-0 left-[8%] right-[30%] h-[1px] transition-background duration-400"
+              className="absolute top-0 left-[8%] right-[30%] h-[1px] transition-colors duration-300"
               style={{ background: `linear-gradient(90deg, transparent, ${activeData.accent}70, ${activeData.accentAlt}50, transparent)` }}
             />
             
@@ -222,8 +210,9 @@ export default function ProductEvolution() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.28 }}
-                className="absolute inset-0 w-full h-full pointer-events-none"
+                transition={{ duration: 0.25 }}
+                className="absolute inset-0 w-full h-full pointer-events-none transform-gpu"
+                style={{ willChange: "opacity" }}
               >
                 {activeData.svg}
               </motion.div>
@@ -233,11 +222,12 @@ export default function ProductEvolution() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={`content-${activeStage}`}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.28 }}
-                className="relative"
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="relative transform-gpu"
+                style={{ willChange: "transform, opacity" }}
               >
                 {/* State badge */}
                 <div className="inline-flex items-center gap-2 mb-7">
@@ -303,16 +293,16 @@ export default function ProductEvolution() {
           return (
             <button
               key={stage.id}
-              onClick={() => setActiveStage(idx)}
-              className="bg-transparent border-none cursor-pointer flex items-center gap-[7px] transition-opacity duration-250 text-inherit"
+              onClick={() => handleSelectStage(idx)}
+              className="bg-transparent border-none cursor-pointer flex items-center gap-[7px] transition-opacity duration-200 text-inherit"
               style={{ opacity: isActive ? 1 : 0.28 }}
             >
               <div 
-                className="w-1.5 h-1.5 rounded-full shrink-0 transition-background duration-250"
+                className="w-1.5 h-1.5 rounded-full shrink-0 transition-colors duration-200"
                 style={{ background: isActive ? `linear-gradient(135deg, ${stage.accent}, ${stage.accentAlt})` : 'rgba(255,255,255,0.4)' }}
               />
               <span 
-                className="font-mono text-[9px] tracking-[0.15em] uppercase transition-colors duration-250"
+                className="font-mono text-[9px] tracking-[0.15em] uppercase transition-colors duration-200"
                 style={{ color: isActive ? stage.accent : 'rgba(255,255,255,0.5)' }}
               >
                 {stage.label}
@@ -324,3 +314,6 @@ export default function ProductEvolution() {
     </section>
   );
 }
+
+const ProductEvolution = memo(ProductEvolutionComponent);
+export default ProductEvolution;

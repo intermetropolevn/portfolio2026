@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lacie Phan — Product Owner & Specialist</title>
+<title>Slacie Phan — Product Owner & Specialist</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
     --mist: #F1F3F6;
@@ -71,8 +72,8 @@
     display: flex; align-items: center; justify-content: space-between;
     padding: 20px 40px;
     background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   }
   .nav-logo {
@@ -84,27 +85,27 @@
   .nav-logo span { color: var(--blue); }
   .nav-links { display: flex; gap: 8px; align-items: center; }
   .nav-links a {
-    font-family: 'Work Sans', sans-serif;
-    font-size: 0.85rem; font-weight: 500;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem; font-weight: 500;
     color: var(--black); text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 4px;
+    padding: 6px 12px;
+    border-radius: 9999px;
     border: 1px solid transparent;
     transition: all 0.2s;
   }
   .nav-links a:hover {
-    background: rgba(0, 0, 0, 0.04);
+    background: rgba(0, 0, 0, 0.05);
   }
   .nav-links a.active {
-    border-color: var(--black);
-    background: var(--black); color: var(--acid);
+    border-color: #5C5A45;
+    background: #5C5A45; color: #C8C58F;
   }
   .nav-links a.btn-cta {
-    background: var(--blue); color: white;
-    border-color: var(--blue);
+    background: #64748B; color: #AEBED4;
+    border-color: #64748B;
   }
   .nav-links a.btn-cta:hover {
-    background: var(--black); border-color: var(--black); color: var(--acid);
+    background: #5C5A45; border-color: #5C5A45; color: #C8C58F;
   }
 
   /* PAGES */
@@ -227,7 +228,7 @@
   /* Horizontal Sliding Panels */
   .folder-system {
     position: relative;
-    height: 220px; /* Reduced height */
+    height: 250px; /* Increased height for generous breathing room */
     margin-top: 24px;
   }
   
@@ -236,7 +237,7 @@
     top: 24px; bottom: 0; /* Make room for tab */
     width: 90%;
     border-radius: 16px;
-    padding: 24px;
+    padding: 26px 24px 28px 24px;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     box-shadow: -2px 0 12px rgba(0,0,0,0.04), inset 0 1px rgba(255,255,255,0.4);
@@ -734,18 +735,196 @@
 
   /* FOOTER */
   footer {
-    background: var(--black);
+    background: #0d0f0c;
     color: var(--mist);
-    padding: 60px 40px;
+    padding: 50px 40px;
     display: flex; align-items: center; justify-content: space-between;
-    border-top: 4px solid var(--acid);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
   .footer-left {
-    font-family: 'Playfair Display', serif;
-    font-weight: 800; font-size: 1.2rem;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
   }
-  .footer-left span { color: var(--acid); }
-  .footer-right { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+  .footer-right { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+
+  .footer-site-trigger {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: #D4D19C;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: rgba(212, 209, 156, 0.4);
+    transition: all 0.2s ease;
+  }
+  .footer-site-trigger:hover {
+    color: #fff;
+    text-decoration-color: #fff;
+  }
+
+  /* Contact / Mailbox Modal */
+  .contact-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .contact-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .contact-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  .contact-modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    background: #141712;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 20px;
+    padding: 36px 32px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85);
+    color: #F3F1E8;
+    z-index: 1;
+    transform: scale(0.95) translateY(10px);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .contact-modal.open .contact-modal-card {
+    transform: scale(1) translateY(0);
+  }
+  .contact-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.2s ease;
+  }
+  .contact-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+  }
+  .contact-modal-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #D4D19C;
+    margin-bottom: 12px;
+  }
+  .contact-modal-tag-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #D4D19C;
+    box-shadow: 0 0 8px #D4D19C;
+  }
+  .contact-modal-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+  .contact-modal-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: rgba(243, 241, 232, 0.75);
+    margin-bottom: 28px;
+  }
+  .contact-modal-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .contact-btn-email {
+    flex: 1;
+    min-width: 220px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    background: #D4D19C;
+    color: #141712;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .contact-btn-email:hover {
+    background: #fff;
+    box-shadow: 0 0 20px rgba(212, 209, 156, 0.4);
+  }
+  .contact-btn-copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .contact-btn-copy:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(212, 209, 156, 0.5);
+  }
+  .contact-modal-footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+  }
 
   /* ANIMATIONS */
   .animate-in {
@@ -768,6 +947,46 @@
     transform: translateY(0);
   }
 
+  /* 14-inch & Laptop Displays (1024px to 1536px): Expanded System Stacks height & breathing room */
+  @media (min-width: 1024px) and (max-width: 1536px) {
+    .folder-system {
+      height: 360px; /* Generous height preventing tag clipping */
+      min-height: 360px;
+      margin-top: 32px;
+    }
+    .folder-panel {
+      padding: 30px 24px 34px 24px;
+      min-height: 320px;
+    }
+    .folder-left {
+      flex: 0 0 45%;
+    }
+    .folder-right {
+      gap: 16px;
+      padding-bottom: 8px;
+    }
+    .tool-group {
+      gap: 8px;
+    }
+    .tool-tags {
+      gap: 8px;
+    }
+  }
+
+  /* Desktop Large (above 1536px) */
+  @media (min-width: 1537px) {
+    .folder-system {
+      height: 340px;
+      min-height: 340px;
+    }
+    .folder-panel {
+      padding: 28px 24px 32px 24px;
+    }
+    .folder-left {
+      flex: 0 0 48%;
+    }
+  }
+
   /* Mobile */
   @media (max-width: 768px) {
     .about-hero { grid-template-columns: 1fr; padding: 30px 20px; gap: 40px; }
@@ -786,12 +1005,13 @@
 
 <!-- NAV -->
 <nav>
-  <a href="../index.html" class="nav-logo">Lacie Phan</a>
+  <a href="../index.html" class="nav-logo">Slacie Phan</a>
   <div class="nav-links">
     <a href="../index.html" id="nav-home">Overview</a>
     <a href="about_page.html" id="nav-about" class="active">About</a>
     <a href="agentic_loop.html" id="nav-lab">Lab</a>
-    <a href="https://www.linkedin.com/in/slaciephan" target="_blank" class="btn-cta">LinkedIn ↗</a>
+    <a href="playground.html" id="nav-playground">Playground</a>
+    <a href="https://www.linkedin.com/in/slaciep/" target="_blank" rel="noopener noreferrer" class="btn-cta">LinkedIn ↗</a>
   </div>
 </nav>
 
@@ -813,7 +1033,7 @@
       <div class="id-photo-block">
         <div class="id-photo-overlay">
           <div class="id-photo-text">
-            <div class="id-photo-name">Lacie Phan</div>
+            <div class="id-photo-name">Slacie Phan</div>
             <div class="id-photo-role">Product Specialist</div>
           </div>
         </div>
@@ -861,21 +1081,20 @@
             <div class="folder-title">AI &amp;<br>Auto</div>
             <div class="folder-desc">Thinking → Creation → Workflow.</div>
           </div>
-          <div class="folder-right">
+          <div class="folder-right" style="padding-bottom: 12px; margin-bottom: 4px;">
             <div class="tool-group">
-              <div class="tool-group-label">LLM &amp; Creative</div>
+              <div class="tool-group-label">Advanced LLMs &amp; Creative</div>
               <div class="tool-tags">
-                <span class="tool-pill" onclick="toggleToolTag(this)">ChatGPT</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">ChatGPT/Codex</span>
                 <span class="tool-pill" onclick="toggleToolTag(this)">Claude</span>
-                <span class="tool-pill" onclick="toggleToolTag(this)">Midjourney</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">AI Studio</span>
               </div>
             </div>
             <div class="tool-group">
               <div class="tool-group-label">Workflow</div>
               <div class="tool-tags">
-                <span class="tool-pill" onclick="toggleToolTag(this)">Make</span>
                 <span class="tool-pill" onclick="toggleToolTag(this)">n8n</span>
-                <span class="tool-pill" onclick="toggleToolTag(this)">Lovable</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Zapier</span>
               </div>
             </div>
           </div>
@@ -894,13 +1113,16 @@
               <div class="tool-tags">
                 <span class="tool-pill" onclick="toggleToolTag(this)">Figma</span>
                 <span class="tool-pill" onclick="toggleToolTag(this)">Framer</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Stitch</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Storybook</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Design Tokens</span>
               </div>
             </div>
             <div class="tool-group">
-              <div class="tool-group-label">Production</div>
+              <div class="tool-group-label">Design</div>
               <div class="tool-tags">
                 <span class="tool-pill" onclick="toggleToolTag(this)">Canva</span>
-                <span class="tool-pill" onclick="toggleToolTag(this)">Vercel</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">Photoshop</span>
               </div>
             </div>
           </div>
@@ -945,6 +1167,7 @@
               <div class="tool-tags">
                 <span class="tool-pill" onclick="toggleToolTag(this)">Odoo</span>
                 <span class="tool-pill" onclick="toggleToolTag(this)">Freshworks</span>
+                <span class="tool-pill" onclick="toggleToolTag(this)">HubSpot</span>
               </div>
             </div>
           </div>
@@ -960,11 +1183,10 @@
       <div class="about-block">
         <div class="about-block-label">Profile Summary</div>
         <h3>A product builder with a growth engineer's brain.</h3>
-        <p>I’m a Product Specialist with 9+ years of experience building and scaling solutions across SaaS, Web &amp; Mobile, AI, Omnichannel, Web3, and complex E-commerce ecosystems.</p>
-        <p>My career began across the digital marketing spectrum—spanning strategy, SEO, social media, communications, and paid media—which shaped a strong foundation in user behavior, growth, and distribution. Building on that, I now work at the intersection of product, architecture, go-to-market, and operations—allowing me to approach product not as a standalone system, but as an integrated business engine.</p>
-        <p>I’m well-versed in AI transformation, UX, and design principles, and comfortable navigating both strategy and execution.</p>
-        <p>I’ve led 0&rarr;1 product development across multiple startups, shipped 20+ products into international markets, and contributed to multi-million dollar revenue growth. I've established and grown a Product org from scratch to &lt;10 people, overseeing Engineer, UI/UX Designer, QC, Data and Research.</p>
-        <p>I’m driven by improving how products work—streamlining processes, elevating user experience, and leveraging AI to build smarter, more adaptive systems.</p>
+        <p style="font-family: 'Space Mono', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--blue); margin-bottom: 20px; font-weight: 700;">// T-shaped Product Leader operating at the convergence of Product Strategy, Growth Architecture, Creative Technology, and Frontier AI //</p>
+        <p>My career began across the digital marketing spectrum—spanning strategy, SEO, social media, communications, and paid media—which shaped a strong foundation in user behavior, growth, and distribution. Building on that, I now operate at the nexus of product, architecture, go-to-market, and operations—allowing me to bridge the gap between high-level strategic vision and hands-on delivery.</p>
+        <p>My domain expertise spans complex B2B ecosystems, on-demand manufacturing, and digital commerce—architecting scalable web, mobile, AI-augmented solutions, and Web3 ecosystems.</p>
+        <p>I’m well-versed in AI transformation, UI/UX &amp; Design Systems, and Creative Visuals—fluidly harmonizing complex systems, business architecture, and user psychology.</p>
       </div>
 
       <!-- Capacities (Skills) -->
@@ -985,31 +1207,55 @@
       </div>
 
       <!-- Timeline -->
-      <div class="about-block">
+      <div class="about-block" id="career-trajectory">
         <div class="about-block-label">Career Trajectory</div>
         <h3>From marketing to full product ownership.</h3>
         <div class="timeline">
+          <!-- Item 01: CommerceOS -->
           <div class="timeline-item">
-            <div class="timeline-period">Jul 2024 – Aug 2025</div>
-            <div class="timeline-role">Product Specialist</div>
-            <div class="timeline-co">Beincom · HCM City</div>
-            <div class="timeline-desc">Owned end-to-end product lifecycle for a hybrid Web3 social platform. Designed tokenized incentive mechanics that scaled active users from ~20K to 150K+ in 13 months.</div>
+            <div class="timeline-period">Oct 2025 – Present</div>
+            <div class="timeline-role">Product Owner</div>
+            <div class="timeline-co">CommerceOS — HCM, Vietnam</div>
+            <div style="font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--blue); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">AI Agents – Commerce Intelligence – B2B Multi-Tenant – Web Apps</div>
+            <div class="timeline-desc">Defined the product architecture for a scalable multi-tenant B2B SaaS platform, establishing organization &amp; dependency, workspace, role-based access control (RBAC), configurable modules, and AI-assisted decision workflows connecting research and data-access models.</div>
             <button class="timeline-expand-btn" onclick="toggleTimeline(this)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
               Expand Impact
             </button>
             <div class="timeline-details">
               <ul class="folder-list" style="margin-top:12px;">
-                <li>Drove +15% activation uplift via tokenized incentives.</li>
-                <li>+40% MAU growth in 13 months.</li>
-                <li>Improved retention from &lt;10% to 35%.</li>
-                <li>Reduced CPI by ~60% via ASO loops.</li>
+                <li>Enabled &gt;15 commerce teams and 7000+ active users through a configurable multi-tenant architecture and modular commerce intelligence workflows.</li>
+                <li>Partnered with GTM and RevOps teams on B2B productization, defining ICPs, priority use cases, pilot workflows, packaging, demo narratives, and feedback loops.</li>
+                <li>Defined tiered multi-tenant product strategy: Architected usage- and seat-based upsell triggers in tenant workspaces; increased Average Revenue Per Account (ARPA) by 28%.</li>
+              </ul>
+            </div>
+            <div class="timeline-highlights">
+              <span class="hl-tag">B2B SaaS</span><span class="hl-tag">Multi-Tenant</span><span class="hl-tag">AI Agents</span><span class="hl-tag">RBAC</span><span class="hl-tag">Commerce Intelligence</span>
+            </div>
+          </div>
+
+          <!-- Item 02: Beincom -->
+          <div class="timeline-item">
+            <div class="timeline-period">Jul 2024 – Sep 2025</div>
+            <div class="timeline-role">Product Specialist</div>
+            <div class="timeline-co">Beincom · HCM City</div>
+            <div class="timeline-desc">Owned end-to-end product lifecycle for a hybrid Web3 social platform. Designed tokenized incentive mechanics that scaled active users from ~20K to 150K.</div>
+            <button class="timeline-expand-btn" onclick="toggleTimeline(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+              Expand Impact
+            </button>
+            <div class="timeline-details">
+              <ul class="folder-list" style="margin-top:12px;">
+                <li>Driving +15% activation uplift, +40% new-user MAU growth, and retention improvement from &lt;10% to 35%.</li>
+                <li>Reducing CPI by ~60% through ASO improvements, retargeting and in-product virality loops.</li>
               </ul>
             </div>
             <div class="timeline-highlights">
               <span class="hl-tag">Web3</span><span class="hl-tag">Tokenomics</span><span class="hl-tag">Growth Loops</span><span class="hl-tag">Agile Squad</span>
             </div>
           </div>
+
+          <!-- Item 03: Merchize -->
           <div class="timeline-item">
             <div class="timeline-period">Sep 2019 – Apr 2024</div>
             <div class="timeline-role">Product Development &amp; Strategy Lead</div>
@@ -1021,9 +1267,8 @@
             </button>
             <div class="timeline-details">
               <ul class="folder-list" style="margin-top:12px;">
-                <li>Directed cross-functional team to 1.5× OKR overperformance.</li>
-                <li>Drove international expansion strategies.</li>
-                <li>Standardized integrations with 10+ enterprise platforms.</li>
+                <li>Productized enterprise fulfillment tiers and high-margin packaging add-ons, increasing new product category adoption by 45%.</li>
+                <li>Standardized platform data schemas across catalog, pricing, and fulfillment APIs, engineering a dynamic feed engine that syndicated compliant product data across Google Shopping, Meta, and Pinterest for 5,000+ connected stores.</li>
               </ul>
             </div>
             <div class="timeline-highlights">
@@ -1365,9 +1610,50 @@
   </div>
 
   <footer>
-    <div class="footer-left">Lacie Phan — Product Owner</div>
-    <div class="footer-right">HCM City, Vietnam · slaciephan@gmail.com</div>
+    <div class="footer-left">
+      <span>© 2026 Slacie Phan. All rights reserved.</span>
+      <span style="opacity: 0.3; margin: 0 8px;">·</span>
+      <button class="footer-site-trigger" onclick="openContactModal()">Make a Similar Site</button>
+    </div>
+    <div class="footer-right">HCM City, Vietnam · <a href="mailto:slaciephan@gmail.com" style="color: inherit; text-decoration: none;">slaciephan@gmail.com</a></div>
   </footer>
+</div>
+
+<!-- Contact / Mailbox Modal -->
+<div id="contactModal" class="contact-modal" aria-hidden="true" role="dialog" aria-labelledby="contactModalTitle">
+  <div class="contact-modal-backdrop" onclick="closeContactModal()"></div>
+  <div class="contact-modal-card">
+    <button class="contact-modal-close" onclick="closeContactModal()" aria-label="Close dialog">✕</button>
+    
+    <div class="contact-modal-tag">
+      <span class="contact-modal-tag-dot"></span>
+      DIRECT INQUIRY &amp; ARCHITECTURE
+    </div>
+    
+    <h3 id="contactModalTitle" class="contact-modal-title">LET'S BUILD SOMETHING EXTRAORDINARY</h3>
+    
+    <p class="contact-modal-desc">
+      Interested in creating a high-density, system-oriented portfolio or tailored platform like this? Let's discuss architecture, creative technology, or potential collaborations.
+    </p>
+    
+    <div class="contact-modal-actions">
+      <a href="mailto:slaciephan@gmail.com?subject=Inquiry:%20Building%20a%20Similar%20Site" class="contact-btn-email">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        <span>slaciephan@gmail.com</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+      </a>
+      
+      <button class="contact-btn-copy" onclick="copyContactEmail(this)">
+        <svg class="copy-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span class="copy-text">Copy Email</span>
+      </button>
+    </div>
+    
+    <div class="contact-modal-footer">
+      <span>Response time: ~24 hours</span>
+      <span>Press Esc to close</span>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1498,37 +1784,39 @@ const cursor = document.getElementById('cursor');
 const cursorRing = document.getElementById('cursorRing');
 let mx = 0, my = 0, rx = 0, ry = 0;
 
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx + 'px';
-  cursor.style.top = my + 'px';
-});
+if (cursor && cursorRing) {
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
 
-function animateRing() {
-  rx += (mx - rx) * 0.12;
-  ry += (my - ry) * 0.12;
-  cursorRing.style.left = rx + 'px';
-  cursorRing.style.top = ry + 'px';
-  requestAnimationFrame(animateRing);
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    cursorRing.style.left = rx + 'px';
+    cursorRing.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .folder-panel, .timeline-expand-btn, .skill-item, .module-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px';
+      cursor.style.height = '20px';
+      cursorRing.style.width = '52px';
+      cursorRing.style.height = '52px';
+      cursorRing.style.borderColor = '#D7FF3F';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px';
+      cursor.style.height = '12px';
+      cursorRing.style.width = '36px';
+      cursorRing.style.height = '36px';
+      cursorRing.style.borderColor = '#121212';
+    });
+  });
 }
-animateRing();
-
-document.querySelectorAll('a, button, .folder-panel, .timeline-expand-btn, .skill-item, .module-card').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.width = '20px';
-    cursor.style.height = '20px';
-    cursorRing.style.width = '52px';
-    cursorRing.style.height = '52px';
-    cursorRing.style.borderColor = '#D7FF3F';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.width = '12px';
-    cursor.style.height = '12px';
-    cursorRing.style.width = '36px';
-    cursorRing.style.height = '36px';
-    cursorRing.style.borderColor = '#121212';
-  });
-});
 
 // Page navigation
 // function showPage(pageId) {
@@ -1565,6 +1853,44 @@ const moduleObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.module-card').forEach(card => {
   card.classList.add('animate-module');
   moduleObserver.observe(card);
+});
+
+// Global Contact Modal Handlers
+function openContactModal() {
+  const modal = document.getElementById('contactModal');
+  if (modal) {
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+}
+
+function closeContactModal() {
+  const modal = document.getElementById('contactModal');
+  if (modal) {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+}
+
+function copyContactEmail(btn) {
+  navigator.clipboard.writeText('slaciephan@gmail.com').then(() => {
+    const textEl = btn.querySelector('.copy-text');
+    if (textEl) {
+      const orig = textEl.textContent;
+      textEl.textContent = '✓ Copied!';
+      btn.style.color = '#D4D19C';
+      btn.style.borderColor = '#D4D19C';
+      setTimeout(() => {
+        textEl.textContent = orig;
+        btn.style.color = '';
+        btn.style.borderColor = '';
+      }, 2200);
+    }
+  });
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeContactModal();
 });
 </script>
 </body>

@@ -507,15 +507,17 @@ export function initDashboard(shadowRoot) {
 
   function bindPanEvents() {
     const wrap = shadowRoot.getElementById('canvas-wrap');
-    wrap.addEventListener('mousedown', (e) => {
-      // Only pan if clicking on the wrap itself (not a node) or if pan tool is active
-      if (e.target === wrap || e.target.id === 'canvas' || e.target.id === 'edge-layer' || activeTool === 'pan') {
-        isPanning = true;
-        panStartX = e.clientX - canvasOffset.x;
-        panStartY = e.clientY - canvasOffset.y;
-        wrap.style.cursor = 'grabbing';
-      }
-    });
+    if (wrap) {
+      wrap.addEventListener('mousedown', (e) => {
+        // Only pan if clicking on the wrap itself (not a node) or if pan tool is active
+        if (e.target === wrap || e.target.id === 'canvas' || e.target.id === 'edge-layer' || activeTool === 'pan') {
+          isPanning = true;
+          panStartX = e.clientX - canvasOffset.x;
+          panStartY = e.clientY - canvasOffset.y;
+          wrap.style.cursor = 'grabbing';
+        }
+      });
+    }
 
     document.addEventListener('mousemove', handlePanMove);
     document.addEventListener('mouseup', handlePanUp);
@@ -608,8 +610,8 @@ export function initDashboard(shadowRoot) {
   // ── EVENT BINDINGS ────────────────────────────────────────────────────────
   function bindEvents() {
     bindPanEvents();
-    shadowRoot.getElementById('btn-auto-layout').addEventListener('click', autoLayout);
-    shadowRoot.getElementById('sim-btn').addEventListener('click', toggleSimulation);
+    shadowRoot.getElementById('btn-auto-layout')?.addEventListener('click', autoLayout);
+    shadowRoot.getElementById('sim-btn')?.addEventListener('click', toggleSimulation);
     
     shadowRoot.querySelectorAll('.proj-tab').forEach(tab => {
       tab.addEventListener('click', (e) => switchProject(e.currentTarget, e.currentTarget.dataset.proj));
@@ -619,15 +621,15 @@ export function initDashboard(shadowRoot) {
       icon.addEventListener('click', (e) => setSbActive(e.currentTarget));
     });
 
-    shadowRoot.getElementById('tool-select').addEventListener('click', (e) => setTool('select', e.currentTarget));
-    shadowRoot.getElementById('tool-pan').addEventListener('click', (e) => setTool('pan', e.currentTarget));
-    shadowRoot.getElementById('btn-add-node').addEventListener('click', addRandomNode);
-    shadowRoot.getElementById('btn-delete-node').addEventListener('click', deleteSelected);
-    shadowRoot.getElementById('btn-zoom-in').addEventListener('click', () => zoom(1.15));
-    shadowRoot.getElementById('btn-zoom-out').addEventListener('click', () => zoom(0.85));
-    shadowRoot.getElementById('btn-fit-canvas').addEventListener('click', fitCanvas);
-    shadowRoot.getElementById('mm-btn').addEventListener('click', toggleMinimap);
-    shadowRoot.getElementById('btn-close-insp').addEventListener('click', closeInspector);
+    shadowRoot.getElementById('tool-select')?.addEventListener('click', (e) => setTool('select', e.currentTarget));
+    shadowRoot.getElementById('tool-pan')?.addEventListener('click', (e) => setTool('pan', e.currentTarget));
+    shadowRoot.getElementById('btn-add-node')?.addEventListener('click', addRandomNode);
+    shadowRoot.getElementById('btn-delete-node')?.addEventListener('click', deleteSelected);
+    shadowRoot.getElementById('btn-zoom-in')?.addEventListener('click', () => zoom(1.15));
+    shadowRoot.getElementById('btn-zoom-out')?.addEventListener('click', () => zoom(0.85));
+    shadowRoot.getElementById('btn-fit-canvas')?.addEventListener('click', fitCanvas);
+    shadowRoot.getElementById('mm-btn')?.addEventListener('click', toggleMinimap);
+    shadowRoot.getElementById('btn-close-insp')?.addEventListener('click', closeInspector);
 
     document.addEventListener('keydown', handleKeydown);
     window.addEventListener('resize', handleResize);
