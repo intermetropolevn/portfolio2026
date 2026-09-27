@@ -111,12 +111,12 @@ const Counter = memo(function Counter({ value, label, suffix = "", prefix = "", 
 
   return (
     <div ref={ref} className="flex flex-col">
-       <div className="font-serif text-3xl md:text-4xl text-[rgba(240,240,235,0.9)] flex items-baseline">
-         {prefix && <span className="text-[#D97757] text-2xl mr-0.5 font-light">{prefix}</span>}
+       <div className="font-serif text-2xl sm:text-3xl md:text-4xl text-[rgba(240,240,235,0.9)] flex items-baseline">
+         {prefix && <span className="text-[#D97757] text-lg sm:text-2xl mr-0.5 font-light">{prefix}</span>}
          <motion.span>{rounded}</motion.span>
-         {suffix && <span className="text-[#D97757] text-2xl ml-0.5 font-light">{suffix}</span>}
+         {suffix && <span className="text-[#D97757] text-lg sm:text-2xl ml-0.5 font-light">{suffix}</span>}
        </div>
-       <span className="font-mono text-[10px] uppercase tracking-widest text-[rgba(240,240,235,0.5)] mt-2">{label}</span>
+       <span className="font-mono text-[8.5px] sm:text-[10px] uppercase tracking-wider sm:tracking-widest text-[rgba(240,240,235,0.5)] mt-1.5 sm:mt-2 leading-tight">{label}</span>
     </div>
   );
 });
@@ -127,17 +127,17 @@ const CapabilityStrip = memo(function CapabilityStrip({ items }: { items: string
   const isInView = useInView(containerRef, { margin: "50px" });
 
   return (
-    <div ref={containerRef} className="w-full overflow-hidden relative group py-6 border-y border-[rgba(255,255,255,0.08)] my-6">
+    <div ref={containerRef} className="w-full overflow-hidden relative group py-4 sm:py-6 border-y border-[rgba(255,255,255,0.08)] my-4 sm:my-6">
        <div className="relative z-10 flex items-center opacity-70 group-hover:opacity-100 transition-opacity duration-300">
           <motion.div 
-            className="flex gap-8 whitespace-nowrap transform-gpu"
+            className="flex gap-6 sm:gap-8 whitespace-nowrap transform-gpu"
             animate={isInView ? { x: ["0%", "-50%"] } : undefined}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
             style={{ willChange: "transform" }}
           >
             {duplicatedItems.map((item, i) => (
-              <div key={`front-${i}`} className="flex items-center gap-8">
-                <span className="font-mono text-xs uppercase tracking-widest text-[rgba(240,240,235,0.65)]">{item}</span>
+              <div key={`front-${i}`} className="flex items-center gap-6 sm:gap-8">
+                <span className="font-mono text-[11px] sm:text-xs uppercase tracking-wider sm:tracking-widest text-[rgba(240,240,235,0.65)]">{item}</span>
                 <div className="w-1.5 h-1.5 rotate-45 bg-[#D97757]/60" />
               </div>
             ))}
@@ -149,24 +149,24 @@ const CapabilityStrip = memo(function CapabilityStrip({ items }: { items: string
 
 function SelectedWorkComponent() {
   return (
-    <section id="work" className="w-full py-32 px-6 md:px-12 bg-olive-black relative overflow-hidden contain-paint">
+    <section id="work" className="w-full py-16 sm:py-24 lg:py-32 px-4 sm:px-6 md:px-12 bg-olive-black relative overflow-hidden contain-paint">
       <div className="max-w-[1400px] mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col md:flex-row justify-between items-end mb-24 border-b border-[rgba(255,255,255,0.08)] pb-8"
+          className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 sm:mb-20 lg:mb-24 border-b border-[rgba(255,255,255,0.08)] pb-6 sm:pb-8"
         >
-          <h2 className="font-serif text-4xl md:text-6xl text-[rgba(240,240,235,0.9)]">Selected Works</h2>
-          <span className="font-mono text-xs text-[rgba(240,240,235,0.5)] uppercase tracking-widest mt-4 md:mt-0">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-6xl text-[rgba(240,240,235,0.9)]">Selected Works</h2>
+          <span className="font-mono text-[11px] sm:text-xs text-[rgba(240,240,235,0.5)] uppercase tracking-widest mt-2 sm:mt-4 md:mt-0">
             Recent Case Studies
           </span>
         </motion.div>
 
         <div className="flex flex-col">
           {projects.map((project, index) => (
-            <div key={project.id} className="py-24 lg:py-32 border-b border-[rgba(255,255,255,0.05)] last:border-0">
+            <div key={project.id} className="py-12 sm:py-20 lg:py-32 border-b border-[rgba(255,255,255,0.05)] last:border-0">
               <ProjectBlock project={project} index={index} />
             </div>
           ))}
@@ -186,11 +186,11 @@ const ProjectBlock = memo(function ProjectBlock({ project, index }: { project: t
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             style={{ willChange: "transform, opacity" }}
-            className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-16 lg:gap-32 items-center relative transform-gpu`}
+            className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 sm:gap-12 lg:gap-32 items-center relative transform-gpu`}
         >
             {/* Image Side - Centered within its parent column */}
             <div className="w-full lg:w-1/2 relative flex items-center justify-center my-auto">
-                <div className="relative w-[85%] sm:w-[75%] lg:w-[75%] xl:w-[70%] aspect-square mx-auto my-auto flex items-center justify-center">
+                <div className="relative w-full max-w-[320px] sm:max-w-[380px] md:max-w-[420px] lg:max-w-none lg:w-[75%] xl:w-[70%] aspect-square mx-auto my-auto flex items-center justify-center">
                     
                     {/* Container */}
                     <div 
@@ -293,52 +293,52 @@ const ProjectBlock = memo(function ProjectBlock({ project, index }: { project: t
             </div>
 
             {/* Content Side */}
-            <div className="w-full lg:w-1/2 flex flex-col">
-                <div className="flex items-center gap-4 font-mono text-xs text-pale-yellow tracking-widest uppercase mb-6">
+            <div className="w-full lg:w-1/2 flex flex-col text-left">
+                <div className="flex items-center gap-4 font-mono text-xs text-pale-yellow tracking-widest uppercase mb-4 sm:mb-6">
                   <span>{project.id}</span>
                   <span className="w-8 h-px bg-[rgba(255,255,255,0.08)]" />
                   <span>{project.period}</span>
                 </div>
 
-                <h3 className="font-serif text-4xl md:text-5xl text-[rgba(240,240,235,0.9)] mb-2">
+                <h3 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[rgba(240,240,235,0.9)] mb-2">
                   {project.client}
                 </h3>
 
-                <div className="text-xl md:text-2xl text-[rgba(240,240,235,0.65)] font-sans font-light mb-10">
+                <div className="text-lg sm:text-xl md:text-2xl text-[rgba(240,240,235,0.65)] font-sans font-light mb-6 sm:mb-10">
                   {project.role}
                 </div>
 
-                <div className="grid grid-cols-3 gap-8 mb-6 border-t border-[rgba(255,255,255,0.08)] pt-8">
+                <div className="grid grid-cols-3 gap-3 sm:gap-6 md:gap-8 mb-6 border-t border-[rgba(255,255,255,0.08)] pt-6 sm:pt-8">
                   {project.stats.map((stat, i) => (
                     <Counter key={i} value={stat.value} label={stat.label} suffix={stat.suffix} prefix={stat.prefix} delay={0.3 + (i * 0.1)} />
                   ))}
                 </div>
 
                 {/* Metric Chips with exact impact metrics */}
-                <div className="flex flex-col gap-2.5 mb-8">
+                <div className="flex flex-col gap-2.5 mb-6 sm:mb-8">
                   {project.metricChips.map((metric, i) => (
                     <div 
                       key={i} 
-                      className="group/chip flex items-start gap-3 p-3.5 rounded bg-white/[0.025] hover:bg-white/[0.045] border border-white/[0.08] hover:border-[#D4D19C]/30 transition-all duration-300"
+                      className="group/chip flex items-start gap-2.5 sm:gap-3 p-3 sm:p-3.5 rounded bg-white/[0.025] hover:bg-white/[0.045] border border-white/[0.08] hover:border-[#D4D19C]/30 transition-all duration-300"
                     >
                       <span className="font-mono text-[#D4D19C] text-sm leading-none mt-0.5 select-none shrink-0 group-hover/chip:translate-x-0.5 transition-transform duration-200">↳</span>
-                      <span className="font-mono text-xs text-pearl-white/85 leading-relaxed tracking-wide">
+                      <span className="font-mono text-[11px] sm:text-xs text-pearl-white/85 leading-relaxed tracking-wide">
                         {metric}
                       </span>
                     </div>
                   ))}
                 </div>
 
-                <div className="mb-10">
+                <div className="mb-6 sm:mb-10">
                    <CapabilityStrip items={project.capabilities} />
                 </div>
 
-                <p className="font-sans text-base text-[rgba(240,240,235,0.65)] leading-relaxed max-w-md mb-8">
+                <p className="font-sans text-sm sm:text-base text-[rgba(240,240,235,0.65)] leading-relaxed max-w-md mb-6 sm:mb-8">
                   {project.description}
                 </p>
 
-                <div className="pt-6 border-t border-[rgba(255,255,255,0.08)] mb-8">
-                  <p className="font-serif italic text-lg text-[rgba(240,240,235,0.5)]">
+                <div className="pt-4 sm:pt-6 border-t border-[rgba(255,255,255,0.08)] mb-6 sm:mb-8">
+                  <p className="font-serif italic text-base sm:text-lg text-[rgba(240,240,235,0.5)]">
                     "{project.tagline}"
                   </p>
                 </div>
@@ -346,7 +346,7 @@ const ProjectBlock = memo(function ProjectBlock({ project, index }: { project: t
                 <div className="pt-2">
                   <a 
                     href="/src/about_page.html#career-trajectory" 
-                    className="group inline-flex items-center gap-2.5 font-mono text-xs uppercase tracking-widest text-[#D4D19C] hover:text-white transition-colors relative no-underline"
+                    className="group inline-flex items-center gap-2.5 font-mono text-xs uppercase tracking-widest text-[#D4D19C] hover:text-white transition-colors relative no-underline min-h-[40px] items-center"
                   >
                     <span className="relative font-medium tracking-wider">
                         INSPECT ARCHITECTURE &amp; IMPACT →

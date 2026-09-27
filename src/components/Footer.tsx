@@ -34,31 +34,31 @@ function FooterComponent() {
 
   return (
     <>
-      <footer className="w-full border-t border-white/10 bg-[#0d0f0c]/80 backdrop-blur-sm py-14 px-6 md:px-12 text-silver-blue/60 font-mono text-xs">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+      <footer className="w-full border-t border-white/10 bg-[#0d0f0c]/80 backdrop-blur-sm py-8 sm:py-10 md:py-14 px-4 sm:px-6 md:px-12 text-silver-blue/60 font-mono text-xs">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 text-center md:text-left">
           
           {/* Left: Identity, Copyright & Trigger */}
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-3 gap-y-2">
-            <span className="text-pearl-white/90 font-medium">
+          <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center md:justify-start gap-x-3 gap-y-2">
+            <span className="text-pearl-white/90 font-medium text-[11px] sm:text-xs">
               © 2026 Slacie Phan. All rights reserved.
             </span>
             <span className="text-white/20 select-none hidden sm:inline">·</span>
             <button
               onClick={openModal}
-              className="text-[#D4D19C] hover:text-white underline underline-offset-4 decoration-[#D4D19C]/40 hover:decoration-white transition-all cursor-pointer tracking-wider uppercase font-mono text-[11px]"
+              className="text-[#D4D19C] hover:text-white underline underline-offset-4 decoration-[#D4D19C]/40 hover:decoration-white transition-all cursor-pointer tracking-wider uppercase font-mono text-[11px] min-h-[40px] flex items-center justify-center"
               aria-haspopup="dialog"
             >
-              Make a Similar Site
+              MAKE A SIMILAR SITE
             </button>
           </div>
 
           {/* Right: Location & Email */}
-          <div className="flex items-center gap-3 text-white/50 tracking-wide text-[11px]">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-white/50 tracking-wide text-[11px]">
             <span>HCM City, Vietnam</span>
             <span className="text-white/20">·</span>
             <a 
               href="mailto:slaciephan@gmail.com" 
-              className="text-pearl-white/70 hover:text-[#D4D19C] transition-colors"
+              className="text-pearl-white/70 hover:text-[#D4D19C] transition-colors py-1 inline-block"
             >
               slaciephan@gmail.com
             </a>

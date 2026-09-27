@@ -34,7 +34,6 @@
     font-family: 'Work Sans', sans-serif;
     background: var(--mist);
     color: var(--black);
-    overflow-x: hidden;
     /* cursor: none; */ /* Revert cursor to auto for debugging */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
   }
@@ -116,12 +115,16 @@
   #about { }
 
   .about-hero {
-    padding: 60px 40px;
+    padding: 48px 36px 80px 36px;
     display: grid;
-    grid-template-columns: 40% 1fr;
-    gap: 80px;
-    align-items: start;
+    grid-template-columns: 380px 1fr;
+    gap: 52px;
+    align-items: flex-start;
     position: relative;
+    max-width: 1440px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
   }
   
   /* Brutalist Background Elements */
@@ -152,231 +155,526 @@
     pointer-events: none;
   }
 
-  /* LEFT COLUMN - IDENTITY PANEL */
+  /* LEFT COLUMN - IDENTITY PANEL (Persistent Sticky Architecture) */
   .identity-panel {
-    position: sticky; top: 100px;
-    display: flex; flex-direction: column; gap: 24px;
-    perspective: 1000px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 6rem; /* top-24 clearance (96px) above fixed frosted nav */
+    align-self: flex-start;
+    height: fit-content;
+    max-height: calc(100vh - 6.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    padding-right: 4px;
+    padding-bottom: 12px;
+  }
+  .identity-panel::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
   
-  /* Photo Block */
+  /* ==========================================================================
+     ACCESS KIT VISUAL BADGE & ID PHOTO BLOCK
+     ========================================================================== */
   .id-photo-block {
     position: relative;
     width: 100%;
-    aspect-ratio: 4/5;
-    border-radius: 24px;
+    min-height: 440px;
+    height: 460px;
+    border-radius: 22px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-    background-image: url('https://raw.githubusercontent.com/trishapd/SVGcollection/refs/heads/main/section3-presentation.png');
-    background-size: cover;
-    background-position: center;
-    background-color: var(--mist);
+    background-color: #142217;
+    background-image: 
+      radial-gradient(circle at 60% 35%, rgba(46, 76, 52, 0.45) 0%, rgba(18, 30, 21, 0.96) 75%),
+      linear-gradient(to right, rgba(215, 255, 63, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(215, 255, 63, 0.06) 1px, transparent 1px);
+    background-size: 100% 100%, 20px 20px, 20px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    user-select: none;
   }
-  .id-photo-block::before {
-    content: '';
+
+  /* Notebook Twin-Loop Spiral Spine (Left Margin) */
+  .id-notebook-spiral {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(18,18,18,0.05) 0%, rgba(18,18,18,0.35) 100%);
-    backdrop-filter: saturate(0.85) brightness(0.95);
-    -webkit-backdrop-filter: saturate(0.85) brightness(0.95);
-    z-index: 1;
+    top: 24px;
+    bottom: 24px;
+    left: 8px;
+    width: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 15;
     pointer-events: none;
   }
-  .id-photo-overlay {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 20%;
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255,255,255,0.2);
-    padding: 0 24px;
-    display: flex; align-items: center; justify-content: space-between;
-    color: white;
-    z-index: 2;
-  }
-  .id-photo-text { display: flex; flex-direction: column; }
-  .id-photo-name {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700; font-size: 1.2rem;
-    line-height: 1; margin-bottom: 4px;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  }
-  .id-photo-role {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem; letter-spacing: 0.1em;
-    text-transform: uppercase; opacity: 0.9;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.2);
-  }
-
-  /* System Stack Headline */
-  .stack-headline {
-    padding: 0 8px;
-  }
-  .stack-label {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--blue);
-    margin-bottom: 8px; font-weight: 700;
-  }
-  .stack-title {
-    font-family: 'Playfair Display', serif;
-    font-weight: 800; font-size: 1.8rem;
-    line-height: 1.05; letter-spacing: -0.03em;
-    color: var(--black);
-  }
-
-  /* Horizontal Sliding Panels */
-  .folder-system {
+  .spiral-loop {
     position: relative;
-    height: 250px; /* Increased height for generous breathing room */
-    margin-top: 24px;
+    width: 14px;
+    height: 18px;
   }
-  
-  .folder-panel {
+  .spiral-hole {
     position: absolute;
-    top: 24px; bottom: 0; /* Make room for tab */
-    width: 90%;
-    border-radius: 16px;
-    padding: 26px 24px 28px 24px;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    box-shadow: -2px 0 12px rgba(0,0,0,0.04), inset 0 1px rgba(255,255,255,0.4);
-    border: 1px solid rgba(255,255,255,0.2);
-    display: flex; flex-direction: row; gap: 24px;
-    overflow: visible;
-    transform-origin: left center;
-    animation: floatIdle 6s ease-in-out infinite;
+    left: 4px;
+    top: 4px;
+    width: 6px;
+    height: 10px;
+    border-radius: 3px;
+    background: #0B120C;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.8);
   }
-
-  @keyframes floatIdle {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
-  }
-
-  .folder-panel[data-id="1"] { animation-delay: 0s; }
-  .folder-panel[data-id="2"] { animation-delay: -1.2s; }
-  .folder-panel[data-id="3"] { animation-delay: -2.4s; }
-  .folder-panel[data-id="4"] { animation-delay: -3.6s; }
-  .folder-panel[data-id="5"] { animation-delay: -4.8s; }
-
-  .folder-tab {
+  .spiral-wire {
     position: absolute;
-    top: -24px;
-    left: 24px;
-    height: 24px;
-    padding: 0 16px;
-    border-radius: 8px 8px 0 0;
+    left: 0;
+    top: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 7px;
+    border: 2px solid #C8D0D8;
+    border-right-color: transparent;
+    border-bottom-color: #8C96A0;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+    background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 60%);
+  }
+
+  /* Sticky Tag & Paperclip */
+  .id-sticky-tag-wrap {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    z-index: 20;
+    transform: rotate(-2.5deg);
+    display: flex;
+    align-items: flex-start;
+  }
+  .id-sticky-tag {
+    background: #D7FF3F;
+    color: #121212;
+    padding: 6px 14px 6px 12px;
+    border-radius: 3px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25), 0 1px 2px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    border-top: 1px solid rgba(255,255,255,0.6);
+  }
+  .id-sticky-tag-title {
     font-family: 'Space Mono', monospace;
     font-size: 0.65rem;
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.12em;
+    line-height: 1.1;
+  }
+  .id-sticky-tag-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.52rem;
+    font-weight: 500;
+    opacity: 0.8;
+    letter-spacing: 0.04em;
+  }
+  .id-paperclip-svg {
+    position: absolute;
+    top: -10px;
+    right: 12px;
+    width: 22px;
+    height: 52px;
+    pointer-events: none;
+    z-index: 22;
+  }
+
+  /* Circular Stamp & Tech Badges */
+  .id-badges-layer {
+    position: absolute;
+    top: 74px;
+    right: 16px;
+    z-index: 18;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .id-circular-stamp {
+    width: 74px;
+    height: 74px;
+    opacity: 0.92;
+    transform: rotate(6deg);
+    transition: transform 0.4s ease;
+  }
+  .id-photo-block:hover .id-circular-stamp {
+    transform: rotate(24deg) scale(1.04);
+  }
+  .id-stamp-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .id-spec-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    background: rgba(18, 30, 21, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(215, 255, 63, 0.3);
+    border-radius: 9999px;
+  }
+  .chip-pulse {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #D7FF3F;
+    box-shadow: 0 0 6px #D7FF3F;
+  }
+  .chip-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.52rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #D7FF3F;
+  }
+
+  /* Central Portrait Stage */
+  .id-portrait-stage {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 5;
+    padding-left: 18px; /* offset for spiral spine */
+  }
+  .id-portrait-img {
+    width: 86%;
+    height: 86%;
+    object-fit: contain;
+    object-position: bottom center;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.45)) contrast(1.03);
+    mask-image: linear-gradient(to bottom, black 72%, transparent 95%);
+    -webkit-mask-image: linear-gradient(to bottom, black 72%, transparent 95%);
+    transition: transform 0.5s ease;
+  }
+  .id-photo-block:hover .id-portrait-img {
+    transform: scale(1.03);
+  }
+  .id-portrait-vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 60%, transparent 45%, rgba(12, 22, 14, 0.6) 95%);
+    pointer-events: none;
+  }
+
+  /* Barcode Strip */
+  .id-barcode-row {
+    position: absolute;
+    bottom: 84px;
+    left: 28px;
+    right: 20px;
+    z-index: 12;
     display: flex;
     align-items: center;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-bottom: none;
-    box-shadow: inset 0 1px rgba(255,255,255,0.4);
-    color: var(--black);
-    opacity: 0.8;
+    justify-content: space-between;
+    opacity: 0.55;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+    padding-bottom: 4px;
+  }
+  .id-barcode-svg {
+    width: 90px;
+    height: 12px;
+  }
+  .id-barcode-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.1em;
+    color: #FFFFFF;
   }
 
-  .folder-panel[data-id="1"] .folder-tab { background: var(--grad-yellow); }
-  .folder-panel[data-id="2"] .folder-tab { background: var(--grad-grey); }
-  .folder-panel[data-id="3"] .folder-tab { background: var(--grad-blue); }
-  .folder-panel[data-id="4"] .folder-tab { background: var(--grad-olive); }
-  .folder-panel[data-id="5"] .folder-tab { background: var(--grad-plume); }
+  /* Bottom Nameplate */
+  .id-nameplate-dock {
+    position: relative;
+    z-index: 25;
+    margin-top: auto;
+    width: 100%;
+    background: rgba(14, 24, 16, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 14px 20px 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+  }
+  .id-nameplate-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    line-height: 1.1;
+    color: #FFFFFF;
+    margin-bottom: 3px;
+    letter-spacing: -0.01em;
+  }
+  .id-nameplate-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .id-nameplate-role {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #D7FF3F;
+    text-transform: uppercase;
+  }
+  .id-nameplate-code {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .id-nameplate-seal {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(215, 255, 63, 0.1);
+    border: 1px solid rgba(215, 255, 63, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
 
-  /* Panel Colors & Positions (5 Panels) */
-  .folder-panel[data-id="1"] { background: var(--grad-yellow); z-index: 1; left: 0; }
-  .folder-panel[data-id="2"] { background: var(--grad-grey); z-index: 2; left: 20px; }
-  .folder-panel[data-id="3"] { background: var(--grad-blue); z-index: 3; left: 40px; }
-  .folder-panel[data-id="4"] { background: var(--grad-olive); z-index: 4; left: 60px; }
-  .folder-panel[data-id="5"] { background: var(--grad-plume); z-index: 5; left: 80px; }
+  /* Corner marks inside card */
+  .id-card-corner-bracket {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 1px solid rgba(215, 255, 63, 0.4);
+    pointer-events: none;
+    z-index: 12;
+  }
+  .br-tl { top: 12px; left: 24px; border-right: 0; border-bottom: 0; }
+  .br-tr { top: 12px; right: 12px; border-left: 0; border-bottom: 0; }
+  .br-bl { bottom: 76px; left: 24px; border-right: 0; border-top: 0; }
+  .br-br { bottom: 76px; right: 12px; border-left: 0; border-top: 0; }
+
+  /* ==========================================================================
+     SYSTEM STACKS FOLDER DECK (Full Width Containment)
+     ========================================================================== */
+  .stack-headline {
+    padding: 0 4px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .stack-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .stack-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 800;
+    font-size: 1.65rem;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--black);
+  }
+
+  .folder-system {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
+    box-sizing: border-box;
+  }
+
+  .folder-panel {
+    position: absolute;
+    top: 28px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    border-radius: 16px;
+    padding: 22px 18px 24px 18px;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06), inset 0 1px rgba(255,255,255,0.7);
+    border: 1px solid rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: row;
+    gap: 14px;
+    overflow: visible;
+  }
+
+  .folder-panel.inactive {
+    opacity: 0.2;
+    pointer-events: none;
+    transform: translateY(4px);
+    z-index: 1;
+  }
+  .folder-panel.inactive .folder-tab {
+    pointer-events: auto;
+    opacity: 0.75;
+    cursor: pointer;
+  }
+  .folder-panel.inactive .folder-tab:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
 
   .folder-panel.active {
-    z-index: 10;
-    box-shadow: -8px 0 24px rgba(0,0,0,0.08), inset 0 1px rgba(255,255,255,0.6);
-    transform: translateX(0) scale(1.02);
-    animation: none;
-  }
-  .folder-panel.inactive {
-    opacity: 0.85;
-    filter: brightness(0.95);
-  }
-
-  /* Content inside panels */
-  .folder-left {
-    flex: 0 0 55%;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .folder-right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    opacity: 0;
-    transform: translateX(10px);
-    transition: all 0.3s ease 0.1s;
-  }
-
-  .folder-panel.active .folder-right {
     opacity: 1;
-    transform: translateX(0);
+    pointer-events: auto;
+    transform: translateY(0);
+    z-index: 10;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.1), inset 0 1px rgba(255,255,255,0.8);
   }
 
+  .folder-tab {
+    position: absolute;
+    top: -26px;
+    height: 26px;
+    padding: 0 4px;
+    border-radius: 6px 6px 0 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-bottom: none;
+    box-shadow: inset 0 1px rgba(255,255,255,0.5);
+    color: var(--black);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  .tab-micro-icon {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+    opacity: 0.85;
+  }
+
+  .folder-panel[data-id="1"] .folder-tab { background: var(--grad-yellow); left: 0%; width: 20%; }
+  .folder-panel[data-id="2"] .folder-tab { background: var(--grad-grey); left: 20%; width: 20%; }
+  .folder-panel[data-id="3"] .folder-tab { background: var(--grad-blue); left: 40%; width: 20%; }
+  .folder-panel[data-id="4"] .folder-tab { background: var(--grad-olive); left: 60%; width: 20%; }
+  .folder-panel[data-id="5"] .folder-tab { background: var(--grad-plume); left: 80%; width: 20%; }
+
+  .folder-panel[data-id="1"] { background: var(--grad-yellow); }
+  .folder-panel[data-id="2"] { background: var(--grad-grey); }
+  .folder-panel[data-id="3"] { background: var(--grad-blue); }
+  .folder-panel[data-id="4"] { background: var(--grad-olive); }
+  .folder-panel[data-id="5"] { background: var(--grad-plume); }
+
+  .folder-panel.active .folder-tab {
+    border-bottom: 2px solid transparent;
+    font-weight: 800;
+  }
+
+  .folder-left {
+    flex: 0 0 38%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
   .folder-title {
     font-family: 'Playfair Display', serif;
-    font-weight: 800; font-size: 1.4rem;
-    line-height: 1.1; letter-spacing: -0.02em;
+    font-weight: 800;
+    font-size: 1.25rem;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     color: var(--black);
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
-  
   .folder-desc {
     font-family: 'Work Sans', sans-serif;
-    font-weight: 500;
-    font-size: 0.85rem; line-height: 1.4;
-    color: var(--black); opacity: 0.7;
+    font-weight: 400;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    color: var(--black);
+    opacity: 0.75;
   }
-  
-  /* Tool Groups & Tags */
-  .tool-group { display: flex; flex-direction: column; gap: 6px; }
+  .folder-right {
+    flex: 1 1 62%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+  }
+  .tool-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
   .tool-group-label {
     font-family: 'Space Mono', monospace;
-    font-size: 0.6rem; text-transform: uppercase;
-    opacity: 0.5; letter-spacing: 0.05em;
+    font-size: 0.58rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--black);
+    opacity: 0.55;
+    letter-spacing: 0.05em;
   }
   .tool-tags {
-    display: flex; flex-wrap: wrap; gap: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
   }
   .tool-pill {
     font-family: 'Space Mono', monospace;
-    font-size: 0.65rem; font-weight: 500;
-    padding: 4px 8px;
+    font-size: 0.62rem;
+    font-weight: 500;
+    padding: 3px 7px;
     border-radius: 4px;
-    background: rgba(255,255,255,0.4);
-    border: 1px solid rgba(0,0,0,0.06);
+    background: rgba(255,255,255,0.65);
+    border: 1px solid rgba(0,0,0,0.08);
     color: var(--black);
     cursor: pointer;
+    white-space: nowrap;
     transition: all 0.2s ease;
-    position: relative;
   }
   .tool-pill:hover {
-    transform: translateY(-3px);
-    background: rgba(255,255,255,0.8);
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.95);
     border-color: var(--black);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   }
   .tool-pill.active {
     background: var(--black);
     color: var(--acid);
     border-color: var(--black);
-  }
-  .tool-pill.active::after {
-    content: ''; position: absolute; top: 2px; right: 4px;
-    width: 4px; height: 4px; background: var(--acid); border-radius: 50%;
   }
 
   /* CTA Icon */
@@ -424,7 +722,14 @@
   }
 
   /* RIGHT CONTENT */
-  .about-content { padding-top: 8px; }
+  .about-content {
+    padding-top: 8px;
+    width: 100%;
+    max-width: 960px;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: visible;
+  }
 
   .about-block {
     margin-bottom: 80px;
@@ -488,148 +793,801 @@
     border-color: var(--acid); background: var(--acid);
   }
 
-  /* CAPACITIES SECTION */
-  .capacities-tabs {
-    display: flex; gap: 8px;
-    background: rgba(255,255,255,0.5);
-    border: 1px solid var(--border);
-    padding: 6px;
-    border-radius: 12px;
-    margin-bottom: 32px;
-    overflow-x: auto; /* Handle mobile */
-    scrollbar-width: none;
-  }
-  .capacities-tabs::-webkit-scrollbar { display: none; }
-  
-  .cap-tab {
-    flex: 1;
-    border: none; background: transparent;
-    padding: 10px 12px;
-    border-radius: 8px;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem; font-weight: 700;
-    color: var(--black); opacity: 0.6;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .cap-tab:hover { opacity: 1; background: rgba(0,0,0,0.03); }
-  .cap-tab.active {
-    background: #A9B594; /* Muted Olive */
-    color: white; opacity: 1;
-    box-shadow: 0 4px 12px rgba(169,181,148,0.3);
+  /* ID NAMEPLATE BANNER (Default hidden on desktop) */
+  .id-nameplate-banner {
+    display: none;
   }
 
-  .skills-container {
-    transition: opacity 0.2s ease;
-    min-height: 240px;
-  }
-
-  .skill-row {
-    margin-bottom: 24px;
-    opacity: 0; transform: translateY(10px);
-    animation: fadeSlideIn 0.4s forwards;
-    position: relative;
-  }
-  .skill-row:last-child { margin-bottom: 0; }
-  .skill-row:not(:last-child)::after {
-    content: ''; position: absolute; bottom: -12px; left: 0; right: 0;
-    height: 1px; background: var(--black); opacity: 0.05;
-  }
-
-  .skill-meta {
-    display: flex; justify-content: space-between; align-items: flex-end;
-    margin-bottom: 10px;
-  }
-  .skill-name {
-    font-family: 'Work Sans', sans-serif; font-weight: 500;
-    font-size: 0.95rem; color: var(--black);
-  }
-  .skill-score {
-    font-family: 'Space Mono', monospace; font-weight: 700;
-    font-size: 0.8rem; color: var(--black); opacity: 0.8;
-  }
-  .skill-track {
-    height: 8px; width: 100%;
-    background: rgba(0,0,0,0.05);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .skill-fill {
-    height: 100%; width: 0%; /* Start at 0 for animation */
-    border-radius: 4px;
-    transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
-  }
-
-  /* Fill Colors */
-  .fill-strategy { background: var(--grad-olive); }
-  .fill-growth { background: var(--grad-yellow); }
-  .fill-ops { background: var(--grad-blue); }
-  .fill-design { background: var(--grad-plume); }
-
-  @keyframes fadeSlideIn {
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Timeline Refactor */
-  .timeline { position: relative; padding-left: 40px; }
-  .timeline::before {
-    content: '';
-    position: absolute; left: 0; top: 0; bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--acid), var(--blue), var(--black));
-  }
-  .timeline-item {
-    position: relative;
-    padding-bottom: 48px;
-  }
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -44px; top: 6px;
-    width: 8px; height: 8px;
-    background: var(--black);
-    border: 1px solid var(--acid);
-  }
-  .timeline-period {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem; color: var(--blue);
-    margin-bottom: 8px; font-weight: 700;
-  }
-  .timeline-role {
+  /* PROFILE SUMMARY TYPOGRAPHY */
+  .profile-headline {
     font-family: 'Playfair Display', serif;
-    font-weight: 700; font-size: 1.25rem;
-    margin-bottom: 4px;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--black);
+    margin-bottom: 20px;
   }
-  .timeline-co {
-    font-size: 0.9rem; color: var(--graphite);
-    font-weight: 600; margin-bottom: 12px;
-    text-transform: uppercase; letter-spacing: 0.05em;
+  .profile-accent-mono {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--blue);
+    margin-bottom: 20px;
+    font-weight: 700;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
   }
-  .timeline-desc {
-    font-size: 0.95rem; line-height: 1.7;
-    color: #444;
+  .profile-body-text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
-  .timeline-highlights {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    margin-top: 16px;
+  .profile-body-text p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--graphite);
+    margin-bottom: 0;
   }
-  .hl-tag {
+
+  /* ==========================================================================
+     FOCUS ALLOCATION MATRIX (100% Core Competencies Breakdown)
+     ========================================================================== */
+  .capacities-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .capacities-subhead {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--graphite);
+    opacity: 0.8;
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+  .capacities-total-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(92, 90, 69, 0.08);
+    border: 1px solid rgba(92, 90, 69, 0.22);
+    border-radius: 9999px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #5C5A45;
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+  }
+  .total-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #5C5A45;
+    box-shadow: 0 0 6px rgba(92, 90, 69, 0.6);
+  }
+
+  /* Top Summary / Stacked Segmented Bar */
+  .focus-allocation-wrap {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(18, 18, 18, 0.08);
+    border-radius: 12px;
+    padding: 18px 20px 20px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.02);
+  }
+  .focus-bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .focus-bar-label {
     font-family: 'Space Mono', monospace;
     font-size: 0.7rem;
-    background: rgba(18,18,18,0.05);
-    border: 1px solid transparent;
-    border-radius: 2px;
-    padding: 4px 10px;
+    font-weight: 700;
     color: var(--black);
-    transition: all 0.2s;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
-  .timeline-item:hover .hl-tag {
-    border-color: var(--black);
-    background: white;
+  .focus-bar-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--graphite);
+    opacity: 0.65;
+    letter-spacing: 0.05em;
+  }
+
+  /* Segmented Bar */
+  .focus-stacked-bar {
+    display: flex;
+    width: 100%;
+    height: 34px;
+    border-radius: 8px;
+    overflow: visible;
+    background: rgba(18, 18, 18, 0.05);
+    border: 1px solid rgba(18, 18, 18, 0.12);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+    position: relative;
+  }
+  .focus-slice {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+    outline: none;
+  }
+  .focus-slice:first-child {
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+  }
+  .focus-slice:last-child {
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+  }
+  .slice-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    pointer-events: none;
+    letter-spacing: 0.02em;
+    transition: transform 0.2s ease;
+  }
+  .slice-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: #121212;
+    color: #FFFFFF;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 30;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  }
+  .slice-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px 5px 0;
+    border-style: solid;
+    border-color: #121212 transparent transparent;
+  }
+  .focus-slice:hover .slice-tooltip,
+  .focus-slice:focus-visible .slice-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+  .focus-slice:hover,
+  .focus-slice.active {
+    transform: scaleY(1.12);
+    z-index: 10;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+  }
+  .focus-stacked-bar.has-hover .focus-slice:not(:hover):not(.active) {
+    opacity: 0.45;
+    filter: saturate(0.85);
+  }
+
+  /* 5 Pillars Grid Breakdown */
+  .focus-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .focus-pillar-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(18, 18, 18, 0.08);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+  .focus-pillar-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(18, 18, 18, 0.22);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+  }
+  .focus-pillar-card.highlighted {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.07);
+    background: #FAFBF9;
+  }
+  .focus-pillar-card[data-pillar="1"].highlighted {
+    border-color: #5C5A45;
+    box-shadow: 0 8px 24px rgba(92, 90, 69, 0.16);
+  }
+  .focus-pillar-card[data-pillar="2"].highlighted {
+    border-color: #7E8C6A;
+    box-shadow: 0 8px 24px rgba(126, 140, 106, 0.18);
+  }
+  .focus-pillar-card[data-pillar="3"].highlighted {
+    border-color: #D4D19C;
+    box-shadow: 0 8px 24px rgba(212, 209, 156, 0.25);
+  }
+  .focus-pillar-card[data-pillar="4"].highlighted {
+    border-color: #AEBED4;
+    box-shadow: 0 8px 24px rgba(174, 190, 212, 0.25);
+  }
+  .focus-pillar-card[data-pillar="5"].highlighted {
+    border-color: #64748B;
+    box-shadow: 0 8px 24px rgba(100, 116, 139, 0.18);
+  }
+
+  .pillar-card-wide {
+    grid-column: span 2;
+  }
+
+  .pillar-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  .pillar-tag-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pillar-accent-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+  .pillar-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--graphite);
+    opacity: 0.7;
+    letter-spacing: 0.05em;
+  }
+  .pillar-pct {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .pillar-title {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 10px;
+    line-height: 1.35;
+  }
+  .pillar-track {
+    width: 100%;
+    height: 7px;
+    background: rgba(18, 18, 18, 0.06);
+    border-radius: 9999px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .pillar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .pillar-focus {
+    font-size: 0.84rem;
+    line-height: 1.62;
+    color: var(--graphite);
+    opacity: 0.9;
+    margin-bottom: 14px;
+    flex-grow: 1;
+  }
+  .pillar-focus-title {
+    font-weight: 700;
+    color: var(--black);
+    margin-right: 4px;
+  }
+  .pillar-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 4px;
+  }
+  .pillar-chip {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    padding: 3px 8px;
+    background: rgba(18, 18, 18, 0.04);
+    border: 1px solid rgba(18, 18, 18, 0.07);
+    border-radius: 4px;
+    color: var(--graphite);
+    opacity: 0.85;
+    transition: all 0.2s ease;
+  }
+  .focus-pillar-card:hover .pillar-chip {
+    background: rgba(18, 18, 18, 0.06);
+    border-color: rgba(18, 18, 18, 0.12);
+  }
+
+  /* ==========================================================================
+     PROJECT HIGHLIGHTS & SYSTEM SHOWCASE (Interactive Showcase Pattern)
+  /* ==========================================================================
+     PROJECT HIGHLIGHTS & SYSTEM SHOWCASE (Interactive Showcase Pattern)
+     ========================================================================== */
+  .project-showcase-section {
+    position: relative;
+    margin-bottom: 80px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+  .showcase-header-row {
+    margin-bottom: 28px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .showcase-headline {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+    font-weight: 800;
+    color: var(--black);
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+  }
+  .showcase-subheadline {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--graphite);
+    opacity: 0.8;
+    margin-top: 8px;
+    letter-spacing: 0.02em;
+  }
+
+  /* List Container: Strictly 100% of Parent Column Width */
+  .project-showcase-list {
+    border-top: 1px solid rgba(18, 18, 18, 0.1);
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+  .project-showcase-row {
+    border-bottom: 1px solid rgba(18, 18, 18, 0.08);
+    transition: background 0.25s ease, border-color 0.2s ease;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+  .project-showcase-row:hover {
+    border-bottom-color: rgba(18, 18, 18, 0.28);
+  }
+
+  /* Row Trigger (Clickable / Hover target) */
+  .project-row-trigger {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 16px 0;
+    cursor: pointer;
+    gap: 16px;
+    width: 100%;
+    max-width: 100%;
+    background: transparent;
+    border: none;
+    text-align: left;
+    outline: none;
+    box-sizing: border-box;
+    transition: padding 0.2s ease, opacity 0.2s ease;
+  }
+  .project-row-trigger:focus-visible {
+    outline: 2px solid #5C5A45;
+    outline-offset: 4px;
+  }
+  .project-row-left {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+  .project-row-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--graphite);
+    opacity: 0.45;
+    flex-shrink: 0;
+    width: 22px;
+  }
+  .project-row-title-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  /* Editorial Serif Project Titles (Harmonized with site's primary serif) */
+  .project-row-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+    font-weight: 700;
+    color: var(--black);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+    transition: color 0.2s ease, transform 0.2s ease;
+  }
+  .project-showcase-row:hover .project-row-title {
+    color: #5C5A45;
+    transform: translateX(3px);
+  }
+  .project-row-arrow {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    opacity: 0.45;
+    flex-shrink: 0;
+    vertical-align: middle;
+    margin-left: 6px;
+    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
+  }
+  .project-showcase-row:hover .project-row-arrow {
+    opacity: 1;
+    color: #5C5A45;
+    transform: translate(2px, -2px);
+  }
+
+  /* Standardized Monospace Subtext */
+  .project-row-domain {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--graphite);
+    opacity: 0.75;
+    letter-spacing: 0.02em;
+    line-height: 1.45;
+    word-break: break-word;
+  }
+
+  /* Row Right Meta */
+  .project-row-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  .project-metric-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .project-expand-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(18, 18, 18, 0.05);
+    border: 1px solid rgba(18, 18, 18, 0.09);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, color 0.2s ease;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+  .project-showcase-row.open .project-expand-icon {
+    transform: rotate(180deg);
+    background: var(--black);
+    color: white;
+  }
+
+  /* Expandable Drawer / Accordion */
+  .project-drawer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+    opacity: 0;
+    padding: 0 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .project-showcase-row.open .project-drawer {
+    max-height: 1400px;
+    opacity: 1;
+    padding: 4px 0 28px 0;
+  }
+  .drawer-inner {
+    border-top: 1px dashed rgba(18, 18, 18, 0.12);
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Mobile Inline Preview */
+  .mobile-preview-card {
+    display: none;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #141611;
+    color: #F3F1E8;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    margin-bottom: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .drawer-section-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--graphite);
+    opacity: 0.65;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .drawer-scopes-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+  }
+  .drawer-scope-item {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    color: var(--graphite);
+    position: relative;
+    padding-left: 20px;
+  }
+  .drawer-scope-item::before {
+    content: '▪';
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #5C5A45;
+    font-size: 0.95rem;
+  }
+  .drawer-outcomes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .drawer-outcome-box {
+    background: #FFFFFF;
+    border: 1px solid rgba(18, 18, 18, 0.08);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .outcome-bullet {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #5C5A45;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .outcome-text {
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--black);
+    font-weight: 500;
+  }
+  .drawer-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .drawer-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    padding: 4px 10px;
+    background: rgba(18, 18, 18, 0.04);
+    border: 1px solid rgba(18, 18, 18, 0.08);
+    border-radius: 4px;
+    color: var(--black);
+    font-weight: 600;
+  }
+
+  /* ==========================================================================
+     INLINE PROXIMITY ANCHOR HOVERCARD (Desktop Peek)
+     Anchored comfortably next to project title; strictly inside parent bounds
+     ========================================================================== */
+  .project-inline-hovercard {
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    transform: translateY(-50%) scale(0.96);
+    width: 16rem; /* w-64 */
+    max-width: 18rem;
+    border-radius: 0.75rem; /* rounded-xl */
+    overflow: hidden;
+    background: rgba(20, 22, 17, 0.95); /* bg-background/95 */
+    backdrop-filter: blur(12px); /* backdrop-blur-md */
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2); /* border border-white/20 */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45); /* shadow-2xl */
+    color: #F3F1E8;
+    pointer-events: none;
+    z-index: 30;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s ease;
+    will-change: transform, opacity;
+  }
+  @media (min-width: 768px) {
+    .project-inline-hovercard {
+      left: 50%; /* md:left-[50%] */
+      width: 18rem; /* md:w-72 */
+    }
+  }
+  @media (min-width: 1280px) {
+    .project-inline-hovercard {
+      left: 55%; /* lg:left-[55%] */
+      width: 18rem; /* md:w-72 */
+    }
+  }
+  .project-showcase-row:hover .project-inline-hovercard {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) scale(1);
+  }
+  .project-showcase-row.open .project-inline-hovercard {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  @media (max-width: 1023px) {
+    .project-inline-hovercard {
+      display: none !important;
+    }
+  }
+  .hovercard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.35);
+  }
+  .hovercard-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: #D4D19C;
+    letter-spacing: 0.08em;
+  }
+  .hovercard-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .hovercard-pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #7E8C6A;
+    box-shadow: 0 0 6px #7E8C6A;
+  }
+  .hovercard-visual {
+    padding: 10px 12px;
+    background: radial-gradient(circle at 50% 30%, rgba(92, 90, 69, 0.25) 0%, rgba(20, 22, 17, 0.95) 80%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+    box-sizing: border-box;
+  }
+  .hovercard-visual svg {
+    width: 100%;
+    height: auto;
+    max-height: 95px;
+    display: block;
+  }
+  .hovercard-body {
+    padding: 10px 12px 12px 12px;
+    background: rgba(20, 22, 17, 0.95);
+  }
+  .hovercard-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 2px;
+    letter-spacing: -0.01em;
+  }
+  .hovercard-tagline {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.63rem;
+    color: #AEBED4;
+    margin-bottom: 8px;
+    line-height: 1.35;
+  }
+  .hovercard-metrics-row {
+    display: flex;
+    gap: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 8px;
+  }
+  .hovercard-stat {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 6px;
+    padding: 5px 4px;
+    text-align: center;
+  }
+  .hovercard-stat-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #D4D19C;
+    letter-spacing: -0.02em;
+  }
+  .hovercard-stat-lbl {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 2px;
   }
 
   /* SYSTEM STACK - MODULAR GRID */
@@ -987,13 +1945,481 @@
     }
   }
 
-  /* Mobile */
-  @media (max-width: 768px) {
-    .about-hero { grid-template-columns: 1fr; padding: 30px 20px; gap: 40px; }
-    .identity-panel { position: static; }
+  /* Tablet & Compact Desktop (< 1024px) */
+  @media (max-width: 1023px) {
+    nav {
+      padding: 16px 24px;
+    }
+    .nav-links {
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav-links::-webkit-scrollbar {
+      display: none;
+    }
+    .about-hero {
+      grid-template-columns: 1fr;
+      padding: 36px 20px;
+      gap: 40px;
+      align-items: stretch;
+    }
+    .identity-panel {
+      position: static;
+      top: auto;
+      align-self: auto;
+      height: auto;
+      max-height: none;
+      overflow-y: visible;
+      width: 100%;
+      max-width: 100%;
+      text-align: center;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-right: 0;
+      padding-bottom: 0;
+    }
+    .id-photo-block {
+      max-width: 300px;
+      width: 100%;
+      margin: 0 auto 12px auto;
+      border-radius: 20px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+    }
+    .id-photo-overlay {
+      display: none;
+    }
+    .id-nameplate-banner {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 0 auto 24px auto;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--black);
+    }
+    .id-nameplate-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--black);
+      text-transform: none;
+    }
+    .id-nameplate-divider {
+      color: var(--blue);
+      font-weight: 700;
+    }
+    .id-nameplate-role {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: var(--graphite);
+    }
+    .stack-headline {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .folder-system {
+      width: 100%;
+      height: 380px;
+      margin-top: 24px;
+    }
+    .folder-panel {
+      width: calc(100% - 40px);
+      max-width: 100%;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: row;
+      gap: 18px;
+    }
+    .folder-left {
+      flex: 0 0 45%;
+    }
+    .folder-right {
+      flex: 1 1 55%;
+      opacity: 1;
+      transform: none;
+    }
+    .tool-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
     .skills-grid { grid-template-columns: 1fr; }
     .tools-grid { grid-template-columns: 1fr; }
-    footer { flex-direction: column; gap: 20px; text-align: center; }
+    .modular-grid { grid-template-columns: 1fr; gap: 16px; }
+  }
+
+  /* Mobile (< 640px) */
+  @media (max-width: 640px) {
+    nav {
+      padding: 12px 16px;
+      gap: 8px;
+    }
+    .nav-logo {
+      font-size: 0.85rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .nav-links {
+      overflow-x: auto;
+      max-width: calc(100% - 90px);
+      flex-wrap: nowrap;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 2px 0;
+    }
+    .nav-links::-webkit-scrollbar {
+      display: none;
+    }
+    .nav-links a {
+      font-size: 0.7rem;
+      padding: 5px 9px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .about-hero {
+      padding: 20px 16px;
+      gap: 28px;
+    }
+    .stack-title {
+      font-size: 1.4rem;
+    }
+    .id-photo-block {
+      max-width: 280px;
+      margin: 0 auto 10px auto;
+      border-radius: 16px;
+    }
+    .id-nameplate-banner {
+      margin: 0 auto 20px auto;
+      font-size: 0.7rem;
+      gap: 6px;
+    }
+    .id-nameplate-title {
+      font-size: 0.95rem;
+    }
+    .id-nameplate-role {
+      font-size: 0.6rem;
+    }
+    
+    /* Folder Stacks Mobile */
+    .folder-system {
+      height: 480px;
+      margin-top: 28px;
+    }
+    .folder-panel {
+      width: calc(100% - 20px);
+      flex-direction: column;
+      gap: 14px;
+      padding: 18px 16px 20px 16px;
+    }
+    .folder-panel[data-id="1"] { left: 0; }
+    .folder-panel[data-id="2"] { left: 5px; }
+    .folder-panel[data-id="3"] { left: 10px; }
+    .folder-panel[data-id="4"] { left: 15px; }
+    .folder-panel[data-id="5"] { left: 20px; }
+    .folder-tab {
+      font-size: 0.52rem;
+      padding: 0 2px;
+      height: 24px;
+      gap: 2px;
+    }
+    .folder-left {
+      flex: none;
+      width: 100%;
+    }
+    .folder-title {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+    .folder-desc {
+      font-size: 0.8rem;
+    }
+    .folder-right {
+      flex: none;
+      width: 100%;
+      opacity: 1;
+      transform: none;
+    }
+    .tool-group {
+      gap: 4px;
+    }
+    .tool-pill {
+      font-size: 0.65rem;
+      padding: 5px 8px;
+      min-height: 28px;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* Profile Summary Section Mobile */
+    .profile-summary-block {
+      padding: 0 2px;
+    }
+    .profile-headline {
+      font-size: 1.5rem !important; /* text-2xl sm:text-3xl */
+      line-height: 1.25 !important; /* leading-snug */
+      margin-bottom: 14px !important;
+    }
+    .profile-accent-mono {
+      font-size: 11px !important; /* text-[11px] sm:text-xs */
+      line-height: 1.55 !important; /* leading-normal */
+      word-break: break-word !important;
+      overflow-wrap: break-word !important;
+      white-space: normal !important;
+      margin-bottom: 16px !important;
+    }
+    .profile-body-text {
+      gap: 12px !important; /* space-y-3 */
+      padding: 0 !important;
+    }
+    .profile-body-text p {
+      font-size: 0.82rem !important; /* text-xs sm:text-sm */
+      line-height: 1.65 !important; /* leading-relaxed */
+      margin-bottom: 0 !important;
+    }
+
+    /* Capacities Focus Matrix Mobile */
+    .capacities-header-row {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 10px !important;
+      margin-bottom: 18px !important;
+    }
+    .focus-allocation-wrap {
+      padding: 14px 14px 16px !important;
+      margin-bottom: 20px !important;
+    }
+    .focus-stacked-bar {
+      height: 28px !important;
+    }
+    .slice-label {
+      font-size: 0.68rem !important;
+    }
+    .focus-pillars-grid {
+      grid-template-columns: 1fr !important;
+      gap: 16px !important;
+    }
+    .pillar-card-wide {
+      grid-column: span 1 !important;
+    }
+    .focus-pillar-card {
+      padding: 16px !important;
+    }
+    .pillar-title {
+      font-size: 0.95rem !important;
+      margin-bottom: 8px !important;
+    }
+    .pillar-pct {
+      font-size: 1rem !important;
+    }
+    .pillar-track {
+      height: 6px !important;
+      margin-bottom: 10px !important;
+    }
+    .pillar-focus {
+      font-size: 0.78rem !important;
+      line-height: 1.55 !important;
+      margin-bottom: 12px !important;
+    }
+    .pillar-chips {
+      gap: 5px !important;
+    }
+    .pillar-chip {
+      font-size: 0.58rem !important;
+      padding: 2px 6px !important;
+    }
+
+    /* Project Highlights Mobile Showcase */
+    .project-inline-hovercard {
+      display: none !important;
+    }
+    .mobile-preview-card {
+      display: block !important;
+    }
+    .project-row-trigger {
+      padding: 16px 0 !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 10px !important;
+    }
+    .project-row-left {
+      width: 100% !important;
+      gap: 12px !important;
+    }
+    .project-row-title {
+      font-size: 1.18rem !important;
+    }
+    .project-row-domain {
+      font-size: 0.68rem !important;
+      white-space: normal !important;
+      word-break: break-word !important;
+    }
+    .project-row-right {
+      width: 100% !important;
+      justify-content: space-between !important;
+      margin-top: 2px !important;
+    }
+    .project-drawer {
+      padding: 0 0 !important;
+    }
+    .project-showcase-row.open .project-drawer {
+      padding: 4px 0 24px !important;
+    }
+    .drawer-outcomes-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .drawer-scope-item {
+      font-size: 0.82rem !important;
+      line-height: 1.55 !important;
+    }
+    .outcome-text {
+      font-size: 0.8rem !important;
+    }
+    .folder-list {
+      padding-left: 18px !important;
+    }
+    .folder-list li {
+      font-size: 0.82rem !important;
+      line-height: 1.55 !important;
+      margin-bottom: 8px !important;
+      word-break: break-word !important;
+    }
+
+    /* Product Systems Thinking Mobile */
+    .system-board {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 20px !important; /* grid-cols-1 gap-6 */
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      margin-top: 24px !important;
+    }
+    .system-board-cell {
+      border: 1px solid var(--black) !important;
+      border-radius: 8px !important;
+      padding: 20px 16px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+      box-shadow: 4px 4px 0 rgba(18,18,18,0.05);
+    }
+    .sys-diagram-wrapper {
+      margin-top: 16px !important;
+      padding: 10px 6px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+    .sys-diagram-wrapper svg {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+      display: block !important;
+    }
+    .system-flow-diagram {
+      padding: 12px 14px !important;
+      font-size: 0.7rem !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+    .system-flow-inline {
+      padding: 12px 14px !important;
+      font-size: 0.7rem !important;
+      gap: 6px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+
+    /* Footer Mobile */
+    footer {
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 14px !important;
+      padding: 32px 16px !important;
+      text-align: center !important;
+    }
+    .footer-left {
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 8px !important;
+      font-size: 0.72rem !important;
+    }
+    .footer-site-trigger {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .footer-right {
+      font-size: 0.72rem !important;
+      text-align: center !important;
+    }
+  }
+
+  /* 14-inch Laptop Calibration (1024px – 1536px) */
+  @media (min-width: 1024px) and (max-width: 1536px) {
+    .about-hero {
+      gap: 56px;
+      padding: 50px 32px;
+    }
+    .project-row-trigger {
+      padding: 16px 0 !important; /* px-0 py-4 */
+      align-items: baseline !important;
+      justify-content: space-between !important;
+    }
+    .project-row-left {
+      gap: 12px;
+    }
+    .project-row-num {
+      width: 20px;
+      font-size: 0.72rem;
+    }
+    .project-row-title {
+      font-size: 1.35rem;
+    }
+    .project-inline-hovercard {
+      left: 50% !important;
+      width: 17rem !important;
+    }
+  }
+
+  /* 23-inch & Ultra-wide Display Calibration (>= 1920px) */
+  @media (min-width: 1920px) {
+    .about-hero {
+      max-width: 1440px;
+      gap: 64px;
+      padding: 60px 48px;
+      grid-template-columns: 420px 1fr;
+    }
+    .about-content {
+      max-width: 58rem; /* Proportional max-w-4xl column constraint */
+      width: 100%;
+    }
+    .project-row-trigger {
+      padding: 18px 0;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .project-row-title {
+      font-size: 1.55rem;
+    }
+    .project-inline-hovercard {
+      left: 55%;
+      width: 18rem;
+    }
   }
 </style>
 </head>
@@ -1010,7 +2436,6 @@
     <a href="../index.html" id="nav-home">Overview</a>
     <a href="about_page.html" id="nav-about" class="active">About</a>
     <a href="agentic_loop.html" id="nav-lab">Lab</a>
-    <a href="playground.html" id="nav-playground">Playground</a>
     <a href="https://www.linkedin.com/in/slaciep/" target="_blank" rel="noopener noreferrer" class="btn-cta">LinkedIn ↗</a>
   </div>
 </nav>
@@ -1027,30 +2452,157 @@
   <div class="about-hero">
     
     <!-- LEFT COLUMN: IDENTITY PANEL -->
-    <div class="identity-panel">
+    <div class="identity-panel no-scrollbar">
       
-      <!-- Photo Block -->
-      <div class="id-photo-block">
-        <div class="id-photo-overlay">
-          <div class="id-photo-text">
-            <div class="id-photo-name">Slacie Phan</div>
-            <div class="id-photo-role">Product Specialist</div>
+      <!-- 1. Restored ID Block: ACCESS KIT VISUAL BADGE -->
+      <div id="id-photo-block" class="id-photo-block w-full">
+        <!-- Notebook Twin-Loop Spiral Spine (Left Edge) -->
+        <div class="id-notebook-spiral" aria-hidden="true">
+          <div class="spiral-loop"><span class="spiral-hole"></span><span class="spiral-wire"></span></div>
+          <div class="spiral-loop"><span class="spiral-hole"></span><span class="spiral-wire"></span></div>
+          <div class="spiral-loop"><span class="spiral-hole"></span><span class="spiral-wire"></span></div>
+          <div class="spiral-loop"><span class="spiral-hole"></span><span class="spiral-wire"></span></div>
+          <div class="spiral-loop"><span class="spiral-hole"></span><span class="spiral-wire"></span></div>
+          <div class="spiral-loop"><span class="spiral-hole"></span><span class="spiral-wire"></span></div>
+          <div class="spiral-loop"><span class="spiral-hole"></span><span class="spiral-wire"></span></div>
+          <div class="spiral-loop"><span class="spiral-hole"></span><span class="spiral-wire"></span></div>
+          <div class="spiral-loop"><span class="spiral-hole"></span><span class="spiral-wire"></span></div>
+          <div class="spiral-loop"><span class="spiral-hole"></span><span class="spiral-wire"></span></div>
+        </div>
+
+        <!-- Corner Marks -->
+        <div class="id-card-corner-bracket br-tl"></div>
+        <div class="id-card-corner-bracket br-tr"></div>
+        <div class="id-card-corner-bracket br-bl"></div>
+        <div class="id-card-corner-bracket br-br"></div>
+
+        <!-- Top Access Kit Sticky Tag with Metallic Paperclip Graphic -->
+        <div class="id-sticky-tag-wrap">
+          <div class="id-sticky-tag">
+            <span class="id-sticky-tag-title">ACCESS KIT</span>
+            <span class="id-sticky-tag-sub">PO AI · SPEC 01</span>
+          </div>
+          <!-- Realistic Metallic Paperclip SVG -->
+          <svg class="id-paperclip-svg" viewBox="0 0 28 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <filter id="clipShadow" x="-20%" y="-10%" width="150%" height="130%">
+              <feDropShadow dx="1.5" dy="2" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.45"/>
+            </filter>
+            <path d="M10 20 V54 C10 60 14 64 18 64 C22 64 25 60 25 54 V14 C25 7 19 3 13 3 C7 3 3 7 3 14 V56" stroke="rgba(0,0,0,0.3)" stroke-width="3" stroke-linecap="round" filter="url(#clipShadow)"/>
+            <path d="M10 20 V54 C10 60 14 64 18 64 C22 64 25 60 25 54 V14 C25 7 19 3 13 3 C7 3 3 7 3 14 V56" stroke="#DCE1E7" stroke-width="2.6" stroke-linecap="round"/>
+            <path d="M10.8 20 V54 C10.8 59 14.2 62.5 17.5 62.5 C21 62.5 23.5 59 23.5 54 V14 C23.5 8 18.5 4.5 13 4.5 C8 4.5 4.5 8 4.5 14 V56" stroke="#FFFFFF" stroke-width="0.8" stroke-linecap="round" opacity="0.8"/>
+          </svg>
+        </div>
+
+        <!-- Circular Stamp Badges & Technical Seals -->
+        <div class="id-badges-layer">
+          <!-- Circular Badge: PO AI / BUILD SMART PRODUCTS -->
+          <div class="id-circular-stamp">
+            <svg viewBox="0 0 100 100" class="id-stamp-svg" aria-label="PO AI Stamp: Build Smart Products">
+              <defs>
+                <path id="stampCirclePath" d="M 50, 50 m -37, 0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
+              </defs>
+              <circle cx="50" cy="50" r="46" fill="none" stroke="rgba(215, 255, 63, 0.45)" stroke-width="1.2" stroke-dasharray="3 2" />
+              <circle cx="50" cy="50" r="28" fill="rgba(22, 36, 25, 0.6)" stroke="rgba(215, 255, 63, 0.6)" stroke-width="1" />
+              <text font-family="'Space Mono', monospace" font-size="7.5" font-weight="700" fill="#D7FF3F" letter-spacing="1.5">
+                <textPath xlink:href="#stampCirclePath" startOffset="0%">
+                  BUILD SMART PRODUCTS · PO AI ·
+                </textPath>
+              </text>
+              <g transform="translate(50, 50)">
+                <text text-anchor="middle" dy="-2" font-family="'Space Mono', monospace" font-size="8" font-weight="800" fill="#FFFFFF">PO AI</text>
+                <text text-anchor="middle" dy="7" font-family="'Space Mono', monospace" font-size="5" font-weight="700" fill="#D7FF3F" letter-spacing="0.5">VERIFIED</text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Secondary Chip Badge -->
+          <div class="id-spec-chip">
+            <span class="chip-pulse"></span>
+            <span class="chip-text">SYS.VERIFIED // 2026</span>
           </div>
         </div>
+
+        <!-- Central Portrait Artwork Layer -->
+        <div class="id-portrait-stage">
+          <img 
+            src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/7afab593-07f8-4c1d-a4ce-8ad98f70624f/dljlsi6-424b25d1-0e2e-4bc3-b9ff-00867448bacc.png/v1/fill/w_1280,h_1584/hero_portrait_by_phanxxy_dljlsi6-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTU4NCIsInBhdGgiOiIvZi83YWZhYjU5My0wN2Y4LTRjMWQtYTRjZS04YWQ5OGY3MDYyNGYvZGxqbHNpNi00MjRiMjVkMS0wZTJlLTRiYzMtYjlmZi0wMDg2NzQ0OGJhY2MucG5nIiwid2lkdGgiOiI8PTEyODAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.oNhD3aguvMBPKV5BBllIEDr-u0VPqDXs0EabJPXE8xg" 
+            alt="Slacie Phan" 
+            class="id-portrait-img"
+            loading="eager"
+            decoding="async"
+          />
+          <div class="id-portrait-vignette"></div>
+        </div>
+
+        <!-- Barcode Strip -->
+        <div class="id-barcode-row">
+          <svg viewBox="0 0 100 14" class="id-barcode-svg" preserveAspectRatio="none">
+            <rect x="0" y="0" width="3" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="5" y="0" width="1" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="8" y="0" width="4" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="14" y="0" width="2" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="18" y="0" width="1" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="21" y="0" width="5" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="28" y="0" width="2" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="32" y="0" width="3" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="37" y="0" width="1" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="40" y="0" width="4" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="46" y="0" width="2" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="50" y="0" width="1" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="53" y="0" width="4" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="59" y="0" width="2" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="63" y="0" width="5" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="70" y="0" width="1" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="73" y="0" width="3" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="78" y="0" width="2" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="82" y="0" width="4" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="88" y="0" width="2" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="92" y="0" width="1" height="14" fill="rgba(255,255,255,0.4)"/>
+            <rect x="95" y="0" width="5" height="14" fill="rgba(255,255,255,0.4)"/>
+          </svg>
+          <span class="id-barcode-text">SYS.ARCH // SPEC-ID: #84920</span>
+        </div>
+
+        <!-- Bottom Nameplate: Slacie Phan // PRODUCT SPECIALIST -->
+        <div class="id-nameplate-dock">
+          <div class="id-nameplate-content">
+            <div class="id-nameplate-title">Slacie Phan</div>
+            <div class="id-nameplate-meta">
+              <span class="id-nameplate-role">PRODUCT SPECIALIST</span>
+              <span class="id-nameplate-code">// PO AI</span>
+            </div>
+          </div>
+          <div class="id-nameplate-seal" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D7FF3F" stroke-width="2">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 3"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile/Tablet Name Plate (Beneath Visual Graphic) -->
+      <div class="id-nameplate-banner">
+        <span class="id-nameplate-title">Slacie Phan</span>
+        <span class="id-nameplate-divider">//</span>
+        <span class="id-nameplate-role">PRODUCT SPECIALIST</span>
       </div>
       
       <!-- Headline -->
       <div class="stack-headline">
         <div class="stack-label">System Stacks</div>
-        <div class="stack-title">The Operating System Behind My Work.</div>
+        <div class="stack-title">The Operating System Behind My Work</div>
       </div>
 
       <!-- Horizontal Sliding Panels (Tool Ecosystem) -->
       <div class="folder-system" id="folderSystem">
         
         <!-- Panel 01: Product & Growth -->
-        <div class="folder-panel" data-id="1" onclick="activatePanel(1)">
-          <div class="folder-tab">Growth Intel</div>
+        <div class="folder-panel inactive" data-id="1" onclick="activatePanel(1)">
+          <div class="folder-tab">
+            <svg class="tab-micro-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            <span>GROWTH</span>
+          </div>
           <div class="folder-left">
             <div class="folder-title">Growth<br>Intel</div>
             <div class="folder-desc">Data-driven acquisition &amp; loops.</div>
@@ -1075,8 +2627,11 @@
         </div>
 
         <!-- Panel 02: AI & Automation -->
-        <div class="folder-panel" data-id="2" onclick="activatePanel(2)">
-          <div class="folder-tab">AI &amp; Auto</div>
+        <div class="folder-panel inactive" data-id="2" onclick="activatePanel(2)">
+          <div class="folder-tab">
+            <svg class="tab-micro-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            <span>AI / AUTO</span>
+          </div>
           <div class="folder-left">
             <div class="folder-title">AI &amp;<br>Auto</div>
             <div class="folder-desc">Thinking → Creation → Workflow.</div>
@@ -1101,8 +2656,11 @@
         </div>
 
         <!-- Panel 03: Design -->
-        <div class="folder-panel" data-id="3" onclick="activatePanel(3)">
-          <div class="folder-tab">Design System</div>
+        <div class="folder-panel inactive" data-id="3" onclick="activatePanel(3)">
+          <div class="folder-tab">
+            <svg class="tab-micro-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/></svg>
+            <span>DESIGN</span>
+          </div>
           <div class="folder-left">
             <div class="folder-title">Design<br>System</div>
             <div class="folder-desc">Design → Prototype → Deploy.</div>
@@ -1130,7 +2688,10 @@
 
         <!-- Panel 04: Product Dev OS (Default Active) -->
         <div class="folder-panel active" data-id="4" onclick="activatePanel(4)">
-          <div class="folder-tab">Product Dev OS</div>
+          <div class="folder-tab">
+            <svg class="tab-micro-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            <span>DEV OS</span>
+          </div>
           <div class="folder-left">
             <div class="folder-title">Product<br>Dev OS</div>
             <div class="folder-desc">Structured execution engine.</div>
@@ -1155,8 +2716,11 @@
         </div>
 
         <!-- Panel 05: Business Ops -->
-        <div class="folder-panel" data-id="5" onclick="activatePanel(5)">
-          <div class="folder-tab">Biz Ops &amp; CRM</div>
+        <div class="folder-panel inactive" data-id="5" onclick="activatePanel(5)">
+          <div class="folder-tab">
+            <svg class="tab-micro-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+            <span>BIZ OPS</span>
+          </div>
           <div class="folder-left">
             <div class="folder-title">Biz Ops<br>&amp; CRM</div>
             <div class="folder-desc">Operational backbone.</div>
@@ -1180,136 +2744,1057 @@
     <div class="about-content">
       
       <!-- Intro -->
-      <div class="about-block">
+      <div class="about-block profile-summary-block">
         <div class="about-block-label">Profile Summary</div>
-        <h3>A product builder with a growth engineer's brain.</h3>
-        <p style="font-family: 'Space Mono', monospace; font-size: 0.85rem; line-height: 1.6; color: var(--blue); margin-bottom: 20px; font-weight: 700;">// T-shaped Product Leader operating at the convergence of Product Strategy, Growth Architecture, Creative Technology, and Frontier AI //</p>
-        <p>My career began across the digital marketing spectrum—spanning strategy, SEO, social media, communications, and paid media—which shaped a strong foundation in user behavior, growth, and distribution. Building on that, I now operate at the nexus of product, architecture, go-to-market, and operations—allowing me to bridge the gap between high-level strategic vision and hands-on delivery.</p>
-        <p>My domain expertise spans complex B2B ecosystems, on-demand manufacturing, and digital commerce—architecting scalable web, mobile, AI-augmented solutions, and Web3 ecosystems.</p>
-        <p>I’m well-versed in AI transformation, UI/UX &amp; Design Systems, and Creative Visuals—fluidly harmonizing complex systems, business architecture, and user psychology.</p>
-      </div>
-
-      <!-- Capacities (Skills) -->
-      <div class="about-block">
-        <div class="about-block-label">Capacities</div>
-        <h3>Core Competencies.</h3>
-        
-        <div class="capacities-tabs">
-          <button class="cap-tab active" data-cat="strategy">Product Strategy</button>
-          <button class="cap-tab" data-cat="growth">Growth &amp; Analytics</button>
-          <button class="cap-tab" data-cat="ops">System &amp; Ops</button>
-          <button class="cap-tab" data-cat="design">Design &amp; AI</button>
-        </div>
-
-        <div class="skills-container" id="skillsContainer">
-          <!-- Skills injected via JS -->
+        <h3 class="profile-headline">A product builder with a growth engineer's brain</h3>
+        <p class="profile-accent-mono">// T-shaped Product Specialist operating at the intersection of Product Strategy, Growth Architecture, Creative Technology, and Frontier AI //</p>
+        <div class="profile-body-text">
+          <p>My career began across the digital marketing spectrum—spanning strategy, SEO, social media, communications, and paid media—which shaped a strong foundation in user behavior, growth, and distribution. Building on that, I now operate at the nexus of product, architecture, go-to-market, and operations—allowing me to bridge the gap between high-level strategic vision and hands-on delivery.</p>
+          <p>My domain expertise spans complex B2B ecosystems, on-demand manufacturing, and digital commerce—architecting scalable web, mobile, AI-augmented solutions, and Web3 ecosystems.</p>
+          <p>I’m well-versed in AI transformation, UI/UX &amp; Design Systems, and Creative Visuals—fluidly harmonizing complex systems, business architecture, and user psychology.</p>
         </div>
       </div>
 
-      <!-- Timeline -->
-      <div class="about-block" id="career-trajectory">
-        <div class="about-block-label">Career Trajectory</div>
-        <h3>From marketing to full product ownership.</h3>
-        <div class="timeline">
-          <!-- Item 01: CommerceOS -->
-          <div class="timeline-item">
-            <div class="timeline-period">Oct 2025 – Present</div>
-            <div class="timeline-role">Product Owner</div>
-            <div class="timeline-co">CommerceOS — HCM, Vietnam</div>
-            <div style="font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--blue); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">AI Agents – Commerce Intelligence – B2B Multi-Tenant – Web Apps</div>
-            <div class="timeline-desc">Defined the product architecture for a scalable multi-tenant B2B SaaS platform, establishing organization &amp; dependency, workspace, role-based access control (RBAC), configurable modules, and AI-assisted decision workflows connecting research and data-access models.</div>
-            <button class="timeline-expand-btn" onclick="toggleTimeline(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-              Expand Impact
-            </button>
-            <div class="timeline-details">
-              <ul class="folder-list" style="margin-top:12px;">
-                <li>Enabled &gt;15 commerce teams and 7000+ active users through a configurable multi-tenant architecture and modular commerce intelligence workflows.</li>
-                <li>Partnered with GTM and RevOps teams on B2B productization, defining ICPs, priority use cases, pilot workflows, packaging, demo narratives, and feedback loops.</li>
-                <li>Defined tiered multi-tenant product strategy: Architected usage- and seat-based upsell triggers in tenant workspaces; increased Average Revenue Per Account (ARPA) by 28%.</li>
-              </ul>
+      <!-- Capacities / Focus Allocation Matrix -->
+      <div class="about-block" id="core-competencies">
+        <div class="about-block-label">Capacities // Focus Allocation</div>
+        <div class="capacities-header-row">
+          <div>
+            <h3>Core Competencies</h3>
+            <p class="capacities-subhead">// Unified 100% capacity breakdown reflecting active operational focus &amp; T-shaped product profile //</p>
+          </div>
+          <div class="capacities-total-badge">
+            <span class="total-dot"></span>
+            <span>100% FOCUS ALLOCATION</span>
+          </div>
+        </div>
+
+        <!-- Top Summary / Segmented Bar -->
+        <div class="focus-allocation-wrap">
+          <div class="focus-bar-header">
+            <span class="focus-bar-label">100% OPERATIONAL FOCUS BREAKDOWN</span>
+            <span class="focus-bar-meta">5 PILLARS · CUMULATIVE 100%</span>
+          </div>
+
+          <div class="focus-stacked-bar" role="meter" aria-label="100% Focus Allocation Matrix" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+            <!-- Slice 1: 30% System & Product Architecture -->
+            <div class="focus-slice" data-pillar="1" style="width: 30%; background-color: #5C5A45;" tabindex="0" role="button" aria-label="System &amp; Product Architecture: 30%">
+              <span class="slice-label" style="color: #FFFFFF;">30%</span>
+              <span class="slice-tooltip">System &amp; Product Architecture · 30%</span>
             </div>
-            <div class="timeline-highlights">
-              <span class="hl-tag">B2B SaaS</span><span class="hl-tag">Multi-Tenant</span><span class="hl-tag">AI Agents</span><span class="hl-tag">RBAC</span><span class="hl-tag">Commerce Intelligence</span>
+            <!-- Slice 2: 25% AI Orchestration & Frontier Workflows -->
+            <div class="focus-slice" data-pillar="2" style="width: 25%; background-color: #7E8C6A;" tabindex="0" role="button" aria-label="AI Orchestration &amp; Frontier Workflows: 25%">
+              <span class="slice-label" style="color: #FFFFFF;">25%</span>
+              <span class="slice-tooltip">AI Orchestration &amp; Frontier Workflows · 25%</span>
+            </div>
+            <!-- Slice 3: 20% Discovery, Strategy & Productization -->
+            <div class="focus-slice" data-pillar="3" style="width: 20%; background-color: #D4D19C;" tabindex="0" role="button" aria-label="Discovery, Strategy &amp; Productization: 20%">
+              <span class="slice-label" style="color: #121212;">20%</span>
+              <span class="slice-tooltip">Discovery, Strategy &amp; Productization · 20%</span>
+            </div>
+            <!-- Slice 4: 15% Growth Architecture & Retention Loops -->
+            <div class="focus-slice" data-pillar="4" style="width: 15%; background-color: #AEBED4;" tabindex="0" role="button" aria-label="Growth Architecture &amp; Retention Loops: 15%">
+              <span class="slice-label" style="color: #121212;">15%</span>
+              <span class="slice-tooltip">Growth Architecture &amp; Retention Loops · 15%</span>
+            </div>
+            <!-- Slice 5: 10% Cross-Functional Orchestration & Governance -->
+            <div class="focus-slice" data-pillar="5" style="width: 10%; background-color: #64748B;" tabindex="0" role="button" aria-label="Cross-Functional Orchestration &amp; Governance: 10%">
+              <span class="slice-label" style="color: #FFFFFF;">10%</span>
+              <span class="slice-tooltip">Cross-Functional Governance · 10%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 Core Pillars Grid Breakdown -->
+        <div class="focus-pillars-grid">
+          <!-- Pillar 1: System & Product Architecture — 30% -->
+          <div class="focus-pillar-card" id="focus-pillar-1" data-pillar="1" tabindex="0">
+            <div class="pillar-card-header">
+              <div class="pillar-tag-wrap">
+                <span class="pillar-accent-indicator" style="background-color: #5C5A45;"></span>
+                <span class="pillar-tag">01 // ARCHITECTURE &amp; SYSTEMS</span>
+              </div>
+              <div class="pillar-pct" style="color: #5C5A45;">30%</div>
+            </div>
+            <h4 class="pillar-title">System &amp; Product Architecture</h4>
+            <div class="pillar-track" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+              <div class="pillar-fill" style="width: 30%; background-color: #5C5A45;"></div>
+            </div>
+            <p class="pillar-focus">
+              <strong class="pillar-focus-title">Key Focus:</strong>
+              0→1 initiatives, multi-tenant RBAC, modular system architecture, database ecosystems &amp; deep platform API integrations.
+            </p>
+            <div class="pillar-chips">
+              <span class="pillar-chip">0→1 Initiatives</span>
+              <span class="pillar-chip">Multi-Tenant RBAC</span>
+              <span class="pillar-chip">Modular Systems</span>
+              <span class="pillar-chip">Platform APIs</span>
             </div>
           </div>
 
-          <!-- Item 02: Beincom -->
-          <div class="timeline-item">
-            <div class="timeline-period">Jul 2024 – Sep 2025</div>
-            <div class="timeline-role">Product Specialist</div>
-            <div class="timeline-co">Beincom · HCM City</div>
-            <div class="timeline-desc">Owned end-to-end product lifecycle for a hybrid Web3 social platform. Designed tokenized incentive mechanics that scaled active users from ~20K to 150K.</div>
-            <button class="timeline-expand-btn" onclick="toggleTimeline(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-              Expand Impact
-            </button>
-            <div class="timeline-details">
-              <ul class="folder-list" style="margin-top:12px;">
-                <li>Driving +15% activation uplift, +40% new-user MAU growth, and retention improvement from &lt;10% to 35%.</li>
-                <li>Reducing CPI by ~60% through ASO improvements, retargeting and in-product virality loops.</li>
-              </ul>
+          <!-- Pillar 2: AI Orchestration & Frontier Workflows — 25% -->
+          <div class="focus-pillar-card" id="focus-pillar-2" data-pillar="2" tabindex="0">
+            <div class="pillar-card-header">
+              <div class="pillar-tag-wrap">
+                <span class="pillar-accent-indicator" style="background-color: #7E8C6A;"></span>
+                <span class="pillar-tag">02 // AI ORCHESTRATION</span>
+              </div>
+              <div class="pillar-pct" style="color: #7E8C6A;">25%</div>
             </div>
-            <div class="timeline-highlights">
-              <span class="hl-tag">Web3</span><span class="hl-tag">Tokenomics</span><span class="hl-tag">Growth Loops</span><span class="hl-tag">Agile Squad</span>
+            <h4 class="pillar-title">AI Orchestration &amp; Frontier Workflows</h4>
+            <div class="pillar-track" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+              <div class="pillar-fill" style="width: 25%; background-color: #7E8C6A;"></div>
+            </div>
+            <p class="pillar-focus">
+              <strong class="pillar-focus-title">Key Focus:</strong>
+              Agentic control planes, State Graph modeling, GraphRAG memory persistence, and AI-augmented PO execution.
+            </p>
+            <div class="pillar-chips">
+              <span class="pillar-chip">Agentic Control Planes</span>
+              <span class="pillar-chip">State Graphs</span>
+              <span class="pillar-chip">GraphRAG Memory</span>
+              <span class="pillar-chip">AI PO Execution</span>
             </div>
           </div>
 
-          <!-- Item 03: Merchize -->
-          <div class="timeline-item">
-            <div class="timeline-period">Sep 2019 – Apr 2024</div>
-            <div class="timeline-role">Product Development &amp; Strategy Lead</div>
-            <div class="timeline-co">Merchize · Hanoi</div>
-            <div class="timeline-desc">Led product vision for a B2B commerce platform serving 40K+ global sellers. Owned discovery, prioritization, and roadmap trade-offs.</div>
-            <button class="timeline-expand-btn" onclick="toggleTimeline(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-              Expand Impact
-            </button>
-            <div class="timeline-details">
-              <ul class="folder-list" style="margin-top:12px;">
-                <li>Productized enterprise fulfillment tiers and high-margin packaging add-ons, increasing new product category adoption by 45%.</li>
-                <li>Standardized platform data schemas across catalog, pricing, and fulfillment APIs, engineering a dynamic feed engine that syndicated compliant product data across Google Shopping, Meta, and Pinterest for 5,000+ connected stores.</li>
-              </ul>
+          <!-- Pillar 3: Discovery, Strategy & Productization — 20% -->
+          <div class="focus-pillar-card" id="focus-pillar-3" data-pillar="3" tabindex="0">
+            <div class="pillar-card-header">
+              <div class="pillar-tag-wrap">
+                <span class="pillar-accent-indicator" style="background-color: #D4D19C;"></span>
+                <span class="pillar-tag">03 // DISCOVERY &amp; STRATEGY</span>
+              </div>
+              <div class="pillar-pct" style="color: #5C5A45;">20%</div>
             </div>
-            <div class="timeline-highlights">
-              <span class="hl-tag">B2B SaaS</span><span class="hl-tag">Intl Expansion</span><span class="hl-tag">Platform Scale</span><span class="hl-tag">GTM</span>
+            <h4 class="pillar-title">Discovery, Strategy &amp; Productization</h4>
+            <div class="pillar-track" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+              <div class="pillar-fill" style="width: 20%; background-color: #D4D19C;"></div>
+            </div>
+            <p class="pillar-focus">
+              <strong class="pillar-focus-title">Key Focus:</strong>
+              Problem discovery, user research, ICP validation, PRD specifications, and GTM packaging.
+            </p>
+            <div class="pillar-chips">
+              <span class="pillar-chip">Problem Discovery</span>
+              <span class="pillar-chip">User Research</span>
+              <span class="pillar-chip">ICP Validation</span>
+              <span class="pillar-chip">PRD &amp; GTM</span>
             </div>
           </div>
-          <div class="timeline-item">
-            <div class="timeline-period">Jan 2019 – Sep 2019</div>
-            <div class="timeline-role">Assistant Marketing Manager</div>
-            <div class="timeline-co">VCCorp · Hanoi</div>
-            <div class="timeline-desc">Expanded B2B Cloud &amp; Digital Solutions portfolio.</div>
-            <button class="timeline-expand-btn" onclick="toggleTimeline(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-              Expand Impact
-            </button>
-            <div class="timeline-details">
-              <ul class="folder-list" style="margin-top:12px;">
-                <li>Executed integrated marketing (SEO, referral, email, paid).</li>
-                <li>Supported high-value enterprise/SME acquisition.</li>
-              </ul>
+
+          <!-- Pillar 4: Growth Architecture & Retention Loops — 15% -->
+          <div class="focus-pillar-card" id="focus-pillar-4" data-pillar="4" tabindex="0">
+            <div class="pillar-card-header">
+              <div class="pillar-tag-wrap">
+                <span class="pillar-accent-indicator" style="background-color: #AEBED4;"></span>
+                <span class="pillar-tag">04 // GROWTH ARCHITECTURE</span>
+              </div>
+              <div class="pillar-pct" style="color: #4F6BFF;">15%</div>
             </div>
-            <div class="timeline-highlights"><span class="hl-tag">B2B</span><span class="hl-tag">Integrated Marketing</span></div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-period">Nov 2016 – Dec 2018</div>
-            <div class="timeline-role">Digital Marketing Lead</div>
-            <div class="timeline-co">Unishipping · Hanoi</div>
-            <div class="timeline-desc">Led multi-channel acquisition strategy (paid search, social, content).</div>
-            <button class="timeline-expand-btn" onclick="toggleTimeline(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-              Expand Impact
-            </button>
-            <div class="timeline-details">
-              <ul class="folder-list" style="margin-top:12px;">
-                <li>Delivered 35% YoY growth in qualified leads.</li>
-                <li>2.5× increase in organic traffic.</li>
-                <li>Built and managed hybrid team of 5.</li>
-              </ul>
+            <h4 class="pillar-title">Growth Architecture &amp; Retention Loops</h4>
+            <div class="pillar-track" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+              <div class="pillar-fill" style="width: 15%; background-color: #AEBED4;"></div>
             </div>
-            <div class="timeline-highlights"><span class="hl-tag">Multi-Channel</span><span class="hl-tag">Team Building</span><span class="hl-tag">Ecomm Funnels</span></div>
+            <p class="pillar-focus">
+              <strong class="pillar-focus-title">Key Focus:</strong>
+              Token/incentive mechanics, funnel conversion optimization, behavioral retention modeling, and virality loops.
+            </p>
+            <div class="pillar-chips">
+              <span class="pillar-chip">Token Mechanics</span>
+              <span class="pillar-chip">Funnel Optimization</span>
+              <span class="pillar-chip">Retention Modeling</span>
+              <span class="pillar-chip">Virality Loops</span>
+            </div>
           </div>
+
+          <!-- Pillar 5: Cross-Functional Orchestration & Governance — 10% (Wide Card) -->
+          <div class="focus-pillar-card pillar-card-wide" id="focus-pillar-5" data-pillar="5" tabindex="0">
+            <div class="pillar-card-header">
+              <div class="pillar-tag-wrap">
+                <span class="pillar-accent-indicator" style="background-color: #64748B;"></span>
+                <span class="pillar-tag">05 // GOVERNANCE &amp; SQUADS</span>
+              </div>
+              <div class="pillar-pct" style="color: #64748B;">10%</div>
+            </div>
+            <h4 class="pillar-title">Cross-Functional Orchestration &amp; Governance</h4>
+            <div class="pillar-track" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+              <div class="pillar-fill" style="width: 10%; background-color: #64748B;"></div>
+            </div>
+            <p class="pillar-focus">
+              <strong class="pillar-focus-title">Key Focus:</strong>
+              Technical thinking partnership, engineering/design squad alignment, and continuous delivery governance.
+            </p>
+            <div class="pillar-chips">
+              <span class="pillar-chip">Thinking Partnership</span>
+              <span class="pillar-chip">Squad Alignment</span>
+              <span class="pillar-chip">Delivery Governance</span>
+              <span class="pillar-chip">Continuous Delivery</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project Highlights & System Showcase -->
+      <div class="about-block project-showcase-section" id="project-highlights">
+        <div class="about-block-label">System Portfolio // Highlights</div>
+        <div class="showcase-header-row">
+          <h3 class="showcase-headline">Project Highlights</h3>
+          <p class="showcase-subheadline">// High-throughput platforms, modular commerce architectures, agentic intelligence, and multi-tenant ecosystems //</p>
+        </div>
+
+        <!-- Editorial Stacked Project List -->
+        <div class="project-showcase-list" id="projectShowcaseList">
+
+          <!-- PROJECT 01: CommerceOS -->
+          <div class="project-showcase-row" data-project-id="commerceos">
+            <button class="project-row-trigger" type="button" aria-expanded="false" onclick="toggleProjectDrawer(this)">
+              <div class="project-row-left">
+                <span class="project-row-num">01</span>
+                <div class="project-row-title-wrap">
+                  <div class="project-row-title">
+                    CommerceOS
+                    <svg class="project-row-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                  </div>
+                  <div class="project-row-domain">B2B SaaS · Multi-Tenant RBAC · AI Agents · Commerce Intelligence</div>
+                </div>
+              </div>
+              <div class="project-row-right">
+                <span class="project-metric-pill" style="border-color: rgba(92, 90, 69, 0.3); background: rgba(92, 90, 69, 0.08); color: #5C5A45;">+28% ARPA EXPANSION</span>
+                <div class="project-expand-icon" aria-label="Toggle details">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+              </div>
+            </button>
+
+            <!-- Inline Proximity Anchor HoverCard (Desktop Peek) -->
+            <div class="project-inline-hovercard" aria-hidden="true">
+              <div class="hovercard-header">
+                <span class="hovercard-badge">SYS_SPEC // 01</span>
+                <div class="hovercard-status">
+                  <span class="hovercard-pulse"></span>
+                  <span>PRODUCTION CLUSTER</span>
+                </div>
+              </div>
+              <div class="hovercard-visual">
+                <svg viewBox="0 0 320 130" width="100%" height="95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#5C5A45" stroke-dasharray="3 3"/>
+                  <circle cx="55" cy="65" r="24" fill="#24281D" stroke="#7E8C6A" stroke-width="1.5"/>
+                  <text x="55" y="62" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="8" font-weight="700">TENANT</text>
+                  <text x="55" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">ISOLATION</text>
+                  <path d="M80 65 H125" stroke="#D4D19C" stroke-width="1.5" stroke-dasharray="2 2"/>
+                  <rect x="125" y="42" width="70" height="46" rx="6" fill="#2C3224" stroke="#D4D19C" stroke-width="1.5"/>
+                  <text x="160" y="60" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="8" font-weight="700">RBAC CTRL</text>
+                  <text x="160" y="72" text-anchor="middle" fill="#AEBED4" font-family="'Space Mono', monospace" font-size="7">PERMISSIONS</text>
+                  <path d="M195 65 H240" stroke="#7E8C6A" stroke-width="1.5"/>
+                  <circle cx="265" cy="65" r="24" fill="#24281D" stroke="#5C5A45" stroke-width="1.5"/>
+                  <text x="265" y="62" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="8" font-weight="700">AI AGENT</text>
+                  <text x="265" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">DECISION</text>
+                </svg>
+              </div>
+              <div class="hovercard-body">
+                <h4 class="hovercard-title">CommerceOS</h4>
+                <div class="hovercard-tagline">B2B SaaS · Multi-Tenant RBAC · AI Agents</div>
+                <div class="hovercard-metrics-row">
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">+28%</div>
+                    <div class="hovercard-stat-lbl">ARPA LIFT</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">7,000+</div>
+                    <div class="hovercard-stat-lbl">ACTIVE USERS</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">&gt;15</div>
+                    <div class="hovercard-stat-lbl">TEAMS</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-drawer">
+              <div class="drawer-inner">
+                <!-- Mobile Inline Graphic -->
+                <div class="mobile-preview-card">
+                  <div class="hovercard-visual">
+                    <svg viewBox="0 0 320 130" width="100%" height="130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#5C5A45" stroke-dasharray="3 3"/>
+                      <circle cx="55" cy="65" r="24" fill="#24281D" stroke="#7E8C6A" stroke-width="1.5"/>
+                      <text x="55" y="62" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="8" font-weight="700">TENANT</text>
+                      <text x="55" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">ISOLATION</text>
+                      <path d="M80 65 H125" stroke="#D4D19C" stroke-width="1.5" stroke-dasharray="2 2"/>
+                      <rect x="125" y="42" width="70" height="46" rx="6" fill="#2C3224" stroke="#D4D19C" stroke-width="1.5"/>
+                      <text x="160" y="60" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="8" font-weight="700">RBAC CTRL</text>
+                      <text x="160" y="72" text-anchor="middle" fill="#AEBED4" font-family="'Space Mono', monospace" font-size="7">PERMISSIONS</text>
+                      <path d="M195 65 H240" stroke="#7E8C6A" stroke-width="1.5"/>
+                      <circle cx="265" cy="65" r="24" fill="#24281D" stroke="#5C5A45" stroke-width="1.5"/>
+                      <text x="265" y="62" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="8" font-weight="700">AI AGENT</text>
+                      <text x="265" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">DECISION</text>
+                    </svg>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Core Scopes &amp; System Architecture (PO cum BA Dual Ownership)</div>
+                  <ul class="drawer-scopes-list">
+                    <li class="drawer-scope-item">Drove end-to-end product requirements definition and systems analysis (PO cum BA): modeled domain-driven user stories, functional requirement specifications (FRDs), dependency matrices, and data access workflows.</li>
+                    <li class="drawer-scope-item">Architected a modular multi-tenant B2B infrastructure featuring granular Role-Based Access Control (RBAC), tenant workspace isolation, configurable decision modules, and AI-assisted research agents connecting live data models.</li>
+                    <li class="drawer-scope-item">Partnered with GTM and RevOps on productization, pricing tiers, ICP discovery, pilot workflows, and demo narratives to close feedback loops.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Key Quantitative Impacts &amp; Outcomes</div>
+                  <div class="drawer-outcomes-grid">
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Enabled &gt;15 commerce teams and 7,000+ active users</strong> via configurable intelligence workflows and modular workspaces.</span>
+                    </div>
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Architected usage- and seat-based upsell triggers</strong>, driving a <strong>+28% increase</strong> in Average Revenue Per Account (ARPA).</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="drawer-tags">
+                  <span class="drawer-tag">[PO/BA Dual Ownership]</span>
+                  <span class="drawer-tag">[B2B Multi-Tenant]</span>
+                  <span class="drawer-tag">[RBAC]</span>
+                  <span class="drawer-tag">[AI Agents]</span>
+                  <span class="drawer-tag">[Data Modeling]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROJECT 02: Beincom -->
+          <div class="project-showcase-row" data-project-id="beincom">
+            <button class="project-row-trigger" type="button" aria-expanded="false" onclick="toggleProjectDrawer(this)">
+              <div class="project-row-left">
+                <span class="project-row-num">02</span>
+                <div class="project-row-title-wrap">
+                  <div class="project-row-title">
+                    Beincom
+                    <svg class="project-row-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                  </div>
+                  <div class="project-row-domain">Web3 Social · Tokenomics · Viral Growth · Retention Modeling</div>
+                </div>
+              </div>
+              <div class="project-row-right">
+                <span class="project-metric-pill" style="border-color: rgba(126, 140, 106, 0.3); background: rgba(126, 140, 106, 0.08); color: #50613E;">150K USERS · 35% RETENTION</span>
+                <div class="project-expand-icon" aria-label="Toggle details">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+              </div>
+            </button>
+
+            <!-- Inline Proximity Anchor HoverCard (Desktop Peek) -->
+            <div class="project-inline-hovercard" aria-hidden="true">
+              <div class="hovercard-header">
+                <span class="hovercard-badge">SYS_SPEC // 02</span>
+                <div class="hovercard-status">
+                  <span class="hovercard-pulse"></span>
+                  <span>SCALE ENGINE</span>
+                </div>
+              </div>
+              <div class="hovercard-visual">
+                <svg viewBox="0 0 320 130" width="100%" height="95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#7E8C6A" stroke-dasharray="3 3"/>
+                  <path d="M 30 95 Q 90 85 130 55 T 290 25" stroke="#D7FF3F" stroke-width="2" fill="none"/>
+                  <circle cx="130" cy="55" r="4" fill="#D7FF3F"/>
+                  <circle cx="290" cy="25" r="4" fill="#D7FF3F"/>
+                  <text x="130" y="45" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">VIRAL HOOK</text>
+                  <text x="270" y="20" text-anchor="middle" fill="#D7FF3F" font-family="'Space Mono', monospace" font-size="8" font-weight="700">150K MAU</text>
+                  <rect x="35" y="25" width="60" height="24" rx="4" fill="#24281D" stroke="#7E8C6A"/>
+                  <text x="65" y="40" text-anchor="middle" fill="#AEBED4" font-family="'Space Mono', monospace" font-size="7">TOKENOMICS</text>
+                </svg>
+              </div>
+              <div class="hovercard-body">
+                <h4 class="hovercard-title">Beincom</h4>
+                <div class="hovercard-tagline">Web3 Social · Tokenomics · Viral Growth</div>
+                <div class="hovercard-metrics-row">
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">150K</div>
+                    <div class="hovercard-stat-lbl">ACTIVE USERS</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">35%</div>
+                    <div class="hovercard-stat-lbl">RETENTION</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">-60%</div>
+                    <div class="hovercard-stat-lbl">CPI REDUCTION</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-drawer">
+              <div class="drawer-inner">
+                <!-- Mobile Inline Graphic -->
+                <div class="mobile-preview-card">
+                  <div class="hovercard-visual">
+                    <svg viewBox="0 0 320 130" width="100%" height="130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#7E8C6A" stroke-dasharray="3 3"/>
+                      <path d="M 30 95 Q 90 85 130 55 T 290 25" stroke="#D7FF3F" stroke-width="2" fill="none"/>
+                      <circle cx="130" cy="55" r="4" fill="#D7FF3F"/>
+                      <circle cx="290" cy="25" r="4" fill="#D7FF3F"/>
+                      <text x="130" y="45" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">VIRAL HOOK</text>
+                      <text x="270" y="20" text-anchor="middle" fill="#D7FF3F" font-family="'Space Mono', monospace" font-size="8" font-weight="700">150K MAU</text>
+                      <rect x="35" y="25" width="60" height="24" rx="4" fill="#24281D" stroke="#7E8C6A"/>
+                      <text x="65" y="40" text-anchor="middle" fill="#AEBED4" font-family="'Space Mono', monospace" font-size="7">TOKENOMICS</text>
+                    </svg>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Core Scopes &amp; System Architecture</div>
+                  <ul class="drawer-scopes-list">
+                    <li class="drawer-scope-item">Led the product architecture and user psychology design for a decentralized social platform, designing tokenized incentive loops and peer-to-peer engagement mechanisms.</li>
+                    <li class="drawer-scope-item">Formulated continuous telemetry funnels, in-product virality hooks, and community-driven rewards to maximize recurring engagement.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Key Quantitative Impacts &amp; Outcomes</div>
+                  <div class="drawer-outcomes-grid">
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Scaled platform from ~20K to 150K active users</strong> through gamified reward mechanics and social loops.</span>
+                    </div>
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Drove +15% activation uplift</strong>, <strong>+40% new-user MAU growth</strong>, and lifted retention from <strong>&lt;10% to 35%</strong>.</span>
+                    </div>
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Reduced CPI by ~60%</strong> via synchronized ASO improvements and automated virality loops.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="drawer-tags">
+                  <span class="drawer-tag">[Web3 Ecosystem]</span>
+                  <span class="drawer-tag">[Tokenomics]</span>
+                  <span class="drawer-tag">[Growth Loops]</span>
+                  <span class="drawer-tag">[ASO Optimization]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROJECT 03: Merchize -->
+          <div class="project-showcase-row" data-project-id="merchize">
+            <button class="project-row-trigger" type="button" aria-expanded="false" onclick="toggleProjectDrawer(this)">
+              <div class="project-row-left">
+                <span class="project-row-num">03</span>
+                <div class="project-row-title-wrap">
+                  <div class="project-row-title">
+                    Merchize
+                    <svg class="project-row-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                  </div>
+                  <div class="project-row-domain">Enterprise E-commerce · Distributed OMS · Syndication Engine · 3PL APIs</div>
+                </div>
+              </div>
+              <div class="project-row-right">
+                <span class="project-metric-pill" style="border-color: rgba(79, 107, 255, 0.3); background: rgba(79, 107, 255, 0.08); color: #3A55E6;">5,000+ STORES · 40K SELLERS</span>
+                <div class="project-expand-icon" aria-label="Toggle details">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+              </div>
+            </button>
+
+            <!-- Inline Proximity Anchor HoverCard (Desktop Peek) -->
+            <div class="project-inline-hovercard" aria-hidden="true">
+              <div class="hovercard-header">
+                <span class="hovercard-badge">SYS_SPEC // 03</span>
+                <div class="hovercard-status">
+                  <span class="hovercard-pulse"></span>
+                  <span>DISTRIBUTED OMS</span>
+                </div>
+              </div>
+              <div class="hovercard-visual">
+                <svg viewBox="0 0 320 130" width="100%" height="95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#4F6BFF" stroke-dasharray="3 3"/>
+                  <rect x="25" y="45" width="65" height="40" rx="6" fill="#1C212B" stroke="#4F6BFF"/>
+                  <text x="57" y="62" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7" font-weight="700">DISTRIBUTED</text>
+                  <text x="57" y="74" text-anchor="middle" fill="#AEBED4" font-family="'Space Mono', monospace" font-size="7">OMS</text>
+                  <path d="M90 65 H125" stroke="#AEBED4" stroke-width="1.5"/>
+                  <circle cx="155" cy="65" r="26" fill="#1F2636" stroke="#4F6BFF" stroke-width="1.5"/>
+                  <text x="155" y="62" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="8" font-weight="700">SYNC FEED</text>
+                  <text x="155" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">5K STORES</text>
+                  <path d="M181 65 H220" stroke="#AEBED4" stroke-width="1.5"/>
+                  <rect x="220" y="35" width="80" height="60" rx="6" fill="#1C212B" stroke="#AEBED4"/>
+                  <text x="260" y="55" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">GOOGLE SHOP</text>
+                  <text x="260" y="68" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">META &amp; PINTEREST</text>
+                  <text x="260" y="81" text-anchor="middle" fill="#AEBED4" font-family="'Space Mono', monospace" font-size="6">3PL FULFILLMENT</text>
+                </svg>
+              </div>
+              <div class="hovercard-body">
+                <h4 class="hovercard-title">Merchize</h4>
+                <div class="hovercard-tagline">Enterprise E-commerce · Feed Syndication · 3PL APIs</div>
+                <div class="hovercard-metrics-row">
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">5,000+</div>
+                    <div class="hovercard-stat-lbl">STORES</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">40K+</div>
+                    <div class="hovercard-stat-lbl">SELLERS</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">+45%</div>
+                    <div class="hovercard-stat-lbl">ADOPTION</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-drawer">
+              <div class="drawer-inner">
+                <!-- Mobile Inline Graphic -->
+                <div class="mobile-preview-card">
+                  <div class="hovercard-visual">
+                    <svg viewBox="0 0 320 130" width="100%" height="130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#4F6BFF" stroke-dasharray="3 3"/>
+                      <rect x="25" y="45" width="65" height="40" rx="6" fill="#1C212B" stroke="#4F6BFF"/>
+                      <text x="57" y="62" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7" font-weight="700">DISTRIBUTED</text>
+                      <text x="57" y="74" text-anchor="middle" fill="#AEBED4" font-family="'Space Mono', monospace" font-size="7">OMS</text>
+                      <path d="M90 65 H125" stroke="#AEBED4" stroke-width="1.5"/>
+                      <circle cx="155" cy="65" r="26" fill="#1F2636" stroke="#4F6BFF" stroke-width="1.5"/>
+                      <text x="155" y="62" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="8" font-weight="700">SYNC FEED</text>
+                      <text x="155" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">5K STORES</text>
+                      <path d="M181 65 H220" stroke="#AEBED4" stroke-width="1.5"/>
+                      <rect x="220" y="35" width="80" height="60" rx="6" fill="#1C212B" stroke="#AEBED4"/>
+                      <text x="260" y="55" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">GOOGLE SHOP</text>
+                      <text x="260" y="68" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">META &amp; PINTEREST</text>
+                      <text x="260" y="81" text-anchor="middle" fill="#AEBED4" font-family="'Space Mono', monospace" font-size="6">3PL FULFILLMENT</text>
+                    </svg>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Core Scopes &amp; System Architecture</div>
+                  <ul class="drawer-scopes-list">
+                    <li class="drawer-scope-item">Productized enterprise-grade fulfillment tiers, custom packaging add-ons, and dynamic manufacturing workflows for 40K+ international merchants.</li>
+                    <li class="drawer-scope-item">Standardized cross-platform data schemas across catalog, dynamic pricing, and multi-warehouse fulfillment APIs to harmonize merchant operations.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Key Quantitative Impacts &amp; Outcomes</div>
+                  <div class="drawer-outcomes-grid">
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Engineered compliant feed syndication engine</strong> supporting <strong>5,000+ connected stores</strong> across Google Shopping, Meta, and Pinterest.</span>
+                    </div>
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Cut average Time-to-First-Product (TTFP)</strong> and boosted new product category adoption by <strong>45%</strong>.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="drawer-tags">
+                  <span class="drawer-tag">[Distributed OMS]</span>
+                  <span class="drawer-tag">[API Integrations]</span>
+                  <span class="drawer-tag">[Product Syndication]</span>
+                  <span class="drawer-tag">[Enterprise GTM]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROJECT 04: ThimPress & Eduma -->
+          <div class="project-showcase-row" data-project-id="thimpress">
+            <button class="project-row-trigger" type="button" aria-expanded="false" onclick="toggleProjectDrawer(this)">
+              <div class="project-row-left">
+                <span class="project-row-num">04</span>
+                <div class="project-row-title-wrap">
+                  <div class="project-row-title">
+                    ThimPress &amp; Eduma
+                    <svg class="project-row-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                  </div>
+                  <div class="project-row-domain">EdTech · Open-Source Infrastructure · High-Volume Marketplace · SEO Engine</div>
+                </div>
+              </div>
+              <div class="project-row-right">
+                <span class="project-metric-pill" style="border-color: rgba(212, 209, 156, 0.4); background: rgba(212, 209, 156, 0.1); color: #5C5A45;">80K+ ORGS · $200K+ ARR</span>
+                <div class="project-expand-icon" aria-label="Toggle details">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+              </div>
+            </button>
+
+            <!-- Inline Proximity Anchor HoverCard (Desktop Peek) -->
+            <div class="project-inline-hovercard" aria-hidden="true">
+              <div class="hovercard-header">
+                <span class="hovercard-badge">SYS_SPEC // 04</span>
+                <div class="hovercard-status">
+                  <span class="hovercard-pulse"></span>
+                  <span>GLOBAL ECOSYSTEM</span>
+                </div>
+              </div>
+              <div class="hovercard-visual">
+                <svg viewBox="0 0 320 130" width="100%" height="95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#D4D19C" stroke-dasharray="3 3"/>
+                  <circle cx="60" cy="65" r="25" fill="#292A1F" stroke="#D4D19C" stroke-width="1.5"/>
+                  <text x="60" y="62" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="8" font-weight="700">LEARNPRESS</text>
+                  <text x="60" y="73" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="7">#1 EDUMA</text>
+                  <path d="M85 65 H130" stroke="#D4D19C" stroke-width="1.5"/>
+                  <rect x="130" y="42" width="75" height="46" rx="6" fill="#24281D" stroke="#AEBED4"/>
+                  <text x="167" y="60" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7" font-weight="700">SEO GRAPH</text>
+                  <text x="167" y="72" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="7">2K+ KEYWORDS</text>
+                  <path d="M205 65 H245" stroke="#AEBED4" stroke-width="1.5"/>
+                  <rect x="245" y="45" width="55" height="40" rx="6" fill="#1E2319" stroke="#7E8C6A"/>
+                  <text x="272" y="62" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7" font-weight="700">$200K+</text>
+                  <text x="272" y="73" text-anchor="middle" fill="#7E8C6A" font-family="'Space Mono', monospace" font-size="6">ACQUISITION</text>
+                </svg>
+              </div>
+              <div class="hovercard-body">
+                <h4 class="hovercard-title">ThimPress &amp; Eduma</h4>
+                <div class="hovercard-tagline">EdTech LMS · Marketplace · Organic SEO</div>
+                <div class="hovercard-metrics-row">
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">$200K+</div>
+                    <div class="hovercard-stat-lbl">ANNUAL ARR</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">80,000+</div>
+                    <div class="hovercard-stat-lbl">ACTIVE ORGS</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">2,000+</div>
+                    <div class="hovercard-stat-lbl">RANKINGS</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-drawer">
+              <div class="drawer-inner">
+                <!-- Mobile Inline Graphic -->
+                <div class="mobile-preview-card">
+                  <div class="hovercard-visual">
+                    <svg viewBox="0 0 320 130" width="100%" height="130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#D4D19C" stroke-dasharray="3 3"/>
+                      <circle cx="60" cy="65" r="25" fill="#292A1F" stroke="#D4D19C" stroke-width="1.5"/>
+                      <text x="60" y="62" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="8" font-weight="700">LEARNPRESS</text>
+                      <text x="60" y="73" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="7">#1 EDUMA</text>
+                      <path d="M85 65 H130" stroke="#D4D19C" stroke-width="1.5"/>
+                      <rect x="130" y="42" width="75" height="46" rx="6" fill="#24281D" stroke="#AEBED4"/>
+                      <text x="167" y="60" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7" font-weight="700">SEO GRAPH</text>
+                      <text x="167" y="72" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="7">2K+ KEYWORDS</text>
+                      <path d="M205 65 H245" stroke="#AEBED4" stroke-width="1.5"/>
+                      <rect x="245" y="45" width="55" height="40" rx="6" fill="#1E2319" stroke="#7E8C6A"/>
+                      <text x="272" y="62" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7" font-weight="700">$200K+</text>
+                      <text x="272" y="73" text-anchor="middle" fill="#7E8C6A" font-family="'Space Mono', monospace" font-size="6">ACQUISITION</text>
+                    </svg>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Core Scopes &amp; System Architecture</div>
+                  <ul class="drawer-scopes-list">
+                    <li class="drawer-scope-item">Directed the productization, GTM strategy, and technical distribution of industry-standard WordPress EdTech solutions, including LearnPress LMS and Eduma (ThemeForest #1 Best-Selling Education Theme).</li>
+                    <li class="drawer-scope-item">Spearheaded comprehensive organic search architecture, deep link networks, and automated performance conversion funnels.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Key Quantitative Impacts &amp; Outcomes</div>
+                  <div class="drawer-outcomes-grid">
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Scaled products to support over 80,000+ active global organizations</strong> and high-volume web platforms.</span>
+                    </div>
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Propelled Annual Recurring Revenue (ARR) past $200,000+</strong>, accelerating the company toward successful acquisition.</span>
+                    </div>
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Grew keyword footprint from ~300 to 2,000+ top rankings</strong>, yielding a <strong>+50% traffic surge</strong> and <strong>+40% client ROI boost</strong>.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="drawer-tags">
+                  <span class="drawer-tag">[EdTech LMS]</span>
+                  <span class="drawer-tag">[SEO Architecture]</span>
+                  <span class="drawer-tag">[Growth Strategy]</span>
+                  <span class="drawer-tag">[Marketplace Distribution]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROJECT 05: Spy Tools Hub -->
+          <div class="project-showcase-row" data-project-id="spytools">
+            <button class="project-row-trigger" type="button" aria-expanded="false" onclick="toggleProjectDrawer(this)">
+              <div class="project-row-left">
+                <span class="project-row-num">05</span>
+                <div class="project-row-title-wrap">
+                  <div class="project-row-title">
+                    Spy Tools Platform Hub
+                    <svg class="project-row-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                  </div>
+                  <div class="project-row-domain">Competitive Intelligence · Multi-Platform Crawlers · SaaS Subscriptions · E-Commerce APIs</div>
+                </div>
+              </div>
+              <div class="project-row-right">
+                <span class="project-metric-pill" style="border-color: rgba(100, 116, 139, 0.4); background: rgba(100, 116, 139, 0.08); color: #334155;">+$15K/MO REVENUE · +30% ACQUISITION</span>
+                <div class="project-expand-icon" aria-label="Toggle details">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+              </div>
+            </button>
+
+            <!-- Inline Proximity Anchor HoverCard (Desktop Peek) -->
+            <div class="project-inline-hovercard" aria-hidden="true">
+              <div class="hovercard-header">
+                <span class="hovercard-badge">SYS_SPEC // 05</span>
+                <div class="hovercard-status">
+                  <span class="hovercard-pulse"></span>
+                  <span>INTELLIGENCE SUITE</span>
+                </div>
+              </div>
+              <div class="hovercard-visual">
+                <svg viewBox="0 0 320 130" width="100%" height="95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#64748B" stroke-dasharray="3 3"/>
+                  <rect x="25" y="35" width="70" height="60" rx="6" fill="#1D2228" stroke="#64748B"/>
+                  <text x="60" y="55" text-anchor="middle" fill="#AEBED4" font-family="'Space Mono', monospace" font-size="7" font-weight="700">MULTI-CRAWLER</text>
+                  <text x="60" y="67" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="6">SPYBADAO · ETSY</text>
+                  <text x="60" y="78" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="6">SPYAMZ PIPELINE</text>
+                  <path d="M95 65 H135" stroke="#64748B" stroke-width="1.5"/>
+                  <circle cx="165" cy="65" r="26" fill="#242C33" stroke="#AEBED4" stroke-width="1.5"/>
+                  <text x="165" y="62" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="8" font-weight="700">DATA MINING</text>
+                  <text x="165" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">HEURISTICS</text>
+                  <path d="M191 65 H230" stroke="#64748B" stroke-width="1.5"/>
+                  <rect x="230" y="45" width="70" height="40" rx="6" fill="#1D2228" stroke="#AEBED4"/>
+                  <text x="265" y="62" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="8" font-weight="700">+$15K / MO</text>
+                  <text x="265" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="6">TIERED SAAS</text>
+                </svg>
+              </div>
+              <div class="hovercard-body">
+                <h4 class="hovercard-title">Spy Tools Platform Hub</h4>
+                <div class="hovercard-tagline">Competitive Intelligence · Crawlers · Tiered SaaS</div>
+                <div class="hovercard-metrics-row">
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">+$15K</div>
+                    <div class="hovercard-stat-lbl">MONTHLY ARR</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">+30%</div>
+                    <div class="hovercard-stat-lbl">ACQUISITION</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">+18%</div>
+                    <div class="hovercard-stat-lbl">OVER OKRS</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-drawer">
+              <div class="drawer-inner">
+                <!-- Mobile Inline Graphic -->
+                <div class="mobile-preview-card">
+                  <div class="hovercard-visual">
+                    <svg viewBox="0 0 320 130" width="100%" height="130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#64748B" stroke-dasharray="3 3"/>
+                      <rect x="25" y="35" width="70" height="60" rx="6" fill="#1D2228" stroke="#64748B"/>
+                      <text x="60" y="55" text-anchor="middle" fill="#AEBED4" font-family="'Space Mono', monospace" font-size="7" font-weight="700">MULTI-CRAWLER</text>
+                      <text x="60" y="67" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="6">SPYBADAO · ETSY</text>
+                      <text x="60" y="78" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="6">SPYAMZ PIPELINE</text>
+                      <path d="M95 65 H135" stroke="#64748B" stroke-width="1.5"/>
+                      <circle cx="165" cy="65" r="26" fill="#242C33" stroke="#AEBED4" stroke-width="1.5"/>
+                      <text x="165" y="62" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="8" font-weight="700">DATA MINING</text>
+                      <text x="165" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">HEURISTICS</text>
+                      <path d="M191 65 H230" stroke="#64748B" stroke-width="1.5"/>
+                      <rect x="230" y="45" width="70" height="40" rx="6" fill="#1D2228" stroke="#AEBED4"/>
+                      <text x="265" y="62" text-anchor="middle" fill="#D4D19C" font-family="'Space Mono', monospace" font-size="8" font-weight="700">+$15K / MO</text>
+                      <text x="265" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="6">TIERED SAAS</text>
+                    </svg>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Core Scopes &amp; System Architecture</div>
+                  <ul class="drawer-scopes-list">
+                    <li class="drawer-scope-item">Orchestrated the comprehensive re-architecture and deployment of a multi-platform merchant intelligence suite (SpyBadao, SpyEtsy, SpyAMZ).</li>
+                    <li class="drawer-scope-item">Formulated automated scraping pipelines, data-mining heuristics, and tiered package structures catering to high-volume cross-border sellers.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Key Quantitative Impacts &amp; Outcomes</div>
+                  <div class="drawer-outcomes-grid">
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Unlocked a new recurring revenue stream of ~$15,000/month</strong> through modular enterprise packages and cross-selling mechanics.</span>
+                    </div>
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Achieved a +30% uplift in customer acquisition</strong> and a <strong>+15% expansion in customer Lifetime Value (LTV)</strong> via structured referral loops.</span>
+                    </div>
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Surpassed legacy product OKRs by 18%</strong> within 6 months of architectural re-platforming.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="drawer-tags">
+                  <span class="drawer-tag">[Competitive Intelligence]</span>
+                  <span class="drawer-tag">[Data Pipelines]</span>
+                  <span class="drawer-tag">[SaaS Monetization]</span>
+                  <span class="drawer-tag">[Growth Engine]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROJECT 06: VCCorp -->
+          <div class="project-showcase-row" data-project-id="vccorp">
+            <button class="project-row-trigger" type="button" aria-expanded="false" onclick="toggleProjectDrawer(this)">
+              <div class="project-row-left">
+                <span class="project-row-num">06</span>
+                <div class="project-row-title-wrap">
+                  <div class="project-row-title">
+                    VCCorp
+                    <svg class="project-row-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                  </div>
+                  <div class="project-row-domain">Enterprise Cloud Solutions · B2B Digital Transformation · PropTech · Hybrid Infrastructure</div>
+                </div>
+              </div>
+              <div class="project-row-right">
+                <span class="project-metric-pill" style="border-color: rgba(46, 92, 72, 0.4); background: rgba(46, 92, 72, 0.08); color: #2E5C48;">ENTERPRISE &amp; SME CONTRACTS</span>
+                <div class="project-expand-icon" aria-label="Toggle details">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+              </div>
+            </button>
+
+            <!-- Inline Proximity Anchor HoverCard (Desktop Peek) -->
+            <div class="project-inline-hovercard" aria-hidden="true">
+              <div class="hovercard-header">
+                <span class="hovercard-badge">SYS_SPEC // 06</span>
+                <div class="hovercard-status">
+                  <span class="hovercard-pulse"></span>
+                  <span>ENTERPRISE PIPELINE</span>
+                </div>
+              </div>
+              <div class="hovercard-visual">
+                <svg viewBox="0 0 320 130" width="100%" height="95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#2E5C48" stroke-dasharray="3 3"/>
+                  <rect x="25" y="42" width="70" height="46" rx="6" fill="#1B2620" stroke="#4A7C64"/>
+                  <text x="60" y="60" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7" font-weight="700">CLOUD B2B</text>
+                  <text x="60" y="72" text-anchor="middle" fill="#A8D5BA" font-family="'Space Mono', monospace" font-size="6">ENTERPRISE</text>
+                  <path d="M95 65 H135" stroke="#4A7C64" stroke-width="1.5" stroke-dasharray="2 2"/>
+                  <circle cx="165" cy="65" r="26" fill="#20332A" stroke="#2E5C48" stroke-width="1.5"/>
+                  <text x="165" y="62" text-anchor="middle" fill="#D7FF3F" font-family="'Space Mono', monospace" font-size="7" font-weight="700">PROPTECH</text>
+                  <text x="165" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="6">HYBRID INFRA</text>
+                  <path d="M191 65 H230" stroke="#4A7C64" stroke-width="1.5"/>
+                  <rect x="230" y="42" width="70" height="46" rx="6" fill="#1B2620" stroke="#D7FF3F"/>
+                  <text x="265" y="60" text-anchor="middle" fill="#D7FF3F" font-family="'Space Mono', monospace" font-size="7" font-weight="700">CONTRACTS</text>
+                  <text x="265" y="72" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="6">ENT &amp; SME</text>
+                </svg>
+              </div>
+              <div class="hovercard-body">
+                <h4 class="hovercard-title">VCCorp</h4>
+                <div class="hovercard-tagline">Enterprise Cloud Solutions · PropTech · Hybrid Infra</div>
+                <div class="hovercard-metrics-row">
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">B2B</div>
+                    <div class="hovercard-stat-lbl">CLOUD SUITE</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">MULTI-CH</div>
+                    <div class="hovercard-stat-lbl">GROWTH MODEL</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">HIGH-VAL</div>
+                    <div class="hovercard-stat-lbl">CONTRACTS</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-drawer">
+              <div class="drawer-inner">
+                <!-- Mobile Inline Graphic -->
+                <div class="mobile-preview-card">
+                  <div class="hovercard-visual">
+                    <svg viewBox="0 0 320 130" width="100%" height="130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#2E5C48" stroke-dasharray="3 3"/>
+                      <rect x="25" y="42" width="70" height="46" rx="6" fill="#1B2620" stroke="#4A7C64"/>
+                      <text x="60" y="60" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7" font-weight="700">CLOUD B2B</text>
+                      <text x="60" y="72" text-anchor="middle" fill="#A8D5BA" font-family="'Space Mono', monospace" font-size="6">ENTERPRISE</text>
+                      <path d="M95 65 H135" stroke="#4A7C64" stroke-width="1.5" stroke-dasharray="2 2"/>
+                      <circle cx="165" cy="65" r="26" fill="#20332A" stroke="#2E5C48" stroke-width="1.5"/>
+                      <text x="165" y="62" text-anchor="middle" fill="#D7FF3F" font-family="'Space Mono', monospace" font-size="7" font-weight="700">PROPTECH</text>
+                      <text x="165" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="6">HYBRID INFRA</text>
+                      <path d="M191 65 H230" stroke="#4A7C64" stroke-width="1.5"/>
+                      <rect x="230" y="42" width="70" height="46" rx="6" fill="#1B2620" stroke="#D7FF3F"/>
+                      <text x="265" y="60" text-anchor="middle" fill="#D7FF3F" font-family="'Space Mono', monospace" font-size="7" font-weight="700">CONTRACTS</text>
+                      <text x="265" y="72" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="6">ENT &amp; SME</text>
+                    </svg>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Core Scopes &amp; System Architecture</div>
+                  <ul class="drawer-scopes-list">
+                    <li class="drawer-scope-item">Expanded market footprint for the B2B Cloud &amp; Digital Solutions portfolio through strategic enterprise service diversification.</li>
+                    <li class="drawer-scope-item">Executed integrated multi-channel marketing campaigns across technical SEO, referral loops, automated email sequences, and paid acquisition.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Key Quantitative Impacts &amp; Outcomes</div>
+                  <div class="drawer-outcomes-grid">
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Strengthened enterprise brand visibility</strong> and built repeatable pipeline development models.</span>
+                    </div>
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Contributed to closing high-value Enterprise and SME contracts</strong> across hybrid infrastructure and PropTech portfolios.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="drawer-tags">
+                  <span class="drawer-tag">[Cloud Solutions]</span>
+                  <span class="drawer-tag">[Enterprise B2B]</span>
+                  <span class="drawer-tag">[PropTech]</span>
+                  <span class="drawer-tag">[Pipeline Growth]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROJECT 07: Unishipping -->
+          <div class="project-showcase-row" data-project-id="unishipping">
+            <button class="project-row-trigger" type="button" aria-expanded="false" onclick="toggleProjectDrawer(this)">
+              <div class="project-row-left">
+                <span class="project-row-num">07</span>
+                <div class="project-row-title-wrap">
+                  <div class="project-row-title">
+                    Unishipping
+                    <svg class="project-row-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                  </div>
+                  <div class="project-row-domain">Cross-Border Logistics &amp; Freight · E-Commerce Acquisition Funnel · Inbound CRO</div>
+                </div>
+              </div>
+              <div class="project-row-right">
+                <span class="project-metric-pill" style="border-color: rgba(180, 83, 9, 0.4); background: rgba(180, 83, 9, 0.08); color: #8A4308;">+2.5X TRAFFIC · +35% YOY LEADS</span>
+                <div class="project-expand-icon" aria-label="Toggle details">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                </div>
+              </div>
+            </button>
+
+            <!-- Inline Proximity Anchor HoverCard (Desktop Peek) -->
+            <div class="project-inline-hovercard" aria-hidden="true">
+              <div class="hovercard-header">
+                <span class="hovercard-badge">SYS_SPEC // 07</span>
+                <div class="hovercard-status">
+                  <span class="hovercard-pulse"></span>
+                  <span>CRO &amp; INBOUND FUNNEL</span>
+                </div>
+              </div>
+              <div class="hovercard-visual">
+                <svg viewBox="0 0 320 130" width="100%" height="95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#B45309" stroke-dasharray="3 3"/>
+                  <circle cx="60" cy="65" r="25" fill="#2A1E14" stroke="#B45309" stroke-width="1.5"/>
+                  <text x="60" y="62" text-anchor="middle" fill="#FED7AA" font-family="'Space Mono', monospace" font-size="7" font-weight="700">INBOUND</text>
+                  <text x="60" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">+2.5X TRAFFIC</text>
+                  <path d="M85 65 H130" stroke="#B45309" stroke-width="1.5"/>
+                  <rect x="130" y="42" width="75" height="46" rx="6" fill="#241B15" stroke="#FDBA74"/>
+                  <text x="167" y="60" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7" font-weight="700">CRO FUNNEL</text>
+                  <text x="167" y="72" text-anchor="middle" fill="#FDBA74" font-family="'Space Mono', monospace" font-size="7">A/B LOOPS</text>
+                  <path d="M205 65 H245" stroke="#FDBA74" stroke-width="1.5"/>
+                  <rect x="245" y="45" width="55" height="40" rx="6" fill="#2A1E14" stroke="#D7FF3F"/>
+                  <text x="272" y="62" text-anchor="middle" fill="#D7FF3F" font-family="'Space Mono', monospace" font-size="7" font-weight="700">+35%</text>
+                  <text x="272" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="6">YOY LEADS</text>
+                </svg>
+              </div>
+              <div class="hovercard-body">
+                <h4 class="hovercard-title">Unishipping</h4>
+                <div class="hovercard-tagline">Cross-Border Freight · E-Com Logistics · CRO</div>
+                <div class="hovercard-metrics-row">
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">+2.5X</div>
+                    <div class="hovercard-stat-lbl">TRAFFIC LIFT</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">+35%</div>
+                    <div class="hovercard-stat-lbl">YOY LEADS</div>
+                  </div>
+                  <div class="hovercard-stat">
+                    <div class="hovercard-stat-val">A/B</div>
+                    <div class="hovercard-stat-lbl">CRO ENGINE</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="project-drawer">
+              <div class="drawer-inner">
+                <!-- Mobile Inline Graphic -->
+                <div class="mobile-preview-card">
+                  <div class="hovercard-visual">
+                    <svg viewBox="0 0 320 130" width="100%" height="130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="10" y="10" width="300" height="110" rx="8" fill="#181B14" stroke="#B45309" stroke-dasharray="3 3"/>
+                      <circle cx="60" cy="65" r="25" fill="#2A1E14" stroke="#B45309" stroke-width="1.5"/>
+                      <text x="60" y="62" text-anchor="middle" fill="#FED7AA" font-family="'Space Mono', monospace" font-size="7" font-weight="700">INBOUND</text>
+                      <text x="60" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7">+2.5X TRAFFIC</text>
+                      <path d="M85 65 H130" stroke="#B45309" stroke-width="1.5"/>
+                      <rect x="130" y="42" width="75" height="46" rx="6" fill="#241B15" stroke="#FDBA74"/>
+                      <text x="167" y="60" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="7" font-weight="700">CRO FUNNEL</text>
+                      <text x="167" y="72" text-anchor="middle" fill="#FDBA74" font-family="'Space Mono', monospace" font-size="7">A/B LOOPS</text>
+                      <path d="M205 65 H245" stroke="#FDBA74" stroke-width="1.5"/>
+                      <rect x="245" y="45" width="55" height="40" rx="6" fill="#2A1E14" stroke="#D7FF3F"/>
+                      <text x="272" y="62" text-anchor="middle" fill="#D7FF3F" font-family="'Space Mono', monospace" font-size="7" font-weight="700">+35%</text>
+                      <text x="272" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'Space Mono', monospace" font-size="6">YOY LEADS</text>
+                    </svg>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Core Scopes &amp; System Architecture</div>
+                  <ul class="drawer-scopes-list">
+                    <li class="drawer-scope-item">Directed cross-functional execution across growth marketing, UI/UX architecture, and conversion rate optimization (CRO).</li>
+                    <li class="drawer-scope-item">Designed and deployed end-to-end landing page experimentation loops and continuous A/B test funnels.</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <div class="drawer-section-title">Key Quantitative Impacts &amp; Outcomes</div>
+                  <div class="drawer-outcomes-grid">
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Accelerated inbound acquisition</strong>, boosting organic platform traffic by <strong>2.5x</strong>.</span>
+                    </div>
+                    <div class="drawer-outcome-box">
+                      <span class="outcome-bullet"></span>
+                      <span class="outcome-text"><strong>Secured a +35% YoY growth in qualified merchant leads</strong> via data-driven landing page experimentation.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="drawer-tags">
+                  <span class="drawer-tag">[Cross-Border Freight]</span>
+                  <span class="drawer-tag">[Logistics E-com]</span>
+                  <span class="drawer-tag">[CRO Funnels]</span>
+                  <span class="drawer-tag">[Growth Engine]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -1341,6 +3826,22 @@
         .system-board-cell:nth-last-child(-n+2) {
           border-bottom: none;
         }
+        .sys-diagram-wrapper {
+          margin-top: 32px;
+          padding: 24px;
+          background: rgba(18,18,18,0.02);
+          border: 1px solid rgba(18,18,18,0.05);
+          border-radius: 4px;
+          width: 100%;
+          box-sizing: border-box;
+          overflow: hidden;
+        }
+        .sys-diagram-wrapper svg {
+          width: 100%;
+          max-width: 100%;
+          height: auto;
+          display: block;
+        }
         @media (max-width: 768px) {
           .system-board {
             grid-template-columns: 1fr;
@@ -1351,6 +3852,10 @@
           }
           .system-board-cell:last-child {
             border-bottom: none !important;
+          }
+          .sys-diagram-wrapper {
+            margin-top: 20px;
+            padding: 16px 12px;
           }
         }
         
@@ -1439,8 +3944,8 @@
               <div class="system-cell-body">
                 Interface decisions shape cognition, interaction confidence, and conversion. Building scalable, modular systems that align user needs with business goals.
                 
-                <div class="sys-diagram-wrapper" style="margin-top: 32px; padding: 24px; background: rgba(18,18,18,0.02); border: 1px solid rgba(18,18,18,0.05); border-radius: 4px;">
-                  <svg viewBox="0 0 320 240" style="width: 100%; height: auto; display: block; overflow: visible;">
+                <div class="sys-diagram-wrapper">
+                  <svg viewBox="-5 15 325 220" style="width: 100%; max-width: 100%; height: auto; display: block; overflow: hidden;" preserveAspectRatio="xMidYMid meet">
                     <defs>
                       <pattern id="dot-grid" width="15" height="15" patternUnits="userSpaceOnUse">
                         <circle cx="1" cy="1" r="0.75" fill="#121212" opacity="0.08" />
@@ -1613,7 +4118,7 @@
     <div class="footer-left">
       <span>© 2026 Slacie Phan. All rights reserved.</span>
       <span style="opacity: 0.3; margin: 0 8px;">·</span>
-      <button class="footer-site-trigger" onclick="openContactModal()">Make a Similar Site</button>
+      <button class="footer-site-trigger" onclick="openContactModal()">MAKE A SIMILAR SITE</button>
     </div>
     <div class="footer-right">HCM City, Vietnam · <a href="mailto:slaciephan@gmail.com" style="color: inherit; text-decoration: none;">slaciephan@gmail.com</a></div>
   </footer>
@@ -1683,101 +4188,73 @@ function toggleToolTag(tag) {
   tag.classList.toggle('active');
 }
 
-// Capacities / Skills Logic
-const skillsData = {
-  strategy: [
-    { name: "Roadmap Architecture", score: 94 },
-    { name: "Stakeholder Alignment", score: 90 },
-    { name: "GTM Structuring", score: 88 },
-    { name: "Token / Growth Mechanics", score: 85 }
-  ],
-  growth: [
-    { name: "Acquisition Systems", score: 91 },
-    { name: "Funnel Optimization", score: 93 },
-    { name: "Data Interpretation", score: 89 },
-    { name: "Retention Modeling", score: 87 }
-  ],
-  ops: [
-    { name: "Cross-functional Orchestration", score: 95 },
-    { name: "Agile Execution", score: 92 },
-    { name: "Documentation Systems", score: 88 },
-    { name: "Operational Scalability", score: 90 }
-  ],
-  design: [
-    { name: "Prototyping & UX Thinking", score: 87 },
-    { name: "AI Workflow Integration", score: 89 },
-    { name: "Automation Design", score: 90 },
-    { name: "Creative System Thinking", score: 85 }
-  ]
-};
+// ==========================================================================
+// Focus Allocation Matrix Sync Logic
+// ==========================================================================
+(function initFocusMatrix() {
+  const slices = document.querySelectorAll('.focus-slice');
+  const cards = document.querySelectorAll('.focus-pillar-card');
+  const bar = document.querySelector('.focus-stacked-bar');
 
-function renderSkills(category) {
-  const container = document.getElementById('skillsContainer');
-  if (!container) return;
-  
-  const data = skillsData[category];
-  
-  // Fade out
-  container.style.opacity = '0';
-  
-  setTimeout(() => {
-    container.innerHTML = '';
-    data.forEach((skill, index) => {
-      const row = document.createElement('div');
-      row.className = 'skill-row';
-      row.style.animationDelay = `${index * 50}ms`;
-      
-      let fillClass = 'fill-strategy';
-      if (category === 'growth') fillClass = 'fill-growth';
-      if (category === 'ops') fillClass = 'fill-ops';
-      if (category === 'design') fillClass = 'fill-design';
+  if (!slices.length || !cards.length) return;
 
-      row.innerHTML = `
-        <div class="skill-meta">
-          <span class="skill-name">${skill.name}</span>
-          <span class="skill-score">${skill.score}/100</span>
-        </div>
-        <div class="skill-track">
-          <div class="skill-fill ${fillClass}" style="width: 0%"></div>
-        </div>
-      `;
-      container.appendChild(row);
-      
-      // Trigger width animation after render
-      setTimeout(() => {
-        const fill = row.querySelector('.skill-fill');
-        if(fill) fill.style.width = `${skill.score}%`;
-      }, 50);
+  function setActive(pillarId) {
+    if (bar) bar.classList.add('has-hover');
+    slices.forEach(slice => {
+      if (slice.dataset.pillar === pillarId) {
+        slice.classList.add('active');
+      } else {
+        slice.classList.remove('active');
+      }
     });
-    
-    container.style.opacity = '1';
-  }, 200);
-}
-
-// Tab Click Handler
-document.querySelectorAll('.cap-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.cap-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    renderSkills(tab.dataset.cat);
-  });
-});
-
-// Init Skills
-renderSkills('strategy');
-
-// Timeline Toggle Logic
-function toggleTimeline(btn) {
-  const details = btn.nextElementSibling;
-  btn.classList.toggle('expanded');
-  details.classList.toggle('open');
-  
-  if (btn.classList.contains('expanded')) {
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform: rotate(90deg)"><path d="M9 18l6-6-6-6"/></svg> Collapse';
-  } else {
-    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg> Expand Impact';
+    cards.forEach(card => {
+      if (card.dataset.pillar === pillarId) {
+        card.classList.add('highlighted');
+      } else {
+        card.classList.remove('highlighted');
+      }
+    });
   }
+
+  function clearActive() {
+    if (bar) bar.classList.remove('has-hover');
+    slices.forEach(slice => slice.classList.remove('active'));
+    cards.forEach(card => card.classList.remove('highlighted'));
+  }
+
+  slices.forEach(slice => {
+    const pillarId = slice.dataset.pillar;
+    slice.addEventListener('mouseenter', () => setActive(pillarId));
+    slice.addEventListener('focus', () => setActive(pillarId));
+    slice.addEventListener('mouseleave', clearActive);
+    slice.addEventListener('blur', clearActive);
+
+    slice.addEventListener('click', () => {
+      const targetCard = document.getElementById(`focus-pillar-${pillarId}`);
+      if (targetCard) {
+        targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+  });
+
+  cards.forEach(card => {
+    const pillarId = card.dataset.pillar;
+    card.addEventListener('mouseenter', () => setActive(pillarId));
+    card.addEventListener('mouseleave', clearActive);
+  });
+})();
+
+// ==========================================================================
+// Project Highlights: Accordion Drawer & HoverCard Follower Logic
+// ==========================================================================
+function toggleProjectDrawer(btn) {
+  const row = btn.closest('.project-showcase-row');
+  if (!row) return;
+  const isOpen = row.classList.toggle('open');
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
+
+
 
 // Custom cursor
 const cursor = document.getElementById('cursor');
@@ -1800,7 +4277,7 @@ if (cursor && cursorRing) {
   }
   animateRing();
 
-  document.querySelectorAll('a, button, .folder-panel, .timeline-expand-btn, .skill-item, .module-card').forEach(el => {
+  document.querySelectorAll('a, button, .folder-panel, .timeline-expand-btn, .skill-item, .module-card, .project-row-trigger, .focus-slice, .focus-pillar-card').forEach(el => {
     el.addEventListener('mouseenter', () => {
       cursor.style.width = '20px';
       cursor.style.height = '20px';

@@ -6,7 +6,26 @@ import {defineConfig, loadEnv} from 'vite';
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [
+      react(),
+      tailwindcss(),
+      {
+        name: 'playground-redirect',
+        configureServer(server) {
+          server.middlewares.use((req, res, next) => {
+            if (req.url) {
+              const urlPath = req.url.split('?')[0];
+              if (urlPath === '/playground' || urlPath === '/playground.html' || urlPath === '/src/playground.html') {
+                res.writeHead(302, { Location: '/src/agentic_loop.html' });
+                res.end();
+                return;
+              }
+            }
+            next();
+          });
+        },
+      },
+    ],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
@@ -31,7 +50,6 @@ export default defineConfig(({mode}) => {
           agentic: path.resolve(__dirname, 'src/agentic_loop.html'),
           lab: path.resolve(__dirname, 'src/lab_page.html'),
           dashboard: path.resolve(__dirname, 'src/dashboard_content.html'),
-          playground: path.resolve(__dirname, 'src/playground.html'),
         },
         output: {
           manualChunks(id) {

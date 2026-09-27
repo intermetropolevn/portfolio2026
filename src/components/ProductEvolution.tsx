@@ -119,7 +119,7 @@ function ProductEvolutionComponent() {
 
   return (
     <section 
-      className="w-full pt-[120px] md:pt-[132px] lg:pt-[150px] pb-[80px] px-8 relative overflow-hidden bg-[#0a0a0f] text-[#e8e8e0] font-mono min-h-screen flex flex-col items-center contain-paint"
+      className="w-full pt-[80px] md:pt-[132px] lg:pt-[150px] pb-[60px] md:pb-[80px] px-4 sm:px-8 relative overflow-hidden bg-[#0a0a0f] text-[#e8e8e0] font-mono min-h-screen flex flex-col items-center contain-paint"
       style={{
         backgroundImage: `
           radial-gradient(ellipse 80% 50% at 20% 20%, rgba(138,154,106,0.04) 0%, transparent 60%),
@@ -129,30 +129,30 @@ function ProductEvolutionComponent() {
       }}
     >
       {/* Intro */}
-      <div className="max-w-[640px] text-center mb-[72px] relative z-10 flex flex-col items-center">
-        <h2 className="font-serif text-3xl md:text-5xl text-[#f0f0ea] tracking-tight mb-8 uppercase">
+      <div className="max-w-[640px] text-center mb-8 md:mb-[72px] relative z-10 flex flex-col items-center px-2 sm:px-0">
+        <h2 className="font-serif text-2xl sm:text-3xl md:text-5xl text-[#f0f0ea] tracking-tight mb-5 md:mb-8 uppercase">
           Evolution of Impact
         </h2>
-        <div className="space-y-4">
-          <p className="font-mono text-[clamp(13px,1.6vw,15px)] leading-[1.85] text-[#e8e8e0]/55 font-light tracking-[0.02em]">
+        <div className="space-y-3 sm:space-y-4">
+          <p className="font-mono text-xs sm:text-sm leading-relaxed text-[#e8e8e0]/65 font-light tracking-[0.02em]">
             Most of the products I worked on were built within early-stage startups, where I often joined at formative stages — helping establish product foundations, shape initial systems, and scale products alongside growing users, revenue, and operational complexity.
           </p>
-          <p className="font-mono text-[clamp(13px,1.6vw,15px)] leading-[1.85] text-[#e8e8e0]/55 font-light tracking-[0.02em]">
+          <p className="font-mono text-xs sm:text-sm leading-relaxed text-[#e8e8e0]/65 font-light tracking-[0.02em]">
             Over time, my role evolved from optimizing execution to designing full product systems, and eventually orchestrating cross-functional scale.
           </p>
-          <p className="font-mono text-[clamp(13px,1.6vw,15px)] leading-[1.85] text-[#e8e8e0]/55 font-light tracking-[0.02em]">
+          <p className="font-mono text-xs sm:text-sm leading-relaxed text-[#e8e8e0]/65 font-light tracking-[0.02em]">
             Each stage reflects a deeper level of impact — from improving features, to structuring systems, to helping build the foundations that enable products and teams to scale.
           </p>
         </div>
       </div>
 
-      {/* Split layout */}
-      <div className="flex w-full max-w-[960px] items-start min-h-[420px] relative z-10">
+      {/* Split layout: Top-to-bottom stack on mobile (< 768px), Left-right split on desktop */}
+      <div className="flex flex-col md:flex-row w-full max-w-[960px] items-stretch md:items-start min-h-[380px] md:min-h-[420px] relative z-10">
 
-        {/* LEFT: Bookmark nav */}
-        <div className="w-[22%] min-w-[140px] max-w-[190px] flex flex-col pt-2 relative z-10">
-          {/* Vertical Line */}
-          <div className="absolute left-0 top-6 bottom-6 w-[1px] bg-white/5" />
+        {/* Milestone List: sleek horizontal tab strip on mobile, vertical bookmark on desktop */}
+        <div className="w-full md:w-[22%] md:min-w-[140px] md:max-w-[190px] flex flex-row md:flex-col justify-between md:justify-start border-b md:border-b-0 border-white/10 pb-2 md:pb-0 mb-4 md:mb-0 pt-0 md:pt-2 relative z-10">
+          {/* Vertical Line on desktop */}
+          <div className="hidden md:block absolute left-0 top-6 bottom-6 w-[1px] bg-white/5" />
           
           {evolutionStages.map((stage, idx) => {
             const isActive = activeStage === idx;
@@ -160,20 +160,26 @@ function ProductEvolutionComponent() {
               <button
                 key={stage.id}
                 onClick={() => handleSelectStage(idx)}
-                className="relative cursor-pointer py-5 pr-2.5 pl-5 mb-1.5 flex flex-col items-start gap-1.5 bg-transparent border-none text-inherit text-left w-full transition-colors duration-200 group"
+                className="relative cursor-pointer py-2.5 px-2 sm:px-4 md:py-5 md:pr-2.5 md:pl-5 md:mb-1.5 flex flex-col items-center md:items-start gap-1 md:gap-1.5 bg-transparent border-none text-inherit text-center md:text-left transition-colors duration-200 group flex-1 md:flex-initial"
               >
+                {/* Mobile Active Bottom Indicator */}
                 <div 
-                  className={`absolute left-0 top-[15%] h-[70%] w-[2px] rounded-[1px] transition-opacity duration-200 ${isActive ? 'opacity-100' : 'opacity-15 group-hover:opacity-40'}`}
+                  className={`md:hidden absolute bottom-[-8px] left-[15%] right-[15%] h-[2px] rounded-full transition-opacity duration-200 ${isActive ? 'opacity-100' : 'opacity-0'}`}
+                  style={{ background: `linear-gradient(90deg, ${stage.accent}, ${stage.accentAlt})` }}
+                />
+                {/* Desktop Active Left Indicator */}
+                <div 
+                  className={`hidden md:block absolute left-0 top-[15%] h-[70%] w-[2px] rounded-[1px] transition-opacity duration-200 ${isActive ? 'opacity-100' : 'opacity-15 group-hover:opacity-40'}`}
                   style={{ background: `linear-gradient(180deg, ${stage.accent}, ${stage.accentAlt})` }}
                 />
                 <div 
-                  className="font-serif text-[28px] font-extrabold leading-none tracking-[-0.02em] transition-colors duration-200"
-                  style={{ color: isActive ? stage.accent : 'rgba(255,255,255,0.15)' }}
+                  className="font-serif text-lg sm:text-xl md:text-[28px] font-extrabold leading-none tracking-[-0.02em] transition-colors duration-200"
+                  style={{ color: isActive ? stage.accent : 'rgba(255,255,255,0.25)' }}
                 >
                   {stage.id}
                 </div>
                 <div 
-                  className={`font-mono text-[9px] font-medium tracking-[0.16em] uppercase leading-[1.4] transition-colors duration-200 ${isActive ? 'text-[#e8e8e0]/90' : 'text-[#e8e8e0]/30 group-hover:text-[#e8e8e0]/90'}`}
+                  className={`font-mono text-[8.5px] sm:text-[9px] font-medium tracking-[0.12em] md:tracking-[0.16em] uppercase leading-[1.3] transition-colors duration-200 ${isActive ? 'text-[#e8e8e0]/95 font-semibold' : 'text-[#e8e8e0]/35 group-hover:text-[#e8e8e0]/80'}`}
                 >
                   {stage.label}
                 </div>
@@ -182,20 +188,20 @@ function ProductEvolutionComponent() {
           })}
         </div>
 
-        {/* RIGHT: Card area */}
-        <div className="flex-1 pl-8 relative">
+        {/* RIGHT: Card area (Expands to full mobile width) */}
+        <div className="flex-1 w-full pl-0 md:pl-8 relative">
           {/* Glow */}
           <div 
-            className="absolute top-[10%] left-[20%] w-[60%] h-[60%] blur-[40px] pointer-events-none z-0 transition-opacity duration-300"
+            className="absolute top-[10%] left-[10%] md:left-[20%] w-[80%] md:w-[60%] h-[60%] blur-[40px] pointer-events-none z-0 transition-opacity duration-300"
             style={{ background: `radial-gradient(ellipse, ${activeData.accent}18 0%, transparent 70%)` }}
           />
           
-          {/* Ghosts */}
-          <div className="absolute top-3 left-[44px] right-[-8px] bottom-[-10px] rounded-[16px_20px_14px_18px] bg-white/[0.015] border border-white/[0.04] z-0 pointer-events-none" />
-          <div className="absolute top-5 left-[52px] right-[-14px] bottom-[-18px] rounded-[16px_20px_14px_18px] bg-white/[0.008] border border-white/[0.025] -z-10 pointer-events-none" />
+          {/* Ghosts (desktop only to prevent mobile overflow) */}
+          <div className="hidden md:block absolute top-3 left-[44px] right-[-8px] bottom-[-10px] rounded-[16px_20px_14px_18px] bg-white/[0.015] border border-white/[0.04] z-0 pointer-events-none" />
+          <div className="hidden md:block absolute top-5 left-[52px] right-[-14px] bottom-[-18px] rounded-[16px_20px_14px_18px] bg-white/[0.008] border border-white/[0.025] -z-10 pointer-events-none" />
           
           {/* Main Card */}
-          <div className="relative z-10 bg-white/[0.04] backdrop-blur-[20px] rounded-[16px_20px_14px_18px] border border-white/[0.08] p-[48px_44px_44px] overflow-hidden min-h-[380px] shadow-[0_0_0_1px_rgba(255,255,255,0.04),inset_0_1px_0_rgba(255,255,255,0.06),0_24px_64px_rgba(0,0,0,0.5)]">
+          <div className="relative z-10 bg-white/[0.04] backdrop-blur-[20px] rounded-[16px_20px_14px_18px] border border-white/[0.08] p-5 sm:p-7 md:p-[48px_44px_44px] overflow-hidden min-h-[340px] md:min-h-[380px] shadow-[0_0_0_1px_rgba(255,255,255,0.04),inset_0_1px_0_rgba(255,255,255,0.06),0_24px_64px_rgba(0,0,0,0.5)] w-full box-border">
             
             {/* Top Border */}
             <div 
@@ -230,7 +236,7 @@ function ProductEvolutionComponent() {
                 style={{ willChange: "transform, opacity" }}
               >
                 {/* State badge */}
-                <div className="inline-flex items-center gap-2 mb-7">
+                <div className="inline-flex items-center gap-2 mb-4 md:mb-7">
                   <span className="font-mono text-[9px] tracking-[0.2em] uppercase font-medium" style={{ color: activeData.accent }}>
                     {activeData.id}
                   </span>
@@ -241,31 +247,31 @@ function ProductEvolutionComponent() {
                 </div>
 
                 {/* Title */}
-                <h2 className="font-serif text-[clamp(22px,3.5vw,32px)] font-extrabold leading-[1.15] tracking-[-0.025em] text-[#f0f0ea] mb-5">
+                <h2 className="font-serif text-[clamp(20px,3.2vw,32px)] font-extrabold leading-[1.15] tracking-[-0.025em] text-[#f0f0ea] mb-3 md:mb-5">
                   {activeData.title}
                 </h2>
 
                 {/* Subtitle */}
-                <p className={`font-mono text-[13px] font-light text-[#e8e8e0]/55 leading-[1.7] tracking-[0.01em] ${activeData.lead ? 'mb-1.5' : 'mb-7'}`}>
+                <p className={`font-mono text-xs sm:text-[13px] font-light text-[#e8e8e0]/60 leading-[1.7] tracking-[0.01em] ${activeData.lead ? 'mb-1.5' : 'mb-5 md:mb-7'}`}>
                   {activeData.subtitle}
                 </p>
 
                 {/* Lead */}
                 {activeData.lead && (
-                  <p className="font-mono text-[12px] font-normal text-[#e8e8e0]/35 leading-[1.7] mb-7 italic tracking-[0.01em]">
+                  <p className="font-mono text-[11px] sm:text-[12px] font-normal text-[#e8e8e0]/40 leading-[1.7] mb-5 md:mb-7 italic tracking-[0.01em]">
                     {activeData.lead}
                   </p>
                 )}
 
                 {/* Divider */}
-                <div className="w-8 h-[1px] mb-6" style={{ background: `linear-gradient(90deg, ${activeData.accent}60, transparent)` }} />
+                <div className="w-8 h-[1px] mb-4 md:mb-6" style={{ background: `linear-gradient(90deg, ${activeData.accent}60, transparent)` }} />
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-8">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-6 md:mb-8">
                   {activeData.tags.map((tag, i) => (
                     <span 
                       key={i}
-                      className="inline-block py-[5px] px-3 rounded-[2px] text-[10px] tracking-[0.12em] font-medium uppercase font-mono whitespace-nowrap"
+                      className="inline-block py-1 sm:py-[5px] px-2.5 sm:px-3 rounded-[2px] text-[9px] sm:text-[10px] tracking-[0.1em] font-medium uppercase font-mono whitespace-nowrap"
                       style={{ background: `${activeData.accent}1a`, border: `1px solid ${activeData.accent}40`, color: `${activeData.accent}cc` }}
                     >
                       {tag}
@@ -274,9 +280,9 @@ function ProductEvolutionComponent() {
                 </div>
 
                 {/* CTA */}
-                <div className="flex items-center gap-3">
-                  <div className="w-5 h-[1px] shrink-0" style={{ background: `linear-gradient(90deg, ${activeData.accent}, ${activeData.accentAlt})` }} />
-                  <p className="font-mono text-[11px] tracking-[0.1em] text-[#e8e8e0]/45 uppercase font-normal">
+                <div className="flex items-center gap-2.5 sm:gap-3">
+                  <div className="w-4 sm:w-5 h-[1px] shrink-0" style={{ background: `linear-gradient(90deg, ${activeData.accent}, ${activeData.accentAlt})` }} />
+                  <p className="font-mono text-[10px] sm:text-[11px] tracking-[0.08em] sm:tracking-[0.1em] text-[#e8e8e0]/55 uppercase font-normal">
                     {activeData.cta}
                   </p>
                 </div>
@@ -286,8 +292,8 @@ function ProductEvolutionComponent() {
         </div>
       </div>
 
-      {/* Bottom dot nav */}
-      <div className="mt-[52px] flex gap-8 items-center relative z-10">
+      {/* Bottom dot nav (hidden on mobile, visible on desktop) */}
+      <div className="hidden md:flex mt-[52px] gap-8 items-center relative z-10">
         {evolutionStages.map((stage, idx) => {
           const isActive = activeStage === idx;
           return (

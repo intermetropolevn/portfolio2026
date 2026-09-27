@@ -40,6 +40,14 @@
     backdrop-filter: blur(10px);
     border: 1px solid rgba(237, 231, 216, 0.05);
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 html {
